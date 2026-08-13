@@ -1,0 +1,140 @@
+/* ---------------------------------------------------
+   Base styles — shared by index.html and all posts
+   --------------------------------------------------- */
+
+:root {
+  --color-bg: #ffffff;
+  --color-text: #1a1a1a;
+  --color-muted: #6b6b6b;
+  --color-accent: #2454ff;
+  --color-border: #e6e6e6;
+  --max-width: 680px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #111214;
+    --color-text: #e8e8e8;
+    --color-muted: #9a9a9a;
+    --color-accent: #7ea2ff;
+    --color-border: #2a2b2e;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0 1.25rem;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+}
+
+main {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 3rem 0 5rem;
+}
+
+header.site-header {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding-top: 2rem;
+}
+
+header.site-header h1 {
+  font-size: 1.4rem;
+  margin: 0;
+}
+
+header.site-header h1 a {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+h1, h2, h3 {
+  line-height: 1.25;
+}
+
+a {
+  color: var(--color-accent);
+}
+
+p.intro {
+  color: var(--color-text);
+}
+
+section.posts h2.section-title {
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-muted);
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+ul.post-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul.post-list li {
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+ul.post-list li:first-child {
+  border-top: 1px solid var(--color-border);
+}
+
+ul.post-list a.post-title {
+  font-weight: 600;
+  text-decoration: none;
+}
+
+ul.post-list a.post-title:hover {
+  text-decoration: underline;
+}
+
+ul.post-list p.post-summary {
+  margin: 0.25rem 0 0;
+  color: var(--color-muted);
+  font-size: 0.95rem;
+}
+
+ul.post-list time {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  margin-bottom: 0.15rem;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+article.post header h1 {
+  margin-bottom: 0.25rem;
+}
+
+article.post time {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
+footer.site-footer {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 2rem 0 3rem;
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--color-border);
+}
