@@ -55,7 +55,7 @@ body {
   color: #fff;
 }
 
-h1, h2, h3, .ui {
+h1, h2, h3, h4, .ui {
   font-family: 'Bricolage Grotesque', system-ui, sans-serif;
 }
 
@@ -201,4 +201,182 @@ footer.site-footer {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 0.8rem;
   border-top: 1px solid var(--rule);
+}
+
+/* ---------------------------------------------------
+   Long-form article template
+   Blueprint for in-depth posts: hero + sticky sidebar TOC + sections.
+   Pages using this add class="article" to <body> so the layout can
+   run full-bleed instead of the centered single-column body padding.
+   --------------------------------------------------- */
+
+body.article {
+  padding: 0;
+}
+
+body.article header.site-header {
+  max-width: none;
+  padding: 1.6rem 6vw 1.6rem;
+}
+
+/* Hero */
+.hero {
+  padding: 5.5rem 6vw 3.5rem;
+  border-bottom: 2px solid var(--ink);
+  background: var(--paper-2);
+}
+.hero-inner { max-width: 940px; }
+.kicker {
+  font-family: 'IBM Plex Mono', monospace; font-size: .74rem; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--clay); margin-bottom: 1.2rem;
+}
+.hero h1 {
+  font-size: clamp(2.1rem, 5.5vw, 3.7rem); line-height: 1.04; margin: 0 0 1.2rem;
+  font-weight: 700; letter-spacing: -0.025em; max-width: 16ch;
+}
+.hero h1 span { color: var(--cobalt); }
+.hero .lede { font-size: 1.16rem; color: var(--ink-2); max-width: 60ch; margin: 0 0 2rem; }
+.hero-note {
+  font-family: 'Bricolage Grotesque', sans-serif; font-size: .86rem; color: var(--ink-3);
+  border-left: 3px solid var(--mustard); padding-left: .9rem; max-width: 52ch;
+}
+
+/* Sidebar + content layout */
+.layout { display: grid; grid-template-columns: 250px 1fr; max-width: 1240px; margin: 0 auto; }
+.rail {
+  position: sticky; top: 0; height: 100vh; overflow-y: auto;
+  padding: 2.6rem 1.3rem 3rem 6vw; border-right: 1px solid var(--rule);
+}
+.rail-title {
+  font-family: 'IBM Plex Mono', monospace; font-size: .68rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 1rem;
+}
+.rail-part {
+  font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: .74rem;
+  text-transform: uppercase; letter-spacing: .1em; color: var(--clay);
+  margin: 1.5rem 0 .45rem;
+}
+.rail-part:first-of-type { margin-top: 0; }
+.rail a {
+  display: block; text-decoration: none; color: var(--ink-2);
+  font-family: 'Bricolage Grotesque', sans-serif; font-size: .87rem;
+  padding: .35rem 0 .35rem .8rem; border-left: 2px solid transparent;
+  transition: all .15s;
+}
+.rail a:hover { color: var(--ink); border-left-color: var(--rule); }
+.rail a.active { color: var(--cobalt); border-left-color: var(--cobalt); font-weight: 600; }
+
+.layout main {
+  max-width: none;
+  margin: 0;
+  padding: 3rem 6vw 5rem 4vw;
+  min-width: 0;
+}
+
+/* Part headers + sections */
+.part-head { max-width: 720px; margin: 0 0 2.6rem; }
+.part-head .pnum {
+  font-family: 'IBM Plex Mono', monospace; font-size: .72rem; letter-spacing: .15em;
+  text-transform: uppercase; color: var(--clay); display: block; margin-bottom: .4rem;
+}
+.part-head h2 {
+  font-size: clamp(1.5rem, 3vw, 2.05rem); margin: 0 0 .4rem; font-weight: 700;
+  letter-spacing: -0.02em; padding-bottom: .7rem; border-bottom: 2px solid var(--ink);
+}
+.part-head p { margin: .7rem 0 0; color: var(--ink-3); font-size: .98rem; }
+
+section.s { max-width: 720px; margin: 0 0 4rem; scroll-margin-top: 1.5rem; }
+section.s h3 {
+  font-size: clamp(1.28rem, 2.6vw, 1.6rem); margin: 0 0 .9rem;
+  font-weight: 600; letter-spacing: -0.015em; line-height: 1.25;
+}
+section.s h4 {
+  font-family: 'Bricolage Grotesque', sans-serif; font-size: 1rem; font-weight: 600;
+  margin: 2rem 0 .6rem; color: var(--ink);
+}
+section.s p { margin: 0 0 1rem; }
+section.s ul, section.s ol { padding-left: 1.2rem; }
+section.s li { margin-bottom: .55rem; }
+
+/* Components: analogy callout, note, flow diagram, box grids, tables, glossary */
+.analogy {
+  position: relative; background: var(--card); border: 1px solid var(--rule);
+  border-radius: 2px; padding: 1.5rem 1.5rem 1.3rem; margin: 1.6rem 0;
+  box-shadow: 3px 3px 0 var(--paper-2);
+}
+.analogy::before {
+  content: "Think of it like this";
+  position: absolute; top: -.72rem; left: 1.2rem;
+  background: var(--mustard); color: #fff;
+  font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600;
+  font-size: .68rem; letter-spacing: .1em; text-transform: uppercase;
+  padding: .2rem .6rem;
+}
+.analogy p:last-child { margin-bottom: 0; }
+.analogy p { font-style: italic; color: var(--ink-2); }
+
+.note {
+  border-left: 3px solid var(--cobalt); background: rgba(47,93,209,.05);
+  padding: .9rem 1.1rem; margin: 1.4rem 0; font-size: .97rem; color: var(--ink-2);
+}
+.note strong { color: var(--ink); }
+.note.warn { border-left-color: var(--clay); background: rgba(168,80,60,.06); }
+
+.flow {
+  background: var(--card); border: 1px solid var(--rule); border-radius: 2px;
+  padding: 1.2rem 1.3rem; margin: 1.4rem 0;
+  font-family: 'Bricolage Grotesque', sans-serif; font-size: .92rem; color: var(--ink-2);
+}
+.flow div { padding: .28rem 0; }
+.flow .ar { color: var(--cobalt); font-weight: 600; padding-left: .4rem; }
+
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.4rem 0; }
+.three { display: grid; grid-template-columns: repeat(3,1fr); gap: .85rem; margin: 1.4rem 0; }
+.box { background: var(--card); border: 1px solid var(--rule); border-radius: 2px; padding: 1.1rem 1.15rem; }
+.box h5 {
+  margin: 0 0 .5rem; font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: .88rem; font-weight: 600; color: var(--cobalt);
+}
+.box.m h5 { color: var(--mustard); }
+.box.c h5 { color: var(--clay); }
+.box p { margin: 0; font-size: .93rem; color: var(--ink-2); }
+
+table { width: 100%; border-collapse: collapse; margin: 1.4rem 0; font-size: .93rem; }
+th, td { text-align: left; padding: .6rem .7rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th {
+  font-family: 'Bricolage Grotesque', sans-serif; font-size: .76rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .06em; color: var(--ink-3);
+  border-bottom: 2px solid var(--ink);
+}
+td { color: var(--ink-2); }
+td strong { color: var(--ink); font-weight: 600; }
+tr:last-child td { border-bottom: none; }
+
+.glossary {
+  background: var(--paper-2); border: 1px solid var(--rule);
+  padding: 1.2rem 1.3rem; margin: 1.5rem 0;
+}
+.glossary dt {
+  font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600;
+  font-size: .94rem; margin-top: .8rem; color: var(--ink);
+}
+.glossary dt:first-child { margin-top: 0; }
+.glossary dd { margin: .15rem 0 0; font-size: .94rem; color: var(--ink-2); }
+
+.footer {
+  max-width: 720px; margin: 0; padding-top: 1.6rem;
+  border-top: 1px solid var(--rule); color: var(--ink-3); font-size: .88rem;
+}
+
+@media (max-width: 680px) {
+  .two, .three { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .rail {
+    position: static; height: auto; border-right: none;
+    border-bottom: 1px solid var(--rule); padding: 1.8rem 6vw;
+  }
+  .layout main { padding: 2.2rem 6vw; }
 }
