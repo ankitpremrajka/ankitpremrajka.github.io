@@ -340,6 +340,10 @@ section.s li { margin-bottom: .55rem; }
 .box.m h5 { color: var(--mustard); }
 .box.c h5 { color: var(--clay); }
 .box p { margin: 0; font-size: .93rem; color: var(--ink-2); }
+.box .meter {
+  font-family: 'IBM Plex Mono', monospace; font-size: .72rem; color: var(--ink-3);
+  margin-top: .65rem; display: flex; justify-content: space-between;
+}
 
 table { width: 100%; border-collapse: collapse; margin: 1.4rem 0; font-size: .93rem; }
 th, td { text-align: left; padding: .6rem .7rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
@@ -351,6 +355,7 @@ th {
 td { color: var(--ink-2); }
 td strong { color: var(--ink); font-weight: 600; }
 tr:last-child td { border-bottom: none; }
+.table-scroll { overflow-x: auto; }
 
 .glossary {
   background: var(--paper-2); border: 1px solid var(--rule);
