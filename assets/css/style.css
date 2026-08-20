@@ -14,6 +14,7 @@
   --cobalt: #2F5DD1;
   --mustard: #C98A16;
   --clay: #A8503C;
+  --x-icon: #000000;
   --max-width: 680px;
 }
 
@@ -29,6 +30,7 @@
     --cobalt: #7EA2FF;
     --mustard: #E0A73B;
     --clay: #D08668;
+    --x-icon: #FFFFFF;
   }
 }
 
@@ -97,6 +99,37 @@ header.site-header h1 {
 header.site-header h1 a {
   color: var(--ink);
   text-decoration: none;
+}
+
+header.site-header .social-links {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-left: 0.1rem;
+}
+
+header.site-header .social-links a {
+  display: flex;
+  color: var(--ink-3);
+  transition: opacity .15s;
+}
+
+header.site-header .social-links a.x-icon {
+  color: var(--x-icon);
+}
+
+header.site-header .social-links a.linkedin-icon {
+  color: #0A66C2;
+}
+
+header.site-header .social-links a:hover {
+  opacity: .7;
+}
+
+header.site-header .social-links svg {
+  width: 17px;
+  height: 17px;
+  fill: currentColor;
 }
 
 h1, h2, h3 {
