@@ -12,13 +12,17 @@ assets/
   css/style.css      Shared stylesheet for index + posts
   img/                Images used in posts (empty for now)
 CNAME                Custom domain config for GitHub Pages
+robots.txt            Points crawlers at the sitemap
+sitemap.xml            List of indexable pages, kept in sync by hand
 ```
 
 ## Adding a new post
 
 1. Copy `posts/first-post.html` to `posts/your-new-post.html` and fill it in.
 2. Add a new `<li>` entry to the post list in `index.html` linking to it, with a one-line summary.
-3. Commit and push to `main` — GitHub Pages redeploys automatically within a minute or two.
+3. Add the post's URL and `<lastmod>` date to `sitemap.xml`.
+4. Add matching `<meta name="description">` and Open Graph/Twitter Card tags to the post's `<head>` (see an existing post for the pattern).
+5. Commit and push to `main` — GitHub Pages redeploys automatically within a minute or two.
 
 ## Local preview
 
