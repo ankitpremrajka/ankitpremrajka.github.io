@@ -362,6 +362,7 @@ section.s li { margin-bottom: .55rem; }
 }
 .flow div { padding: .28rem 0; }
 .flow .ar { color: var(--cobalt); font-weight: 600; padding-left: .4rem; }
+.flow .stage { padding-top: .7rem; }
 
 .two { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.4rem 0; }
 .three { display: grid; grid-template-columns: repeat(3,1fr); gap: .85rem; margin: 1.4rem 0; }
@@ -387,6 +388,7 @@ th {
 }
 td { color: var(--ink-2); }
 td strong { color: var(--ink); font-weight: 600; }
+td .sub { display: block; font-size: .8rem; color: var(--ink-3); }
 tr:last-child td { border-bottom: none; }
 .table-scroll { overflow-x: auto; }
 

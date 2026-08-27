@@ -245,7 +245,7 @@
         <div><strong>Stage one — pretrain, cheaply, at enormous scale</strong></div>
         <div class="ar">↳ thousands of hours of human video, every frame pair now carrying a code</div>
         <div class="ar">↳ the policy learns to predict the next code from what it sees</div>
-        <div style="padding-top:.7rem"><strong>Stage two — ground it, expensively, at tiny scale</strong></div>
+        <div class="stage"><strong>Stage two — ground it, expensively, at tiny scale</strong></div>
         <div class="ar">↳ a few dozen real robot recordings, where true motor commands exist</div>
         <div class="ar">↳ learn the translation: this code means these joint movements, on this body</div>
       </div>
@@ -408,7 +408,7 @@
           <td>Its released dataset spans dexterous tasks across eight distinct robot types, aimed at one policy that transfers to all of them</td>
         </tr>
         <tr>
-          <td><strong>Gemini Robotics</strong><br><span class="mono" style="font-size:.8rem; color:var(--ink-3)">Google DeepMind</span></td>
+          <td><strong>Gemini Robotics</strong><br><span class="mono sub">Google DeepMind</span></td>
           <td>Aggregating partners' teleoperation, plus simulation</td>
           <td>An intelligence-layer strategy — pulls real robot data from partner hardware platforms rather than building its own robots, and uses simulation heavily for evaluation</td>
           <td>Trains on data from three separate robot platforms alongside public internet text, image and video; a partner's 90,000 sq ft facility exists specifically to feed the pipeline</td>
@@ -420,7 +420,7 @@
           <td>Every remote correction becomes a labelled example — the shipped robot is explicitly a data-collection wedge for the autonomous product that follows</td>
         </tr>
         <tr>
-          <td><strong>NVIDIA</strong><br><span class="mono" style="font-size:.8rem; color:var(--ink-3)">Isaac / GR00T</span></td>
+          <td><strong>NVIDIA</strong><br><span class="mono sub">Isaac / GR00T</span></td>
           <td>Simulation first</td>
           <td>GPU-accelerated simulation plus a generative pipeline that multiplies a small real seed into vast synthetic sets</td>
           <td>Generated 780,000 synthetic recordings — the equivalent of roughly nine months of continuous human demonstration — in eleven hours, improving performance 40% when combined with real data</td>
