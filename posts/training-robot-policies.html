@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learning to Walk, One Simulated Fall at a Time</title>
+<meta name="description" content="How reward design and massively parallel simulation teach a robot to walk — then map the concepts onto a real open-source repository.">
+<link rel="canonical" href="https://premrajka.com/posts/training-robot-policies.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Learning to Walk, One Simulated Fall at a Time">
+<meta property="og:description" content="How reward design and massively parallel simulation teach a robot to walk — then map the concepts onto a real open-source repository.">
+<meta property="og:url" content="https://premrajka.com/posts/training-robot-policies.html">
+<meta property="og:image" content="https://premrajka.com/assets/img/og-training-robot-policies.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Learning to Walk, One Simulated Fall at a Time">
+<meta name="twitter:description" content="How reward design and massively parallel simulation teach a robot to walk — then map the concepts onto a real open-source repository.">
+<meta name="twitter:image" content="https://premrajka.com/assets/img/og-training-robot-policies.png">
+<link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body class="article">
+
+<header class="site-header">
+  <img class="avatar" src="../assets/img/ankit.jpg" alt="Ankit Premrajka">
+  <h1><a href="../index.html">Ankit Premrajka</a></h1>
+  <div class="social-links">
+    <a class="x-icon" href="https://x.com/ankitp" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+      <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+    </a>
+    <a class="linkedin-icon" href="https://linkedin.com/in/ankitpremrajka" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+      <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1>Learning to walk, <span>one simulated fall at a time</span></h1>
+    <p class="lede">How reward design and a learning algorithm turn millions of simulated falls into a working walking gait — building the concepts in order, then mapping every one onto a real open-source repository.</p>
+    <p class="hero-note">Parts 1–5 are framework-agnostic and contain no repository-specific code. Part 6 connects each concept to actual files and commands. A glossary of every technical term appears at the end. Each section opens with a line connecting it to the one before.</p>
+  </div>
+</div>
+
+<div class="layout">
+  <nav class="rail">
+    <div class="rail-title">Contents</div>
+
+    <div class="rail-part">1 · Foundations</div>
+    <a href="#s11">What a simulator is</a>
+    <a href="#s12">What a policy is</a>
+    <a href="#s13">The three-layer stack</a>
+    <a href="#s14">The whole loop at a glance</a>
+
+    <div class="rail-part">2 · The environment</div>
+    <a href="#s21">Six configuration elements</a>
+    <a href="#s22">Observations</a>
+    <a href="#s23">The command space</a>
+    <a href="#s24">Rewards</a>
+    <a href="#s25">Terminations</a>
+
+    <div class="rail-part">3 · How learning happens</div>
+    <a href="#s31">Thousands of robots, one brain</a>
+    <a href="#s32">PPO</a>
+    <a href="#s33">Episodes vs. rollout slices</a>
+    <a href="#s34">Bootstrapping &amp; the critic</a>
+    <a href="#s35">What a timestep records</a>
+
+    <div class="rail-part">4 · Crossing to reality</div>
+    <a href="#s41">The sim-to-real gap</a>
+    <a href="#s42">Domain randomization</a>
+    <a href="#s43">Actuators &amp; backlash</a>
+
+    <div class="rail-part">5 · Running experiments</div>
+    <a href="#s51">Hardware &amp; software</a>
+    <a href="#s52">Choosing a simulator</a>
+    <a href="#s53">Designing a new behavior</a>
+    <a href="#s54">Five failure modes</a>
+    <a href="#s55">Monitoring &amp; outputs</a>
+
+    <div class="rail-part">6 · Case study</div>
+    <a href="#s61">The repository</a>
+    <a href="#s62">Concepts → code</a>
+    <a href="#s63">Running it</a>
+    <a href="#s64">Adding a behavior</a>
+
+    <div class="rail-part">Reference</div>
+    <a href="#glossary">Glossary</a>
+  </nav>
+
+  <main>
+
+    <!-- ============ PART 1 ============ -->
+    <div class="part-head">
+      <span class="pnum">Part One</span>
+      <h2>Foundations</h2>
+      <p>Four ideas that everything else is built on.</p>
+    </div>
+
+    <section class="s" id="s11">
+      <h3>What a simulator actually is</h3>
+      <p>A <strong>physics engine</strong> does one narrow thing: given a description of bodies, joints, and forces, it computes where everything will be a few milliseconds later. It knows nothing about robots, learning, or goals. Those are layers built on top.</p>
+      <p><strong>MuJoCo</strong> — "Multi-Joint dynamics with Contact" — is the standard choice in robot learning research. It was built for robotics, biomechanics and animation, aiming for both physical accuracy and computational efficiency, with particular attention to contact dynamics. DeepMind acquired it in 2021 and open-sourced it in 2022.</p>
+      <p>The property that matters is <strong>speed</strong>. A simulator can run a walking robot far faster than real time. If learning to walk takes a million attempts, that is decades of real-world falling and a few hours of simulation. Everything in this guide follows from that one fact.</p>
+
+      <h4>A simulator is not a learned world model</h4>
+      <p>This distinction is worth settling immediately, because both are casually called "world models." A physics engine contains hand-written equations of motion. A <strong>world model</strong> in the machine-learning sense is a neural network that inferred how things move by watching data. Both predict what happens next; only one is guaranteed to be physically consistent.</p>
+      <div class="table-scroll">
+      <table>
+        <tr><th></th><th>Physics engine (MuJoCo)</th><th>Learned world model</th></tr>
+        <tr><td>Physics comes from</td><td>Hand-coded equations</td><td>Inferred from data</td></tr>
+        <tr><td>Needs a scene definition</td><td>Yes — every object specified</td><td>No — infers from pixels</td></tr>
+        <tr><td>Physically correct?</td><td>Yes, within its assumptions</td><td>Not guaranteed; can hallucinate</td></tr>
+        <tr><td>Novel scenes</td><td>Only if built by hand</td><td>Yes, approximately</td></tr>
+      </table>
+      </div>
+      <div class="analogy">
+        <p>A physics engine gives you physics you can trust but worlds you must build by hand. A learned world model gives you worlds for free but physics you cannot fully trust.</p>
+      </div>
+      <p>For everything that follows, the simulator <em>is</em> the world model in the functional sense — it is the thing that predicts consequences so a policy can practise safely.</p>
+    </section>
+
+    <section class="s" id="s12">
+      <p class="bridge">The simulator provides a world. The next question is what is being trained inside it.</p>
+      <h3>What a trained policy is</h3>
+      <p>A <strong>policy</strong> is a function answering one question, repeatedly: <em>given what I sense right now, what should my motors do next?</em> Input: the robot's situation. Output: motor commands. A <em>trained</em> policy is one where that function is a neural network whose weights were tuned through millions of simulated attempts.</p>
+      <p>The word comes from its everyday sense — a standing rule for how to respond. "If I feel myself tipping left, push harder with the left leg." A trained policy is millions of such rules, learned rather than written, compressed into a network.</p>
+
+      <h4>A policy is not remote control</h4>
+      <p>This is the most common misunderstanding, and worth clearing before anything else. When you press a key and a simulated robot walks, you are not driving its joints. A biped might have fifteen servos updating fifty times a second — far beyond human input bandwidth. Your keypress sets a <em>command</em> ("go forward at 0.2 m/s"); the policy works out which leg lifts when, how much to lean, and how to correct a wobble.</p>
+      <div class="analogy">
+        <p>Riding a bike, you decide "turn left." You do not decide "contract left quadricep 12%, shift weight 3 cm, counter-steer 2 degrees first." Your keypress is "turn left." The policy is everything your body learned through weeks of falling over.</p>
+      </div>
+      <p>Training and running are entirely separate phases. Once trained, the network is frozen — usually exported to a portable format — and does not learn while operating. That command idea returns in §2.3, where it becomes a concrete part of the policy's input.</p>
+    </section>
+
+    <section class="s" id="s13">
+      <p class="bridge">A simulator and a policy are not enough on their own — something has to connect them, and something has to do the learning.</p>
+      <h3>The three-layer stack</h3>
+      <p>Tutorials often blur these together, which makes the whole thing harder than it needs to be. There are three distinct layers, usually three separate software packages.</p>
+      <div class="table-scroll">
+      <table>
+        <tr><th>Layer</th><th>Job</th><th>Typical tool</th></tr>
+        <tr><td><strong>Physics</strong></td><td>Compute what happens next given forces</td><td>MuJoCo, MuJoCo Warp, Isaac Sim</td></tr>
+        <tr><td><strong>Environment</strong></td><td>Wrap physics into observe → act → reward</td><td>Gymnasium, Isaac Lab, mjlab</td></tr>
+        <tr><td><strong>Learner</strong></td><td>Improve the policy from experience</td><td>Stable-Baselines3, rsl_rl</td></tr>
+      </table>
+      </div>
+      <p>The middle layer is the conceptually important one, and it is where nearly all your design work happens. It decides what the policy can see, what it can do, what counts as good, and when to stop. <strong>Part 2 is entirely about that layer.</strong></p>
+
+      <h4>GPU physics</h4>
+      <p>Classic MuJoCo runs on the CPU, stepping one robot at a time. <strong>MuJoCo Warp</strong> reimplements it on NVIDIA's Warp framework so physics runs on the GPU, stepping thousands of robots <em>simultaneously</em> as one batched operation. Physics and neural network then both live on the GPU, so observations never have to be copied back and forth — often the real bottleneck in older setups.</p>
+      <div class="analogy">
+        <p>Classic MuJoCo is one very fast chef cooking 4,096 meals in sequence. MuJoCo Warp is 4,096 line cooks each making one meal at the same time. Each cook is individually slower; the kitchen finishes vastly sooner.</p>
+      </div>
+      <p>This is why GPU-parallel training frameworks require an NVIDIA card — not as an optional accelerator, but because the physics engine itself only runs there. Why running thousands of robots matters so much is the subject of §3.1.</p>
+    </section>
+
+    <section class="s" id="s14">
+      <p class="bridge">Before breaking these pieces apart in detail, here is how they fit together in a single pass.</p>
+      <h3>The whole loop at a glance</h3>
+      <p>Everything in Parts 2 and 3 is an expansion of this diagram. It is worth reading once now and returning to as a map.</p>
+      <pre><code>┌─ Every timestep (e.g. 50 times per second) ──────────────────┐
+│                                                              │
+│  <span class="hl">COMMAND</span>  "walk forward at 0.2 m/s"      <span class="cmt">(§2.3)</span>          │
+│      +                                                       │
+│  <span class="hl">SENSORS</span>  joint angles, tilt, velocities   <span class="cmt">(§2.2)</span>          │
+│      ↓  concatenated into one observation vector             │
+│  <span class="hl">POLICY</span>   neural network                   <span class="cmt">(§1.2)</span>          │
+│      ↓                                                       │
+│  <span class="hl">ACTION</span>   motor targets                                       │
+│      ↓                                                       │
+│  <span class="hl">PHYSICS</span>  simulator advances 20 ms         <span class="cmt">(§1.1)</span>          │
+│      ↓                                                       │
+│  <span class="hl">REWARD</span>   a score for this moment          <span class="cmt">(§2.4)</span>          │
+│  <span class="hl">DONE?</span>    did it fall or time out?         <span class="cmt">(§2.5)</span>          │
+│                                                              │
+└──────────────────────────────────────────────────────────────┘
+        ↓  repeat across 4,096 robots at once          <span class="cmt">(§3.1)</span>
+        ↓  collect ~24 timesteps of this               <span class="cmt">(§3.3)</span>
+   <span class="hl">LEARNING ALGORITHM</span> nudges the network's weights     <span class="cmt">(§3.2)</span>
+        ↓
+   repeat thousands of times → a walking gait</code></pre>
+      <p>Two things are easy to miss on a first read, and both get their own section later. First, the command is <em>part of the observation</em> — the policy is told what to do through the same channel it senses through. Second, the weight update happens every <em>24 timesteps</em>, not at the end of a run, which is why §3.3 spends time separating those two rhythms.</p>
+    </section>
+
+    <!-- ============ PART 2 ============ -->
+    <div class="part-head">
+      <span class="pnum">Part Two</span>
+      <h2>The environment</h2>
+      <p>The middle layer from §1.3, unpacked. This is where you do your design work.</p>
+    </div>
+
+    <section class="s" id="s21">
+      <h3>Six configuration elements</h3>
+      <p>You do not write the training loop yourself. Modern frameworks use a <strong>manager-based API</strong> (an approach from Isaac Lab): you fill in six lists describing what the robot sees, does, and is scored on, and the framework runs the loop for you. Each list is one of the elements below.</p>
+      <div class="table-scroll">
+      <table>
+        <tr><th>Element</th><th>Question it answers</th><th>Covered in</th></tr>
+        <tr><td><strong>Observations</strong></td><td>What does the policy see?</td><td>§2.2</td></tr>
+        <tr><td><strong>Commands</strong></td><td>What is being asked right now?</td><td>§2.3</td></tr>
+        <tr><td><strong>Actions</strong></td><td>What does its output control?</td><td>§2.2</td></tr>
+        <tr><td><strong>Rewards</strong></td><td>How good was that moment?</td><td>§2.4</td></tr>
+        <tr><td><strong>Terminations</strong></td><td>When does the episode end?</td><td>§2.5</td></tr>
+        <tr><td><strong>Events</strong></td><td>What varies between environments?</td><td>§4.2</td></tr>
+      </table>
+      </div>
+      <p>Events are deferred to Part 4 because they exist almost entirely to serve sim-to-real, and they make more sense once that problem has been stated. A seventh element, <strong>curriculum</strong>, is sometimes used to widen ranges progressively as training improves.</p>
+
+      <h4>Why lists instead of code</h4>
+      <p>Writing the loop by hand works for one task, but a project with a dozen similar tasks ends up with a dozen near-identical copies of it. Filling in lists means a new task starts from an existing one and changes two entries.</p>
+      <p>The benefit that matters most comes later: because each reward is a named entry in a list, the framework can <strong>log every one separately</strong>. That per-term breakdown is what makes debugging possible at all (§5.4, §5.5) — a single combined score would tell you almost nothing.</p>
+    </section>
+
+    <section class="s" id="s22">
+      <p class="bridge">Taking those elements in the order they appear in the loop — first, what goes in.</p>
+      <h3>Observations and actions</h3>
+      <p>The <strong>observation</strong> is everything the policy sees at a timestep, concatenated into one vector. It splits into two very different kinds of information: sensing, and instruction.</p>
+
+      <h4>Proprioception — sensing your own body</h4>
+      <p>Joint angles, joint velocities, body orientation (which way is up), angular velocity (am I tipping), and often the previous action taken. Note what is typically <em>absent</em>: no camera, no map, no absolute position in the world. A locomotion policy is essentially blind, feeling only itself.</p>
+      <p>This is deliberate. State-based observations are dramatically faster to learn from than rendered images, and far easier to transfer to real hardware, since a real robot does not magically know an object's coordinates but does know its own joint angles. Learning from pixels is the harder, more general path — worth attempting only after the state-based version works.</p>
+
+      <h4>Actions</h4>
+      <p>The <strong>action</strong> is the policy's output — usually target positions or torques, one per joint. The action config defines how those raw numbers are interpreted, typically scaled and offset from a neutral "home" pose. You will rarely change this.</p>
+      <p>A common refinement is <strong>action chunking</strong>: predicting a short sequence of future actions in one forward pass rather than a single next action. This matters when the network is slower than the control loop needs to be.</p>
+    </section>
+
+    <section class="s" id="s23">
+      <p class="bridge">The second half of the observation is not sensing at all. It is how the robot is told what to do — the concrete form of the "command" idea introduced in §1.2.</p>
+      <h3>The command space</h3>
+      <p>The <strong>command space</strong> is the slice of the observation carrying instructions rather than sensor readings. It is what makes one network steerable across a range of behaviors instead of doing one fixed thing.</p>
+      <p>The standard locomotion command is a <strong>twist</strong>: three numbers for forward velocity, lateral velocity, and turning rate. Crucially it is expressed in the robot's <em>body frame</em> — "forward" means whichever way it is currently facing, not a fixed direction on the floor.</p>
+      <pre><code>twist = [vx, vy, wz]
+          │   │   └── yaw rate, rad/s, positive = turn left
+          │   └────── lateral, m/s, positive = strafe left
+          └────────── forward, m/s, positive = forward</code></pre>
+      <div class="table-scroll">
+      <table>
+        <tr><th>Intent</th><th>twist</th></tr>
+        <tr><td>Stand still</td><td><code>[0, 0, 0]</code></td></tr>
+        <tr><td>Walk forward</td><td><code>[0.20, 0, 0]</code></td></tr>
+        <tr><td>Walk backward</td><td><code>[-0.10, 0, 0]</code></td></tr>
+        <tr><td>Turn left in place</td><td><code>[0, 0, 0.6]</code></td></tr>
+        <tr><td>Forward while curving left</td><td><code>[0.20, 0, 0.4]</code></td></tr>
+      </table>
+      </div>
+      <p>The last row matters: these are <em>simultaneous</em>, not sequential. You do not walk then turn — all three numbers arrive at once and the policy produces a gait satisfying all of them.</p>
+
+      <h4>Where commands come from during training</h4>
+      <p>This is the part most easily misunderstood. <strong>During training, nobody drives the robot.</strong> The command manager samples randomly: each parallel environment draws its own command from a configured range, and <em>resamples</em> to a new value every few seconds of simulated time.</p>
+      <p>That resampling is what teaches transitions — accelerating, stopping, reversing while already moving. With one fixed command per episode, the policy would only practise steady-state walking and would stumble the first time a user changed direction.</p>
+      <div class="analogy">
+        <p>It is the difference between a driving test that is only ever "drive straight for a mile" and one where the examiner keeps saying "now turn, now stop, now reverse" at unpredictable moments. Only the second produces a driver who can be instructed.</p>
+      </div>
+      <p>At deployment the sampling stops and a keypress writes into the same slots. <strong>The policy cannot tell the difference</strong> — it sees the same numbers in the same positions. That is precisely why it responds sensibly to a human: during training it saw thousands of random variations of exactly the input now being typed. This is the mechanical answer to §1.2's "a policy is not remote control."</p>
+
+      <h4>What you configure</h4>
+      <ul>
+        <li><strong>Ranges per dimension</strong> — the envelope of what the policy will be able to do. Too wide and it learns none of it well; too narrow and the deployed robot cannot be asked for much. A real design decision, not a formality.</li>
+        <li><strong>Resampling interval</strong> — how often the command changes mid-episode.</li>
+        <li><strong>Standing probability</strong> — an explicit fraction of environments should receive a zero command, or "stand still" is under-represented and the robot marches in place when the user releases the key.</li>
+        <li><strong>Curriculum</strong> — optionally start narrow and widen as the policy improves.</li>
+      </ul>
+
+      <h4>The shared observation contract</h4>
+      <p>A useful architectural convention: keep the observation layout <em>identical</em> across every policy in a project, with unused command slots zero-padded rather than dropped. The cost is a few wasted dimensions per policy. The benefit is that a runtime can hot-swap between policies mid-motion — walk, recover, trick — without reshaping anything, because they all accept the same vector. §6.2 shows a real implementation of this.</p>
+
+      <h4>Translating a user input into a command</h4>
+      <ol>
+        <li><strong>Stay inside the trained range.</strong> Commanding a value the policy never practised will not error — it will just behave badly.</li>
+        <li><strong>Ramp, don't jump.</strong> Smoothing a keypress over a few hundred milliseconds beats an instantaneous step input.</li>
+        <li><strong>Have a real zero.</strong> Apply a deadzone so near-zero snaps to exact zero — the value standing behavior was trained against.</li>
+        <li><strong>Scale, don't switch.</strong> Map analog input linearly onto the trained range; for a keyboard, pick one sensible value per key, usually mid-to-upper range rather than the extreme.</li>
+        <li><strong>Don't assume symmetry.</strong> Backward and lateral ranges are usually narrower than forward.</li>
+      </ol>
+      <p>Note also that a twist is a <em>rate</em> ("keep moving at this speed") while a pose command is an <em>absolute target</em> ("put the head here"). Rate commands naturally return to zero on key release; pose commands should hold their last value.</p>
+    </section>
+
+    <section class="s" id="s24">
+      <p class="bridge">The policy now has an input and an output. What remains is telling it which outputs were any good.</p>
+      <h3>Rewards — defining "good" in code</h3>
+      <p>The reward is a number computed every timestep, almost always a weighted sum of eight to twelve terms. Writing it is writing a definition of success, and it is where most experiments succeed or fail.</p>
+      <p>For locomotion the terms fall into three groups.</p>
+
+      <div class="three">
+        <div class="box">
+          <h5>1 · Did you do the job?</h5>
+          <p>Velocity tracking — not "go fast" but "<em>match the commanded speed</em>," usually an exponential falloff so a perfect match scores near 1. Going too fast is penalised too; you want a controllable robot, not a sprinting one.</p>
+        </div>
+        <div class="box m">
+          <h5>2 · Acceptably?</h5>
+          <p>Upright orientation, body height, penalties on vertical and sideways drift, energy or torque, <em>action rate</em>, joint limits, self-collision.</p>
+        </div>
+        <div class="box c">
+          <h5>3 · Does it look like walking?</h5>
+          <p>Feet air time, foot slip, gait phase — the terms forcing actual stepping rather than something that merely satisfies the velocity target.</p>
+        </div>
+      </div>
+
+      <p>Note how group 1 depends directly on §2.3: the reward is defined <em>relative to the command</em>. That is the mechanism letting one network cover a continuous range of speeds rather than one fixed gait.</p>
+
+      <h4>Two terms deserving special attention</h4>
+      <p><strong>Action rate</strong> penalises how much the motor targets change between consecutive timesteps. It is the single most important term for smoothness. Without it you get high-frequency jitter that looks terrible and destroys real hardware.</p>
+      <p><strong>Feet air time</strong> rewards each foot for spending a decent stretch airborne per step. This is the classic fix for shuffling: without it, a policy often discovers it can slide both feet along the ground, satisfy the velocity term, and never actually step.</p>
+
+      <div class="note warn"><strong>Rewards get exploited, relentlessly.</strong> A robot told to maximise forward velocity will learn to dive face-first, because falling forward technically moves it forward. Every reward function is an optimisation target, and the optimiser has no interest in your intent — only in the number. Most reward-design work is closing loopholes you did not anticipate. §5.4 catalogues the common ones.</div>
+
+      <h4>Dense versus sparse — why locomotion is the easy case</h4>
+      <p>Every term above is computable <em>right now</em>, this timestep: am I at the right speed, am I upright, did my foot slide. That is a <strong>dense reward</strong>, and it is why locomotion is tractable and why it is the standard teaching example.</p>
+      <p>Manipulation is much harder precisely because "did you grasp the cup" is <strong>sparse</strong> — one binary event that random exploration will essentially never stumble into. You must then invent dense intermediate rewards (approach the object, make contact, move it toward the goal), and designing those well has no clean recipe. Keep this distinction in mind; it explains a specific failure mode in §5.4.</p>
+    </section>
+
+    <section class="s" id="s25">
+      <p class="bridge">One element of the loop remains: deciding when a run is over.</p>
+      <h3>Terminations</h3>
+      <p>Typically: body tilt past a threshold, or the torso touching the ground. Note that this is a <em>different mechanism</em> from a reward penalty, not merely a bigger one.</p>
+      <ul>
+        <li>A reward penalty is a number subtracted at that timestep. The episode continues.</li>
+        <li>A termination ends the episode, which costs the policy <em>all future reward it would have earned</em>.</li>
+      </ul>
+      <p>That is why falling is handled by termination rather than a large negative number. It is the stronger signal, and it also stops the robot from lying on the floor accumulating whatever rewards technically still apply.</p>
+
+      <div class="note"><strong>Terminated versus truncated.</strong> These look similar and mean opposite things. <em>Terminated</em> means genuine failure — the robot fell, the future really is over. <em>Truncated</em> means a timeout — the robot was fine, we simply stopped watching. Treating a timeout as a failure teaches the policy that surviving to the time limit is bad, which is a classic and subtle bug. §3.4 shows exactly where this distinction changes a calculation.</div>
+      <p>That completes the per-timestep loop from §1.4. Part 3 turns to what happens <em>across</em> timesteps — how all this collected experience becomes an improved network.</p>
+    </section>
+
+    <!-- ============ PART 3 ============ -->
+    <div class="part-head">
+      <span class="pnum">Part Three</span>
+      <h2>How learning happens</h2>
+      <p>Turning millions of falls into a walking gait.</p>
+    </div>
+
+    <section class="s" id="s31">
+      <h3>Thousands of robots, one brain</h3>
+      <p>§1.3 introduced GPU physics as a way to run thousands of environments at once. Here is why that matters — and it is not mainly about speed.</p>
+      <p>A typical run uses something like 4,096 environments simultaneously. The crucial detail: <strong>they all share one neural network.</strong> They are not 4,096 independent students — they are 4,096 simultaneous experiments run by a single student.</p>
+      <pre><code>1. One shared policy network exists.
+2. 4,096 robots spawn, each in a slightly different situation —
+   different pose, friction, mass, random shoves.  <span class="cmt">(see §4.2)</span>
+3. Each runs a short stretch, all consulting the SAME network.
+4. Each records: what I saw, what I did, what reward I got.
+5. All records pool into one batch.
+6. <span class="hl">ONE weight update is computed from that pooled batch.</span>
+7. Updated weights apply to all 4,096.
+8. Repeat, thousands of times.</code></pre>
+
+      <h4>Why breadth beats depth</h4>
+      <p>With one robot, each update rests on a single robot's recent experience, which is enormously noisy. Did that gait work because it is good, or because that robot happened to start on flat ground with lucky footing? You cannot tell from one sample.</p>
+      <p>With 4,096, that same gait was just tried across 4,096 different starting conditions and disturbances at once. If it scored well on average, it is <em>actually</em> good. The noise averages out and the algorithm can take a confident step instead of a timid one.</p>
+      <div class="analogy">
+        <p>Testing a recipe by serving it to one person tells you almost nothing — maybe they just hate coriander. Serving it to 4,000 people at once tells you something real. Same tasting session, vastly better information.</p>
+      </div>
+    </section>
+
+    <section class="s" id="s32">
+      <p class="bridge">Step 6 above — computing the weight update — is the algorithm's job. Almost always the same one.</p>
+      <h3>PPO — the learning algorithm</h3>
+      <p><strong>Proximal Policy Optimization</strong> adjusts weights after each batch. The basic loop of any policy-gradient method is: try things, see what scored well, make those more likely. PPO's contribution is the word <em>proximal</em> — "stay close by."</p>
+      <p>The problem it solves: if a policy stumbles onto something slightly better and the algorithm updates aggressively toward it, the policy can lurch so far that it lands somewhere worse — and now all the experience just collected is useless, because it came from the <em>old</em> policy. Training collapses, sometimes irrecoverably.</p>
+      <p>PPO adds a leash. On each update it measures how much the new policy differs from the old, and clips the update if the change is too large.</p>
+      <div class="analogy">
+        <p>You are adjusting a recipe by taste. It needs more salt, so you add a pinch — not the whole shaker. Dump in the shaker and you have destroyed the dish and learned nothing about how much salt it actually wanted.</p>
+      </div>
+      <p>PPO is not the cleverest algorithm available; it is the one that is hard to break. It tolerates imperfect hyperparameters and messy reward functions, which is exactly what you have in practice. That is why it is the default in robotics.</p>
+      <p><strong>SAC</strong> is the main alternative — more sample-efficient, better when each environment step is expensive. For massively-parallel simulation where steps are cheap, PPO's stability wins.</p>
+    </section>
+
+    <section class="s" id="s33">
+      <p class="bridge">PPO updates weights "after each batch." Defining that batch requires separating two rhythms that are easy to conflate.</p>
+      <h3>Episodes versus rollout slices</h3>
+      <div class="two">
+        <div class="box">
+          <h5>Episode</h5>
+          <p>One continuous run of a robot from reset until it falls or times out. Perhaps 1,000 timesteps (~20 seconds). Ends <em>per environment</em>, asynchronously.</p>
+        </div>
+        <div class="box m">
+          <h5>Rollout slice</h5>
+          <p>A fixed collection interval — perhaps 24 timesteps. Synchronized across <em>all</em> environments. One weight update per slice.</p>
+        </div>
+      </div>
+      <pre><code>Episode (~1,000 timesteps, ~20 s)
+├── slice (24 steps) → weight update
+├── slice (24 steps) → weight update
+├── slice (24 steps) → weight update
+└── ... ~40 slices; the episode continues across all of them</code></pre>
+
+      <h4>What updates, and when</h4>
+      <p><strong>Weights update every slice</strong> — globally, synchronized, roughly 40 times within a single episode. The policy stepping at timestep 500 is not the same policy that stepped at timestep 100 of that same episode.</p>
+      <p><strong>Episode ends reset one environment</strong> — asynchronously, at unpredictable moments, with no effect on weights and no effect on the other environments.</p>
+
+      <h4>Resets do not wait for slice boundaries</h4>
+      <p>If a robot falls at step 11 of a 24-step slice, it respawns immediately at step 12. Waiting would waste enormous compute — early in training, when most robots fall within a second, most environments would sit idle.</p>
+      <p>The consequence: <strong>a single environment's 24 records can span two or even three episodes.</strong> That is normal, not an edge case.</p>
+      <pre><code>slice:  |─────────────── 24 steps ───────────────|
+env 0:  ────────────────────────────────────────   (mid-episode throughout)
+env 1:  ──────────✗↺────────────────────────────   (fell at 11, reset at 12)
+env 2:  ────✗↺──────────────────✗↺───────────────   (fell twice this slice)
+env 3:  ──────────────────────────────⏱↺─────────   (timed out, reset)</code></pre>
+      <p>Stepping is synchronized; episodes are not. The buffer is fundamentally a flat list of timesteps, and episode structure is encoded entirely in per-timestep done flags rather than in how the data is chunked. The obvious objection — how can half a second of data evaluate an action whose consequences unfold over twenty? — is the subject of the next section.</p>
+    </section>
+
+    <section class="s" id="s34">
+      <p class="bridge">Answering that objection requires one more network.</p>
+      <h3>Bootstrapping and the critic</h3>
+      <p>Two things make short slices workable. First, the rewards are <em>dense</em> (§2.4): every one of those 24 moments carries a real score computed on the spot. Nothing waits for an outcome. Second, and more importantly, <strong>bootstrapping</strong>.</p>
+
+      <h4>The critic</h4>
+      <p>PPO trains a second network alongside the policy. The <strong>critic</strong> (or value function) has one job: look at a state and predict how much total reward is expected from here onward.</p>
+      <p>So when a slice ends mid-stride, the calculation does not pretend the world ended:</p>
+      <pre><code>value of this moment = rewards actually observed in the slice
+                     + critic's estimate of everything after</code></pre>
+      <p>You observe a little, then estimate the rest. The name comes from "pulling yourself up by your bootstraps" — the circularity is the point. The critic's estimates train the policy, and the critic is trained using its own future estimates as targets. It works because real observed rewards are mixed in at every step, and that truth propagates backward over thousands of iterations.</p>
+      <div class="analogy">
+        <p>You are evaluating a chess move but may only look two moves ahead. You do not shrug and call it inconclusive — you look at the resulting position and judge whether it <em>looks</em> good: better structure, safer king, more space. That judgment is your critic. Two moves of real calculation plus a positional assessment is enough to compare moves, even though the game is far from over.</p>
+      </div>
+
+      <h4>The payoff, concretely</h4>
+      <p>A robot lunges forward. Within the slice it moves fast, so the velocity reward is <em>good</em> — naively the action looks great. But the slice ends with the robot tilted 40 degrees. The critic looks at that state and says "expected future: very low," because it has seen thousands of similar states end in a fall. That low estimate drags the total down and correctly marks the lunge as bad. The consequence is captured — estimated rather than observed.</p>
+
+      <h4>Where terminated versus truncated finally matters</h4>
+      <p>This is the calculation §2.5 pointed forward to:</p>
+      <ul>
+        <li><strong>Terminated (fell):</strong> do <em>not</em> bootstrap. Future reward is genuinely zero. This is what makes falling costly.</li>
+        <li><strong>Truncated (timeout):</strong> <em>do</em> bootstrap. The robot was fine; cutting off the future would wrongly punish a good state.</li>
+        <li><strong>Slice boundary (neither):</strong> bootstrap. The episode continues.</li>
+      </ul>
+      <p>Advantage calculation runs <em>backward</em> through the slice, which is how a fall at step 11 makes a reckless action at step 9 look bad. A done flag acts as a wall: the chain stops there, so a new episode's rewards never leak backward into the old one's evaluation. This is why a slice spanning two episodes (§3.3) is harmless.</p>
+      <p>There is a dial (commonly called GAE λ) controlling how much to lean on observed rewards versus the critic. Near 1: trust observations — accurate but noisy. Near 0: trust the critic — stable but biased. Typical values sit around 0.95.</p>
+    </section>
+
+    <section class="s" id="s35">
+      <p class="bridge">With PPO and the critic both in play, the data each timestep must carry is now fully determined.</p>
+      <h3>What each timestep record contains</h3>
+      <p>The intuitive guess — observation, action, reward — is right but incomplete.</p>
+      <div class="table-scroll">
+      <table>
+        <tr><th>Field</th><th>What it is</th><th>Why it's needed</th></tr>
+        <tr><td><strong>observation</strong></td><td>The vector the policy saw</td><td>Input side of the pair being learned</td></tr>
+        <tr><td><strong>action</strong></td><td>Motor targets produced</td><td>Output being reinforced or discouraged</td></tr>
+        <tr><td><strong>reward</strong></td><td>Score for that timestep</td><td>The learning signal</td></tr>
+        <tr><td><strong>done flags</strong></td><td>terminated / truncated</td><td>Where to stop propagation; whether to bootstrap (§3.4)</td></tr>
+        <tr><td><strong>value estimate</strong></td><td>Critic's prediction at that state</td><td>Needed for advantage — and must be the <em>old</em> policy's value, so it is stored at collection time</td></tr>
+        <tr><td><strong>log-probability</strong></td><td>How likely the old policy was to choose that action</td><td>PPO's clipping needs a new-vs-old ratio, and the old policy no longer exists after an update</td></tr>
+      </table>
+      </div>
+      <p>That last field is the heart of PPO's leash. It is also what lets PPO reuse the same batch for several gradient passes: after the first pass the policy has moved, but the stored old values still permit a valid clipped ratio.</p>
+      <p>You do not need to store the resulting next observation separately — the buffer is sequential, so it is simply the next row.</p>
+      <p>In practice this is not a list of tuples but a set of parallel tensors, all shaped <code>[slice_length, num_envs, ...]</code>, which is what makes the update a few large tensor operations rather than a loop over ~100,000 records. <strong>Advantage</strong> is not stored at collection — it is computed after the slice closes, working backward through rewards, values, and done flags.</p>
+      <p>At this point the simulated picture is complete: a policy can be trained to walk. Part 4 addresses why that is not yet the same as a robot that walks.</p>
+    </section>
+
+    <!-- ============ PART 4 ============ -->
+    <div class="part-head">
+      <span class="pnum">Part Four</span>
+      <h2>Crossing to reality</h2>
+      <p>Why a policy that works in simulation often fails on hardware — and what to do about it.</p>
+    </div>
+
+    <section class="s" id="s41">
+      <h3>The sim-to-real gap</h3>
+      <p>A policy that walks flawlessly in simulation often collapses on real hardware. The reason is simple: <strong>the simulator is wrong.</strong> Not badly wrong, but wrong in a thousand small ways — friction is a little different, motors respond a little slower, sensors are noisy, gears have play, the battery sags under load.</p>
+      <p>The trouble is that reinforcement learning is an exceptionally good exploiter. If your simulation has one exact friction coefficient, the policy will happily learn a gait that depends on that precise value, because doing so scores marginally better than a robust one. It has no incentive to be general — only to score.</p>
+      <div class="analogy">
+        <p>It is like a student who memorises the exact wording of every past exam question. Perfect marks on practice papers, and completely lost the moment the real exam rephrases anything.</p>
+      </div>
+      <p>Two mitigations dominate, and they attack different halves of the problem. <strong>Domain randomization</strong> (§4.2) prevents the policy from over-fitting to any single physics configuration. <strong>Actuator modelling</strong> (§4.3) attacks the largest single source of error, particularly for small robots.</p>
+    </section>
+
+    <section class="s" id="s42">
+      <p class="bridge">The first mitigation is also the sixth environment element deferred from §2.1.</p>
+      <h3>Domain randomization — and the Events element</h3>
+      <p><strong>Events</strong> are the config element that fires at reset or on a schedule, and their main use is domain randomization: varying the physics from environment to environment so no two of the 4,096 robots live in quite the same world.</p>
+      <p>Commonly randomized: ground friction, body masses, motor strength, command delay, battery voltage, and random pushes applied mid-stride.</p>
+      <div class="note"><strong>The core principle.</strong> Do not train a policy that works perfectly in your simulation. Train one that works acceptably across thousands of subtly different simulations — so that reality is just one more variant it can handle.</div>
+      <p>This connects directly back to §3.1. The reason breadth across environments improves the learning signal is the same reason it improves robustness: the policy is rewarded for what works <em>on average across conditions</em>, not for what works in one lucky configuration.</p>
+      <p>There is a cost. Wider randomization makes learning harder and slower, and can lower peak performance — a policy hedging against many possible frictions is less optimal for any single one. Practitioners often disable randomization while debugging a reward function and re-enable it before a real run.</p>
+    </section>
+
+    <section class="s" id="s43">
+      <p class="bridge">Randomizing an inaccurate model only goes so far. For small robots, one component dominates the remaining error.</p>
+      <h3>Actuator models and backlash</h3>
+      <p>The default way to simulate a motor is as an idealised controller: you ask for a joint angle, and the joint moves there smoothly, with predictable force. Real motors are not like this at all — and at small scales, that difference is <em>most</em> of the sim-to-real gap.</p>
+
+      <h4>What a real servo actually does</h4>
+      <p>A hobby servo like the Dynamixel XL330 (widely used in small robots) has behaviors an idealised model omits entirely:</p>
+      <ul>
+        <li><strong>Voltage control law</strong> — the motor is driven by voltage, not by a direct force command, so available torque depends on the battery.</li>
+        <li><strong>Back-EMF</strong> — a spinning motor generates its own opposing voltage, so it gets weaker the faster it turns.</li>
+        <li><strong>Friction</strong>, in several flavours: constant resistance (Coulomb), a sticky extra resistance right at the point of starting to move (Stribeck), and friction that grows with load.</li>
+        <li><strong>Command delay</strong> — the time between issuing an instruction and the motor acting on it.</li>
+        <li><strong>Voltage sag</strong> — the battery drooping under heavy current draw, weakening every motor at once, exactly when the robot needs them most.</li>
+      </ul>
+
+      <h4>BAM — a library of realistic motor models</h4>
+      <p><strong>BAM</strong> ("Better Actuator Models," from the Rhoban robotics team) is an open-source project that fits these behaviors to real servos by measuring them on a test bench, then packages the result as a simulation model. Its models are named by complexity — <strong>M1</strong> being the simplest and <strong>M6</strong> one of the most detailed, incorporating the voltage law, back-EMF, and the full friction picture above.</p>
+      <p>So "using the BAM M6 model for the XL330" means: instead of pretending each joint is a perfect position controller, the simulation reproduces the measured electrical and frictional behavior of that specific real servo.</p>
+      <div class="analogy">
+        <p>Simulating a car with an idealised motor is like assuming the accelerator maps perfectly to speed. A realistic actuator model accounts for the engine being weaker in high gear, the pedal having a dead spot, and the whole thing behaving differently when the fuel is low.</p>
+      </div>
+
+      <h4>Backlash — the wobble in the gears</h4>
+      <p><strong>Backlash</strong> is the small amount of looseness in a set of gears. The teeth cannot fit together perfectly tightly, so the motor turns a tiny bit — around one degree in a hobby servo — before the joint it is driving actually moves.</p>
+      <div class="analogy">
+        <p>Turn a screwdriver that does not quite fit the screw head. It rotates a little before it catches, and when you reverse direction you turn through that free play again before anything happens. That free play is backlash.</p>
+      </div>
+      <p>To simulate it, you add an extra unpowered joint next to each servo that is free to wobble within that one degree. Now the simulated robot has the same looseness as the real one.</p>
+      <div class="note"><strong>The part that is easy to get wrong.</strong> On many servos, the position sensor sits <em>after</em> the loose gears. That means the robot's own sense of where its joints are is affected by the wobble too — not just its movement. So the simulation has to apply the looseness to the robot's <em>readings</em> as well as its motion. Miss this and you train a policy that believes its joint readings are more precise than they really are, and it fails on hardware for reasons that are very hard to trace.</div>
+      <p>A common pattern is to train two versions of each behavior: a clean one, which trains faster and is good for iterating on rewards, and a backlash one, which is what you actually deploy. §6.2 shows this in practice.</p>
+    </section>
+
+    <!-- ============ PART 5 ============ -->
+    <div class="part-head">
+      <span class="pnum">Part Five</span>
+      <h2>Running experiments</h2>
+      <p>What you need, what to try, and what to do when it does not work — which is most of the time.</p>
+    </div>
+
+    <section class="s" id="s51">
+      <h3>Hardware and software</h3>
+      <h4>Hardware</h4>
+      <ul>
+        <li><strong>CPU-only path:</strong> a modern laptop is genuinely fine for classic control tasks. Physics runs on CPU; the networks involved are tiny by LLM standards. 16 GB RAM is comfortable.</li>
+        <li><strong>GPU required</strong> for two things: massively-parallel frameworks built on GPU physics (§1.3 — the physics engine itself only runs there), and any vision-based policy learning from rendered images.</li>
+        <li><strong>Cloud alternative:</strong> most frameworks now offer a flag to submit training to a hosted job service, removing the GPU requirement at the cost of credits and slower iteration.</li>
+      </ul>
+
+      <h4>Software</h4>
+      <p>Install the deep-learning framework first and pick the variant matching your hardware — CPU-only, CUDA for NVIDIA, ROCm for AMD. Getting this wrong causes hard-to-diagnose errors later.</p>
+      <p>Use an isolated environment: either a traditional package manager, or a modern project runner like <strong>uv</strong>, which combines dependency management and command running.</p>
+      <div class="note"><strong>How project runners work.</strong> A command like <code>uv run train ...</code> looks for a project manifest in the current directory, ensures dependencies are installed (creating the environment on first run), then executes. It is <em>directory-aware</em> — so you must clone a repository and <code>cd</code> into it first. Named commands like <code>train</code> are defined by that project's manifest; they are not programs on your machine.</div>
+    </section>
+
+    <section class="s" id="s52">
+      <h3>Choosing a simulator</h3>
+      <div class="table-scroll">
+      <table>
+        <tr><th>Tool</th><th>Best for</th></tr>
+        <tr><td><strong>MuJoCo (+ MJX / Warp)</strong></td><td>The academic default. Soft-contact model well suited to contact-rich manipulation; free and open. Nearly every open robot-learning release ships MuJoCo-based evaluation, so open datasets tend to just work.</td></tr>
+        <tr><td><strong>Isaac Sim / Isaac Lab</strong></td><td>The industrial option. GPU-accelerated, strongest for humanoid and quadruped locomotion at scale and for photorealistic synthetic perception data.</td></tr>
+        <tr><td><strong>Robosuite</strong></td><td>Standardized manipulation benchmarks built on MuJoCo.</td></tr>
+        <tr><td><strong>Genesis</strong></td><td>Newer multi-physics entrant — rigid, soft, and fluid.</td></tr>
+        <tr><td><strong>Gazebo / PyBullet / Drake / Webots</strong></td><td>Established general-purpose options; Gazebo remains standard in ROS-centric stacks.</td></tr>
+      </table>
+      </div>
+      <p>Simulator choice matters less than it seems at the start. MuJoCo is the path of least resistance; move to Isaac Lab when you specifically need massive GPU-parallel locomotion training or photorealistic rendering. Note that frameworks are converging — mjlab reimplements Isaac Lab's manager-based API (§2.1) on MuJoCo Warp physics, so those skills transfer in both directions.</p>
+
+      <h4>A suggested first month</h4>
+      <ol>
+        <li><strong>See the loop work.</strong> Train a standard benchmark walker. The goal is confirming the install and internalising §1.4, not the result.</li>
+        <li><strong>Break it deliberately.</strong> Remove the energy penalty and watch it get twitchy. Remove the upright term and watch it discover the face-dive exploit. This teaches reward design faster than any tutorial.</li>
+        <li><strong>Build your own environment.</strong> Take a real robot model, write a task with your own reward. Everything after this is a variation.</li>
+        <li><strong>Switch to pixels.</strong> Everything gets dramatically slower, and you will understand immediately why the field cares so much about pretrained visual representations.</li>
+      </ol>
+    </section>
+
+    <section class="s" id="s53">
+      <p class="bridge">With a working setup, the recurring task is defining new behaviors. Here is what that actually requires.</p>
+      <h3>Designing a new behavior</h3>
+      <p>Four decisions define an experiment, and they matter far more than which algorithm you pick.</p>
+      <ol>
+        <li><strong>The command</strong> (§2.3) — what can be asked, and over what range.</li>
+        <li><strong>The reward</strong> (§2.4) — the terms and their weights. Most of your time goes here.</li>
+        <li><strong>The initial state distribution</strong> — what pose robots spawn in. Non-obvious and critical: a stand-up behavior must spawn robots lying down; a walking behavior must not.</li>
+        <li><strong>The termination conditions</strong> (§2.5) — usually inherited, unless failure means something different for your task.</li>
+      </ol>
+      <p>A fifth input is sometimes needed: <strong>the body model itself</strong>. A task where the robot must lie on the ground needs full-body collision geometry that a walking-only model may strip out for speed.</p>
+
+      <h4>When to make a new policy versus extend an existing one</h4>
+      <p>A frequent early mistake is creating a separate policy per behavior. The right test is <strong>reward compatibility</strong>:</p>
+      <ul>
+        <li><strong>Same policy:</strong> forward, backward, turning, and strafing all share one reward — "track the commanded twist." They differ only in command values, so they belong to one network. Creating separate policies here throws away the entire point of a command space.</li>
+        <li><strong>Separate policies:</strong> walking and standing-up-from-face-down have <em>irreconcilable</em> rewards. A policy rewarded for staying upright can never learn to stand up, because lying on the ground is a failure state it has been trained to avoid entirely.</li>
+      </ul>
+      <p>Split by reward incompatibility, not by behavior count. Multiple policies are then switched at runtime via the shared observation contract from §2.3.</p>
+    </section>
+
+    <section class="s" id="s54">
+      <p class="bridge">Most runs fail. The skill is not avoiding that but diagnosing it quickly.</p>
+      <h3>Five ways training fails</h3>
+      <p>The instinct when a run fails is to start adjusting weights. Resist it. First read the per-term reward breakdown (§5.5) and identify <em>which</em> failure this is, because they need different fixes.</p>
+      <div class="table-scroll">
+      <table>
+        <tr><th>Symptom</th><th>Diagnosis</th><th>Fix</th></tr>
+        <tr><td><strong>Episode length flat and low</strong></td><td>Falls immediately, never survives long enough to experience the task</td><td>Loosen terminations, easier initial state, or a survival bonus to get it upright first</td></tr>
+        <tr><td><strong>Converges on doing nothing</strong></td><td>Standing still is the cheapest way to avoid penalties — a notorious local optimum</td><td>Penalties outweigh the task reward: raise task weight or cut energy penalty</td></tr>
+        <tr><td><strong>Reward climbs, behavior absurd</strong></td><td>Reward exploitation (§2.4) — sliding, diving, hovering near the goal without touching it</td><td>A <em>specification</em> failure, not tuning. Add a term closing the loophole</td></tr>
+        <tr><td><strong>Reward flat from the start</strong></td><td>The reward is too sparse (§2.4) for random exploration to ever reach</td><td>Add dense intermediate shaping: reward decreasing distance, not just success</td></tr>
+        <tr><td><strong>Learns, then collapses</strong></td><td>Updates too large, or a term blowing up</td><td>Lower the learning rate; check for NaN guards</td></tr>
+      </table>
+      </div>
+
+      <h4>What to change next, in order</h4>
+      <ol>
+        <li><strong>Reward weights</strong> — cheapest and most common fix. Change one at a time.</li>
+        <li><strong>Add or remove a term</strong> — when there is a loophole to close.</li>
+        <li><strong>Reward shaping</strong> — convert sparse to dense.</li>
+        <li><strong>Command range</strong> — narrow it; widen later once it learns.</li>
+        <li><strong>Initial state distribution</strong> — spawn closer to success. Enormously effective for acrobatic behaviors.</li>
+        <li><strong>Terminations</strong> — too strict and it never survives to learn; too loose and it accumulates reward while sprawled.</li>
+        <li><strong>Disable domain randomization temporarily</strong> (§4.2) — if it cannot learn with clean physics, randomization is not the problem. Re-enable before any real run.</li>
+        <li><strong>Training length</strong> — sometimes it just needs more steps.</li>
+        <li><strong>PPO hyperparameters</strong> — last. Rarely the actual issue.</li>
+        <li><strong>Reference motion</strong> — for acrobatic behaviors exploration will never find, supply a trajectory to imitate rather than hoping for discovery.</li>
+      </ol>
+
+      <div class="note warn"><strong>You cannot catch exploitation from curves.</strong> A reward graph rising steadily while the robot does something absurd is extremely common. Watch the rendered policy regularly, not just at the end.</div>
+      <p><strong>Discipline that pays off:</strong> one change per run, or you learn nothing about either. Kill runs fast — most should die within five minutes, because if episode length is not climbing early it will not. And expect 10–20 attempts for a new behavior; that is normal, not a sign you are doing it wrong.</p>
+    </section>
+
+    <section class="s" id="s55">
+      <p class="bridge">All of that diagnosis depends on being able to see what is happening.</p>
+      <h3>Monitoring and outputs</h3>
+      <p>You do not observe individual episodes. With thousands of environments producing episodes continuously, that is neither possible nor useful. You watch <strong>aggregate statistics logged per iteration</strong>, usually in an experiment tracker.</p>
+      <p><strong>Weights &amp; Biases</strong> (W&amp;B) is the common choice: training logs metrics as it goes and renders them as live charts in a browser, storing each run's config so you can later see exactly which weights produced a good result. Its most valuable feature is overlaying multiple runs on shared axes — which is how you tell whether a change helped. <strong>TensorBoard</strong> is the local, no-account alternative.</p>
+      <div class="table-scroll">
+      <table>
+        <tr><th>Metric</th><th>What it tells you</th></tr>
+        <tr><td><strong>Mean episode length</strong></td><td>The single best health indicator. Not climbing early? Kill the run.</td></tr>
+        <tr><td><strong>Per-term reward breakdown</strong></td><td>Where debugging happens. Shows <em>which</em> term is dominating or flatlining — invisible in the total.</td></tr>
+        <tr><td><strong>Mean total reward</strong></td><td>Useful, but can mask a collapsed term.</td></tr>
+        <tr><td><strong>Velocity tracking error</strong></td><td>Direct measure of whether it does the commanded thing.</td></tr>
+        <tr><td><strong>Termination breakdown</strong></td><td>Falls versus timeouts. A shift toward timeouts is the signal it learned to stay upright.</td></tr>
+      </table>
+      </div>
+      <p>This is the payoff promised back in §2.1: because each reward is a named entry in a list, the framework logs each one separately. When a policy stands still, you see it directly — tracking reward near zero, penalties near zero — which immediately says the tracking weight is too low. You would never diagnose that from a total.</p>
+
+      <h4>What a training run produces</h4>
+      <ul>
+        <li><strong>Checkpoints</strong> — network weights saved periodically. Raw, not deployable.</li>
+        <li><strong>Logs</strong> — metrics and config.</li>
+        <li><strong>An exported policy</strong> — produced by a separate export step, typically to <strong>ONNX</strong>, a portable format a lightweight runtime can execute without the training framework.</li>
+      </ul>
+      <div class="note warn"><strong>Always deploy the exported artifact, never a hand-converted checkpoint.</strong> Exporters typically bake the observation normalizer into the graph. Skip that and the policy loads fine but sees inputs on the wrong scale — it will simply behave like garbage, with no error to tell you why.</div>
+    </section>
+
+    <!-- ============ PART 6 ============ -->
+    <div class="part-head">
+      <span class="pnum">Part Six</span>
+      <h2>Case study — microduck_rl</h2>
+      <p>Every concept from Parts 1–5, mapped onto a real repository.</p>
+    </div>
+
+    <section class="s" id="s61">
+      <h3>The repository</h3>
+      <p><strong>Microduck</strong> is an ~800 g, ~25 cm bipedal robot from Pollen Robotics (acquired by Hugging Face), with 15 Dynamixel XL330 servos and a 50 Hz control loop. Its training code — <code>pollen-robotics/microduck_rl</code>, Apache 2.0 — is an unusually complete public example of everything above.</p>
+      <p>The stack maps exactly onto the three layers from §1.3:</p>
+      <pre><code>microduck_rl          <span class="cmt">← the repo you clone; task definitions</span>
+  └── mjlab           <span class="cmt">← training framework</span>
+        ├── manager-based API   <span class="cmt">(§2.1, from Isaac Lab)</span>
+        ├── MuJoCo Warp         <span class="cmt">(§1.3, physics, 4,096 envs on GPU)</span>
+        └── rsl_rl              <span class="cmt">(§3.2, PPO implementation)</span></code></pre>
+      <p>Policies train at 50 Hz, export to ONNX, and are deployed on the real robot by a separate runtime. Roughly one to two hours on a CUDA GPU produces a usable gait at 4,096 parallel environments.</p>
+
+      <h4>Project structure</h4>
+      <pre><code>src/mjlab_microduck/
+├── robot/
+│   ├── microduck/                 <span class="cmt"># MJCF exports, scenes, add_backlash.py</span>
+│   └── microduck_constants.py     <span class="cmt"># robot cfgs, HOME frame, actuator cfg</span>
+├── actuator/friction_dr_bam.py    <span class="cmt"># BAM model + friction DR + backlash (§4.3)</span>
+├── tasks/
+│   ├── __init__.py                <span class="cmt"># task registration</span>
+│   ├── mdp.py                     <span class="cmt"># reward/event/observation FUNCTIONS</span>
+│   ├── backlash.py                <span class="cmt"># make_backlash_variant() wrapper</span>
+│   └── microduck_*_env_cfg.py     <span class="cmt"># one cfg module per task family</span>
+├── train_cli.py                   <span class="cmt"># `train` entry point (+ --hf-jobs)</span>
+└── hf_jobs.py                     <span class="cmt"># Hugging Face Jobs submission</span></code></pre>
+
+      <h4>The task registry</h4>
+      <p>Thirteen registered tasks (<code>uv run list-envs</code> prints the live list). The main one is <code>Mjlab-Velocity-{Flat,Rough}-MicroDuck</code> — walking with velocity commands plus head-pose commands. Others include VelStand (walking + fall recovery in one policy), StandUp, SitStand, GroundPick (touch the ground with the mouth tip), BallKick, Roulade (a forward roll over the head), and six roller-skate variants.</p>
+      <p>That list is §5.3's reward-compatibility rule in practice: thirteen tasks because thirteen irreconcilable reward functions, not thirteen behaviors.</p>
+    </section>
+
+    <section class="s" id="s62">
+      <h3>Concepts mapped to code</h3>
+      <div class="table-scroll">
+      <table>
+        <tr><th>Concept</th><th>Where it lives</th></tr>
+        <tr><td>Reward / observation / event <em>functions</em> (§2.4)</td><td><code>tasks/mdp.py</code></td></tr>
+        <tr><td>Task <em>assembly</em> — terms, weights, command ranges (§2.1, §2.3)</td><td><code>tasks/microduck_*_env_cfg.py</code></td></tr>
+        <tr><td>Task registration</td><td><code>tasks/__init__.py</code></td></tr>
+        <tr><td>Domain-randomization toggles (§4.2)</td><td><code>ENABLE_*</code> booleans atop each env cfg</td></tr>
+        <tr><td>Robot body model</td><td><code>robot/microduck/*.xml</code></td></tr>
+        <tr><td>Actuator model + friction randomization (§4.3)</td><td><code>actuator/friction_dr_bam.py</code></td></tr>
+        <tr><td>Reward-design playbook</td><td><code>CLAUDE.md</code> — read this first</td></tr>
+      </table>
+      </div>
+
+      <h4>The observation contract, concretely</h4>
+      <p>§2.3's "shared observation contract" is implemented here as a <strong>61-dimensional actor observation</strong>: 48 proprioception + 13 command, where the command splits as <code>twist(3)</code>, <code>head_pose(4)</code>, <code>body_pose(6)</code>. Environments not using a command slot <em>zero-pad it rather than dropping it</em> — which is exactly what allows the runtime to hot-swap walk / recover / trick policies mid-motion.</p>
+      <p>So "walk forward at 0.2 m/s" is literally:</p>
+      <pre><code>twist     = [0.20, 0.0, 0.0]        <span class="cmt">← the command (§2.3)</span>
+head_pose = [0, 0, 0, 0]            <span class="cmt">← unused by this task → zeros</span>
+body_pose = [0, 0, 0, 0, 0, 0]      <span class="cmt">← unused by this task → zeros</span>
+                                     <span class="cmt">+ 48 proprioception = 61 in</span>
+                                     <span class="cmt">→ 15 servo targets out, 50×/sec</span></code></pre>
+
+      <h4>Body models differ per task</h4>
+      <p>A concrete instance of §5.3's fifth input:</p>
+      <div class="table-scroll">
+      <table>
+        <tr><th>XML</th><th>Used by</th></tr>
+        <tr><td><code>robot_walk.xml</code></td><td>Velocity — trunk/head contacts stripped, because falling is cheap</td></tr>
+        <tr><td><code>robot_allcollisions.xml</code></td><td>VelStand, StandUp, SitStand, GroundPick, BallKick, Roulade — the body must physically lie on the ground</td></tr>
+        <tr><td><code>robot_allcollisions_rollers.xml</code></td><td>Roller tasks (passive wheels)</td></tr>
+        <tr><td><code>robot_*_backlash.xml</code></td><td>Backlash variants, generated by <code>add_backlash.py</code></td></tr>
+      </table>
+      </div>
+
+      <h4>Part 4, made specific</h4>
+      <p>This repo is a direct implementation of §4.3. All tasks use the <strong>BAM M6 actuator model</strong> for the Dynamixel XL330 — voltage control law, back-EMF, and Coulomb/Stribeck/load-dependent friction — rather than an ideal PD controller, with per-environment randomization on battery voltage, voltage sag under load, command delay, and friction magnitude.</p>
+      <p>The backlash implementation is the textbook version of the encoder-placement subtlety flagged in §4.3. Every main task has a <strong>Backlash twin</strong> — insert <code>-Backlash</code> before <code>MicroDuck</code> in the task id — training against ±1° of gear play (2° total) in series with each of the 14 servo joints. Each servo gets an unactuated <code>passive_&lt;joint&gt;_backlash</code> hinge, and because the real encoder sits on the <em>output</em> side of the play, both the firmware PD emulation and the <code>joint_pos</code>/<code>joint_vel</code> observations read <em>through</em> the backlash. Observation and action dimensions are unchanged, so export and runtime need no modification.</p>
+
+      <h4>Three conventions worth knowing</h4>
+      <ol>
+        <li>Unactuated joints (roller wheels, backlash hinges) are all named <code>passive_*</code>; actuators, joint observations and pose rewards select servo joints with <code>^(?!passive_).*</code>.</li>
+        <li>Joint layout, 14 servos: 0–4 left leg (hip_yaw, hip_roll, hip_pitch, knee, ankle), 5–8 neck/head, 9–13 right leg.</li>
+        <li>The exporter bakes the observation normalizer into the ONNX graph — §5.5's failure mode, made concrete.</li>
+      </ol>
+    </section>
+
+    <section class="s" id="s63">
+      <h3>Running it</h3>
+      <pre><code><span class="cmt"># once, on your machine</span>
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+git clone https://github.com/pollen-robotics/microduck_rl
+cd microduck_rl                    <span class="cmt"># uv run only works from inside here (§5.1)</span>
+<span class="cmt"># On ARM (DGX Spark / Jetson): export UV_HTTP_TIMEOUT=600 for the first sync</span>
+
+uv run list-envs                                    <span class="cmt"># the live task registry</span>
+uv run --with pytest pytest tests/                  <span class="cmt"># CPU-only, verifies setup</span>
+
+<span class="cmt"># sanity-check the environment BEFORE burning GPU hours</span>
+uv run play Mjlab-Velocity-Flat-MicroDuck --agent zero
+uv run play Mjlab-Velocity-Flat-MicroDuck --agent random
+
+<span class="cmt"># train (needs a CUDA GPU — MuJoCo Warp is GPU-only, §1.3)</span>
+uv run train Mjlab-Velocity-Flat-MicroDuck --env.scene.num-envs 4096
+<span class="cmt"># ...or run it on Hugging Face Jobs instead (§5.1)</span>
+uv run train Mjlab-Velocity-Flat-MicroDuck --hf-jobs
+
+<span class="cmt"># watch a trained policy</span>
+uv run play Mjlab-Velocity-Flat-MicroDuck --wandb-run-path &lt;entity/project/run_id&gt;
+
+<span class="cmt"># export for deployment (§5.5 — never skip this step)</span>
+uv run scripts/export.py Mjlab-Velocity-Flat-MicroDuck --wandb-run-path &lt;...&gt;
+
+<span class="cmt"># drive the exported policy in CPU MuJoCo — no GPU needed</span>
+uv run scripts/infer_policy.py --walking output.onnx</code></pre>
+      <p><strong>Resuming</strong> uses <code>--agent.run-name resume --agent.load-checkpoint model_29999.pt --agent.resume True</code>.</p>
+
+      <h4>The zero/random agents</h4>
+      <p>The <code>--agent zero</code> and <code>--agent random</code> options are a genuinely useful habit and a good instance of §5.4's "kill fast" discipline. Zero actions confirm the robot spawns correctly and does not explode on load; random actions confirm terminations fire and rewards produce sane numbers. Catching a broken config here costs seconds instead of an hour.</p>
+
+      <h4>Deployment and hot-swapping</h4>
+      <p><code>scripts/infer_policy.py</code> runs on <strong>CPU MuJoCo</strong>, so policies can be tested on a laptop. It also rehearses exactly what the real runtime does — loading several policies behind the shared 61-dim contract (§6.2) and switching between them:</p>
+      <pre><code>uv run scripts/infer_policy.py --walking walk.onnx --standing stand.onnx \
+    --sitstand sitstand.onnx --roulade roulade.onnx --new-cmd-obs</code></pre>
+      <p>It is keyboard-driven — velocity commands plus <code>G</code> ground pick, <code>Y</code> sit/stand, <code>R</code> roulade, <code>K</code>/<code>L</code> kicks — with <code>--debug</code>, <code>--save-csv</code>, and <code>--record</code> for sim2real comparisons. The <code>scene*.xml</code> files wrap the robots with a floor and STAND/SIT/FOLD keyframes specifically for this script.</p>
+      <div class="note">This closes the loop on §1.2. A browser demo of this robot is exactly this: ONNX policies in a MuJoCo scene, with keypresses writing into the twist slots of a 61-dimensional observation vector. The keyboard never touches a servo.</div>
+    </section>
+
+    <section class="s" id="s64">
+      <h3>Adding a new behavior</h3>
+      <p>Take "walk sideways" as a worked example, following §5.3's four decisions.</p>
+      <ol>
+        <li><strong>Write or reuse reward functions</strong> in <code>tasks/mdp.py</code> — here, lateral velocity tracking plus a heading penalty so the robot does not simply turn 90° and walk forward.</li>
+        <li><strong>Copy the nearest env cfg</strong> and adjust: swap the tracking term, set the command range on the lateral twist dimension, keep the quality terms (upright, energy, action rate, foot slip, air time).</li>
+        <li><strong>Register it</strong> in <code>tasks/__init__.py</code>.</li>
+        <li><strong>Sanity-check</strong> with <code>--agent random</code>, then train 30 minutes and look.</li>
+        <li><strong>Iterate</strong> — expect 10–20 rounds, most killed within five minutes.</li>
+      </ol>
+
+      <h4>Failures to expect, cross-referenced</h4>
+      <div class="table-scroll">
+      <table>
+        <tr><th>What you'll see</th><th>Which failure mode (§5.4)</th></tr>
+        <tr><td>Turns 90° and walks forward</td><td>Exploitation — compute velocity in the <em>body</em> frame (§2.3), add heading penalty</td></tr>
+        <tr><td>Leans and slides without stepping</td><td>Exploitation — foot air-time reward, foot-slip penalty (§2.4)</td></tr>
+        <tr><td>Hops with both feet together</td><td>Exploitation — gait-phase reward enforcing alternation</td></tr>
+        <tr><td>Stands still</td><td>Local optimum — raise tracking weight or lower energy penalty</td></tr>
+      </table>
+      </div>
+      <p>All four are reward-<em>design</em> bugs, not code bugs. Training runs cleanly and produces a policy doing something you did not intend — which is why §5.4 insists on watching the rendered behavior rather than only the curves.</p>
+
+      <h4>A better first experiment</h4>
+      <p>Rather than a new behavior, take the existing walking task and change one reward weight. Multiply the energy penalty by five and watch it refuse to move. Zero out the action-rate penalty and watch it jitter. Widen the forward velocity range and see whether low-speed performance degrades as capacity spreads across a wider command envelope (§2.3).</p>
+      <p>That calibrates your intuitions for what each term does — which is exactly what you will need when a novel behavior misbehaves ambiguously.</p>
+    </section>
+
+    <!-- ============ GLOSSARY ============ -->
+    <div class="part-head">
+      <span class="pnum">Reference</span>
+      <h2>Glossary</h2>
+      <p>Every technical term introduced above, grouped by where it appears.</p>
+    </div>
+
+    <section class="s" id="glossary">
+      <div class="glossary">
+
+        <div class="gloss-group">
+          <h4>Core concepts (Part 1)</h4>
+          <dl>
+            <dt>Policy</dt>
+            <dd>A function mapping an observation to motor commands. A <em>trained</em> policy is a neural network whose weights were tuned through simulated practice.</dd>
+            <dt>Physics engine</dt>
+            <dd>Software computing where bodies will be after a small time increment, from hand-coded equations of motion.</dd>
+            <dt>World model</dt>
+            <dd>A learned neural network predicting what happens next, having inferred dynamics from data rather than from coded equations.</dd>
+            <dt>Reinforcement learning (RL)</dt>
+            <dd>Learning by trial and error from a reward signal, rather than by copying labelled examples.</dd>
+            <dt>Imitation learning</dt>
+            <dd>Learning by copying demonstrations, typically collected by a human operating the robot.</dd>
+            <dt>Timestep</dt>
+            <dd>One tick of the control loop. At 50 Hz, one timestep is 20 ms.</dd>
+            <dt>Control frequency</dt>
+            <dd>How many times per second the policy issues new motor commands. Higher is needed for contact-rich or balance-critical tasks.</dd>
+          </dl>
+        </div>
+
+        <div class="gloss-group">
+          <h4>Environment configuration (Part 2)</h4>
+          <dl>
+            <dt>Manager-based API</dt>
+            <dd>A design pattern (from Isaac Lab) where environments are <em>declared</em> as configuration — lists of reward, observation, and termination terms — and assembled by framework "managers," rather than written as imperative step functions.</dd>
+            <dt>Observation</dt>
+            <dd>The vector the policy sees each timestep: sensor readings plus the current command.</dd>
+            <dt>Proprioception</dt>
+            <dd>Sensing of one's own body — joint angles, velocities, orientation, angular velocity. Distinct from external sensing such as cameras.</dd>
+            <dt>Command space</dt>
+            <dd>The portion of the observation carrying instructions rather than sensor data. What makes a single policy steerable across a range of behaviors.</dd>
+            <dt>Twist</dt>
+            <dd>The standard locomotion command: forward velocity, lateral velocity, and yaw rate.</dd>
+            <dt>Body frame</dt>
+            <dd>A coordinate system attached to the robot, so "forward" means whichever way it currently faces — as opposed to the world frame, fixed to the ground.</dd>
+            <dt>Action</dt>
+            <dd>The policy's output, and the config element defining how those numbers map onto motor targets.</dd>
+            <dt>Action chunking</dt>
+            <dd>Predicting a short sequence of future actions in one forward pass rather than a single next action.</dd>
+            <dt>Dense vs. sparse reward</dt>
+            <dd>Dense: a meaningful score every timestep. Sparse: a score only on a rare success event. Sparse rewards are much harder to learn from.</dd>
+            <dt>Reward shaping</dt>
+            <dd>Adding intermediate rewards to convert a sparse objective into a dense one exploration can follow.</dd>
+            <dt>Action rate penalty</dt>
+            <dd>A reward term penalising change between consecutive motor commands. The main defence against jittery, hardware-damaging motion.</dd>
+            <dt>Feet air time</dt>
+            <dd>A reward term for keeping each foot airborne a reasonable fraction of each step — the standard fix for shuffling instead of walking.</dd>
+            <dt>Termination</dt>
+            <dd>A condition ending an episode. Distinct from a penalty: it forfeits all future reward rather than subtracting a number.</dd>
+            <dt>Terminated vs. truncated</dt>
+            <dd>Terminated = genuine failure (the future really is over). Truncated = timeout (the future exists; we just stopped watching). Handled differently in value computation.</dd>
+            <dt>Curriculum</dt>
+            <dd>Progressively widening command ranges or task difficulty as the policy improves.</dd>
+            <dt>Observation contract</dt>
+            <dd>A fixed observation layout shared across every policy in a project, with unused slots zero-padded — the precondition for runtime hot-swapping.</dd>
+          </dl>
+        </div>
+
+        <div class="gloss-group">
+          <h4>Learning mechanics (Part 3)</h4>
+          <dl>
+            <dt>Episode</dt>
+            <dd>One continuous run from reset until termination or timeout. Ends per-environment, asynchronously.</dd>
+            <dt>Rollout slice</dt>
+            <dd>A fixed collection interval (e.g. 24 timesteps), synchronized across all environments. One weight update per slice.</dd>
+            <dt>PPO (Proximal Policy Optimization)</dt>
+            <dd>The standard RL algorithm in robotics. Improves the policy while <em>clipping</em> updates so it cannot lurch far from the previous version.</dd>
+            <dt>SAC (Soft Actor-Critic)</dt>
+            <dd>An alternative algorithm, more sample-efficient, better when each environment step is expensive.</dd>
+            <dt>Critic / value function</dt>
+            <dd>A second network trained alongside the policy, predicting total expected future reward from a given state.</dd>
+            <dt>Bootstrapping</dt>
+            <dd>Filling in unobserved future reward with the critic's estimate, so a short slice can still evaluate a long-horizon action.</dd>
+            <dt>Advantage</dt>
+            <dd>How much better an action turned out than the critic expected. The quantity PPO actually optimizes.</dd>
+            <dt>GAE λ</dt>
+            <dd>A parameter trading off reliance on observed rewards (accurate, noisy) against the critic's estimate (stable, biased). Typically ~0.95.</dd>
+            <dt>Log-probability</dt>
+            <dd>How likely the old policy was to choose the recorded action. Stored at collection time because PPO's clipping needs a new-versus-old ratio after the old policy is gone.</dd>
+            <dt>Local optimum</dt>
+            <dd>A behavior that scores acceptably and blocks discovery of something better — e.g. standing still to avoid all penalties.</dd>
+            <dt>Reward exploitation</dt>
+            <dd>The policy satisfying the literal reward while violating its intent — sliding instead of stepping, diving to gain velocity.</dd>
+            <dt>Catastrophic forgetting</dt>
+            <dd>Losing previously learned capability while training on something new.</dd>
+          </dl>
+        </div>
+
+        <div class="gloss-group">
+          <h4>Crossing to reality (Part 4)</h4>
+          <dl>
+            <dt>Sim-to-real gap</dt>
+            <dd>The performance drop when a simulation-trained policy meets real hardware, caused by mismatched friction, delays, sensor noise, and mechanical imperfection.</dd>
+            <dt>Domain randomization</dt>
+            <dd>Varying physics parameters across environments during training so the policy is robust rather than tuned to one exact configuration.</dd>
+            <dt>Event</dt>
+            <dd>The config element firing at reset or on a schedule — the machinery implementing domain randomization.</dd>
+            <dt>Actuator model</dt>
+            <dd>A simulation of a real motor's behavior — voltage law, back-EMF, friction, delay — rather than an idealized position controller.</dd>
+            <dt>BAM (Better Actuator Models)</dt>
+            <dd>An open-source project (from the Rhoban team) that fits realistic motor models to real servos measured on a test bench. Models are graded by complexity, M1 being simplest and M6 among the most detailed.</dd>
+            <dt>Back-EMF</dt>
+            <dd>The opposing voltage a spinning motor generates, which makes it weaker at higher speeds.</dd>
+            <dt>Coulomb / Stribeck friction</dt>
+            <dd>Coulomb: constant resistance to motion. Stribeck: extra "stickiness" right at the point of starting to move.</dd>
+            <dt>Voltage sag</dt>
+            <dd>A battery's output dropping under heavy current draw, weakening all motors simultaneously.</dd>
+            <dt>Backlash</dt>
+            <dd>Mechanical play in a gear train — a small angle through which the input turns before the output moves at all. Typically ~1° in a hobby servo. Must be modelled in the observations too, if the encoder sits on the output side of the play.</dd>
+            <dt>Passive joint</dt>
+            <dd>An unpowered joint in a model — used to represent backlash slack or free-rolling wheels. Excluded from actuator and reward calculations.</dd>
+          </dl>
+        </div>
+
+        <div class="gloss-group">
+          <h4>Tools &amp; deployment (Parts 5–6)</h4>
+          <dl>
+            <dt>MuJoCo</dt>
+            <dd>"Multi-Joint dynamics with Contact" — the standard open-source physics engine for robot learning, noted for its contact modelling.</dd>
+            <dt>MuJoCo Warp / MJX</dt>
+            <dd>GPU reimplementations of MuJoCo (on NVIDIA Warp and JAX respectively), enabling thousands of environments to step in parallel.</dd>
+            <dt>Isaac Sim / Isaac Lab</dt>
+            <dd>NVIDIA's simulator and robot-learning framework; Isaac Lab originated the manager-based API.</dd>
+            <dt>mjlab</dt>
+            <dd>A framework combining Isaac Lab's manager-based API with MuJoCo Warp physics and rsl_rl's PPO.</dd>
+            <dt>Gymnasium</dt>
+            <dd>The standard Python interface for RL environments (maintained successor to OpenAI Gym).</dd>
+            <dt>rsl_rl</dt>
+            <dd>A lightweight PPO implementation from ETH Zürich, built for massively-parallel legged-robot training.</dd>
+            <dt>MJCF</dt>
+            <dd>MuJoCo's XML format describing a robot and scene — bodies, joints, geometry, actuators, contact parameters.</dd>
+            <dt>Convex decomposition</dt>
+            <dd>Splitting a concave mesh into convex pieces so a physics engine collides with its true shape rather than a filled-in hull.</dd>
+            <dt>ONNX</dt>
+            <dd>A portable format for trained neural networks, letting a lightweight runtime execute a policy without the training framework.</dd>
+            <dt>Observation normalizer</dt>
+            <dd>Scaling applied to observations during training. Must be baked into the exported model, or the deployed policy sees inputs on the wrong scale.</dd>
+            <dt>Hot-swapping</dt>
+            <dd>Switching between multiple trained policies at runtime, made possible by their sharing an identical observation and action layout.</dd>
+            <dt>Checkpoint</dt>
+            <dd>Periodically saved network weights during training. Raw, and not directly deployable.</dd>
+            <dt>W&amp;B (Weights &amp; Biases)</dt>
+            <dd>An experiment-tracking service logging metrics and configs, and in some projects hosting checkpoints identified by run path.</dd>
+            <dt>TensorBoard</dt>
+            <dd>A local, account-free alternative for viewing training metrics.</dd>
+            <dt>uv</dt>
+            <dd>A Python package manager and project runner. <code>uv run</code> is directory-aware — it resolves commands from the project manifest in the current directory.</dd>
+          </dl>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="footer">
+      Compiled from a working conversation on simulation-based robot learning · September 2026. Repository specifics reflect microduck_rl at time of writing; it is a young and fast-moving project, so verify file names and flags against the current source.
+    </div>
+
+  </main>
+</div>
+
+<script>
+  const links = document.querySelectorAll('.rail a');
+  const sections = document.querySelectorAll('section.s');
+  const obs = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const id = e.target.getAttribute('id');
+        links.forEach(l=>l.classList.remove('active'));
+        const link = document.querySelector(`.rail a[href="#${id}"]`);
+        if(link){
+          link.classList.add('active');
+          if(link === links[0]){
+            document.querySelector('.rail').scrollTo({top:0, behavior:'smooth'});
+          } else {
+            const prev = link.previousElementSibling;
+            const scrollTarget = (prev && prev.classList.contains('rail-part')) ? prev : link;
+            scrollTarget.scrollIntoView({block:'nearest', behavior:'smooth'});
+          }
+        }
+      }
+    });
+  },{rootMargin:'-15% 0px -75% 0px'});
+  sections.forEach(s=>obs.observe(s));
+</script>
+
+</body>
+</html>

@@ -15,6 +15,7 @@
   --mustard: #C98A16;
   --clay: #A8503C;
   --x-icon: #000000;
+  --code-bg: #F5F6F2;
   --max-width: 680px;
 }
 
@@ -31,6 +32,7 @@
     --mustard: #E0A73B;
     --clay: #D08668;
     --x-icon: #FFFFFF;
+    --code-bg: #232B26;
   }
 }
 
@@ -61,8 +63,13 @@ h1, h2, h3, h4, .ui {
   font-family: 'Bricolage Grotesque', system-ui, sans-serif;
 }
 
-.mono {
+.mono, code {
   font-family: 'IBM Plex Mono', monospace;
+}
+
+code {
+  background: var(--code-bg); border: 1px solid var(--rule);
+  padding: .08em .32em; border-radius: 2px; font-size: .86em;
 }
 
 main {
@@ -331,6 +338,14 @@ section.s p { margin: 0 0 1rem; }
 section.s ul, section.s ol { padding-left: 1.2rem; }
 section.s li { margin-bottom: .55rem; }
 
+/* Transition sentence linking a section back to the one before it */
+.bridge {
+  font-family: 'Bricolage Grotesque', sans-serif; font-size: .93rem;
+  color: var(--ink-3); font-style: normal;
+  border-left: 2px solid var(--mustard); padding-left: .85rem;
+  margin: 0 0 1.5rem;
+}
+
 /* Components: analogy callout, note, flow diagram, box grids, tables, glossary */
 .analogy {
   position: relative; background: var(--card); border: 1px solid var(--rule);
@@ -354,6 +369,15 @@ section.s li { margin-bottom: .55rem; }
 }
 .note strong { color: var(--ink); }
 .note.warn { border-left-color: var(--clay); background: rgba(168,80,60,.06); }
+
+pre {
+  background: var(--card); border: 1px solid var(--rule); border-radius: 2px;
+  padding: 1rem 1.15rem; margin: 1.4rem 0; overflow-x: auto;
+  font-family: 'IBM Plex Mono', monospace; font-size: .82rem; line-height: 1.6; color: var(--ink-2);
+}
+pre code { background: none; border: none; padding: 0; font-size: inherit; }
+.cmt { color: var(--ink-3); }
+.hl { color: var(--cobalt); font-weight: 500; }
 
 .flow {
   background: var(--card); border: 1px solid var(--rule); border-radius: 2px;
@@ -402,6 +426,15 @@ tr:last-child td { border-bottom: none; }
 }
 .glossary dt:first-child { margin-top: 0; }
 .glossary dd { margin: .15rem 0 0; font-size: .94rem; color: var(--ink-2); }
+.glossary dl { margin: 0; }
+
+/* Grouped variant, for a glossary large enough to need labeled subsections */
+.gloss-group + .gloss-group { margin-top: 1.6rem; padding-top: 1.6rem; border-top: 1px solid var(--rule); }
+.gloss-group h4 {
+  margin: 0 0 .2rem !important; font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: .78rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: .08em; color: var(--clay);
+}
 
 .footer {
   max-width: 720px; margin: 0; padding-top: 1.6rem;
