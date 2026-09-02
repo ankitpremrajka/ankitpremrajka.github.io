@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Demystifying Robotics Models</title>
+<title>Demystifying AI Models in Robotics</title>
 <meta name="description" content="Untangling two kinds of AI: ones that imagine the world, and ones that act in it.">
 <link rel="canonical" href="https://premrajka.com/posts/robot-world-models.html">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Demystifying Robotics Models">
+<meta property="og:title" content="Demystifying AI Models in Robotics">
 <meta property="og:description" content="Untangling two kinds of AI: ones that imagine the world, and ones that act in it.">
 <meta property="og:url" content="https://premrajka.com/posts/robot-world-models.html">
 <meta property="og:image" content="https://premrajka.com/assets/img/og-robot-world-models.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Demystifying Robotics Models">
+<meta name="twitter:title" content="Demystifying AI Models in Robotics">
 <meta name="twitter:description" content="Untangling two kinds of AI: ones that imagine the world, and ones that act in it.">
 <meta name="twitter:image" content="https://premrajka.com/assets/img/og-robot-world-models.png">
 <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
@@ -37,9 +37,9 @@
 
 <div class="hero">
   <div class="hero-inner">
-    <h1>Demystifying <span>robotics models</span></h1>
+    <h1>Demystifying <span>AI models in robotics</span></h1>
     <p class="lede">Two kinds of AI models are converging: one that imagines what the world will look like next, and one that decides what a robot should do next. This guide explains how they work, how they help each other, and why teaching a robot is so much harder than teaching a chatbot.</p>
-    <p class="hero-note">No maths, no code. Every concept is explained with an everyday example first. Technical terms appear in <strong>bold</strong> when introduced, and are collected in a glossary at the end.</p>
+    <p class="hero-note">No maths, no code. Every concept is explained with an everyday example first. Technical terms appear in <strong>bold</strong> when introduced, and are collected in a glossary at the end. Each section opens with a line connecting it to the one before.</p>
   </div>
 </div>
 
@@ -53,8 +53,7 @@
     <a href="#s3">Why thinking too slowly matters</a>
 
     <div class="rail-part">Part 2 · Working together</div>
-    <a href="#s4">Four ways to help</a>
-    <a href="#s5">Two that look alike</a>
+    <a href="#s4">Training vs. runtime</a>
     <a href="#s6">Learning from unlabelled video</a>
 
     <div class="rail-part">Part 3 · The big debate</div>
@@ -63,7 +62,6 @@
 
     <div class="rail-part">Part 4 · The real world</div>
     <a href="#s9">Who's building what</a>
-    <a href="#s10">Where things stand</a>
     <a href="#glossary">Glossary</a>
   </nav>
 
@@ -92,8 +90,10 @@
       </div>
 
       <div class="analogy">
-        <p>A world model is a weather forecaster: it looks at conditions and tells you what tomorrow will look like. A VLA is a driver: it looks at the road and decides whether to brake. The forecaster describes the future; the driver acts in it. Both need to understand how the world works — but they produce completely different things.</p>
+        <p>Go back to the video game. A world model is the game engine: given the current screen and a button press, it renders what happens next. A VLA is the player: given what's on screen, it decides which button to press. The engine describes what would happen; the player decides what to do. Both are reading the exact same screen — but producing completely different things.</p>
       </div>
+
+      <div class="note"><strong>A word on "policy."</strong> VLA is the trendy, capable-but-heavy way to build a policy — but "policy" itself is the older, more general term: a function that turns a command, plus a sense of the robot's own body and the world around it, into what to do next. A hard-coded controller is a policy. A small network trained for just one task is a policy. A VLA is simply today's best-performing way of building one, by starting from an internet-scale vision-language model instead of from scratch.</div>
 
       <p>So why does everyone mix them up? Partly because both take an "action" as an input — a button press for the game, a movement command for the robot. Partly because they're built from very similar machinery underneath. But mostly because researchers are now deliberately <em>combining</em> them into single systems that do both jobs at once. There's even a name for these hybrids: <strong>World Action Models</strong>. So the blurring isn't purely a mistake — it's where the field is heading.</p>
 
@@ -101,6 +101,7 @@
     </section>
 
     <section class="s" id="s2">
+      <p class="bridge">That's the outside view of a VLA — what it takes in, what it puts out. Here's what's actually happening between those two points.</p>
       <h3>What's actually inside a robot's brain</h3>
       <p>A VLA works as a loop that repeats many times per second:</p>
 
@@ -123,23 +124,12 @@
 
       <p>Crucially, nobody builds this understanding from scratch. Researchers start with an existing AI model that already understands images and language from being trained on the internet, then teach it about robot movement on top. That inherited knowledge is why a robot can be told "pick up the fruit" and reach for a banana it's never seen before.</p>
 
-      <h4>Turning understanding into movement: two approaches</h4>
-      <div class="two">
-        <div class="box">
-          <h5>Treat movement like a language</h5>
-          <p>Chop every possible movement into 256 numbered slots — like "move the wrist to position 143." The model then predicts these numbers one at a time, exactly the way a chatbot predicts the next word. Simple, and reuses everything we know about language models. The catch: describing smooth motion with numbered slots loses precision, like drawing a curve on graph paper using only whole squares.</p>
-        </div>
-        <div class="box m">
-          <h5>Sketch the motion directly</h5>
-          <p>Instead of picking from a fixed menu, the model draws a smooth path — more like a hand tracing a curve than filling in boxes. Better for delicate work like folding a shirt or gripping an egg, where "close enough" isn't good enough.</p>
-        </div>
-      </div>
-
       <h4>Planning a burst, not a step</h4>
       <p>Rather than deciding one tiny movement at a time, most robots plan a short <em>sequence</em> — roughly the next second of motion — and carry it out before checking back in. This turns out to be essential, for the reason in the next section.</p>
     </section>
 
     <section class="s" id="s3">
+      <p class="bridge">Planning a burst rather than a single step, from the section above, is a workaround. Here's the problem it's working around.</p>
       <h3>The mismatch: slow thinking, fast hands</h3>
       <p>This is the constraint that shapes robot design more than almost anything else, and it's rarely mentioned in headlines.</p>
       <p>The "thinking" part of a robot's brain is big and slow. It can form a fresh understanding of a scene maybe <strong>two to five times per second</strong>. But hands doing careful work — anything involving touch, grip, or balance — need updates <strong>ten to fifty times per second</strong> to stay steady. There's a gap, and it's a problem.</p>
@@ -150,6 +140,8 @@
 
       <p>The fix most systems now use is a <strong>two-speed design</strong>: a slower part works out the overall plan a few times a second, while a smaller, much faster part handles the split-second adjustments in between. This mirrors how people work — you consciously decide "I'll pick up that mug," but the fine muscle coordination that actually does it runs faster and more automatically, without you thinking through every millimetre.</p>
 
+      <p>That faster part is where the term "policy," in its narrow, original sense, actually lives: a small, fast model — sometimes little more than straightforward maths — whose only job is turning the slow part's rough intention into a real stream of joint-by-joint motor commands, tens of times a second. It doesn't understand language or images at all; it just executes.</p>
+
       <div class="note warn"><strong>A remaining flaw.</strong> In most current systems, the fast part still has to pause and wait while the slow part thinks — creating brief moments where the robot is effectively moving on autopilot with stale information. Closing those gaps is an active area of work.</div>
     </section>
 
@@ -157,57 +149,29 @@
     <div class="part-head">
       <span class="pnum">Part Two</span>
       <h2>Working together</h2>
-      <p>Four distinct ways an imagination helps a robot learn to act.</p>
+      <p>Part One covered how a robot decides what to do, and turns that decision into movement. This part turns to the imagination guiding those decisions — at training time, and at runtime.</p>
     </div>
 
     <section class="s" id="s4">
-      <h3>Four ways a world model helps a robot</h3>
-      <p>These are genuinely different jobs, even though the same underlying model might do more than one of them.</p>
+      <h3>When a world model helps a robot</h3>
+      <p>Every job an imagination does for a robot happens at one of two moments: while the robot is training, or in the instant it's deciding what to do.</p>
 
       <div class="two">
         <div class="box">
-          <h5>1 · Make up practice material</h5>
-          <p>Generate footage of situations that never happened, to expand the robot's training beyond what anyone had time to demonstrate. This is the most widely used, and the most mature.</p>
+          <h5>During training</h5>
+          <p><strong>Make up practice material.</strong> Generate synthetic footage of the <em>robot's own body</em> — with known actions attached, unlike the human video covered next — or let it practice directly inside a simulator through trial and error with a reward signal (<a href="training-robot-policies.html">reinforcement learning</a>). Either way, a filtering step catches attempts that turn out to be physically impossible.</p>
         </div>
-        <div class="box">
-          <h5>2 · Learn better instincts</h5>
-          <p>Ask the robot to predict what happens next <em>alongside</em> deciding what to do. Practising prediction forces it to genuinely understand weight, contact and momentum — and that understanding improves its decisions, even with no extra data.</p>
-        </div>
-        <div class="box m">
-          <h5>3 · Think before acting</h5>
-          <p>While working, mentally play out a few options — "if I grab from the left, then…" — and pick whichever imagined outcome comes closest to the goal.</p>
-        </div>
-        <div class="box m">
-          <h5>4 · Check the work</h5>
-          <p>Score whether an imagined or recorded attempt was actually any good, so that bad examples don't end up in the training material.</p>
+        <div class="box c">
+          <h5>At runtime</h5>
+          <p><strong>Think before acting.</strong> While working, mentally play out a few options — "if I grab from the left, then…" — and pick whichever imagined outcome comes closest to the goal.</p>
         </div>
       </div>
 
-      <p>Numbers 2 and 4 are largely about making the imagination <em>trustworthy</em> enough that 1 and 3 can be relied on. Right now, number 1 is the practical win happening today; 3 and 4 are the harder, less-solved prize.</p>
-    </section>
-
-    <section class="s" id="s5">
-      <h3>Telling the similar ones apart</h3>
-      <p>Two pairs above sound alike. Both distinctions matter, and both come down to <em>when</em> the imagining happens and <em>what it decides</em>.</p>
-
-      <h4>"Think before acting" vs. "check the work"</h4>
-      <div class="analogy">
-        <p>Thinking before acting is a chess player calculating three moves ahead <em>during a live game</em>, then playing the best one. Checking the work is a coach who, weeks earlier, generated ten thousand imaginary games, threw out the ones that broke the rules of chess, and handed the player only the sound ones to study. Same skill — imagine a scenario, judge it — but one decides a real move right now, and the other decides what goes into the textbook.</p>
-      </div>
-      <table>
-        <tr><th></th><th>Think before acting</th><th>Check the work</th></tr>
-        <tr><td>When</td><td>While the robot is working</td><td>Before or during training</td></tr>
-        <tr><td>What gets judged</td><td>Options the robot is weighing right now</td><td>Material that's already been generated</td></tr>
-        <tr><td>The verdict decides</td><td>What the robot physically does next</td><td>Whether an example is worth learning from</td></tr>
-        <tr><td>If it's wrong</td><td>One bad real-world move</td><td>A whole training set quietly corrupted</td></tr>
-      </table>
-
-      <h4>"Make up practice material" vs. "check the work"</h4>
-      <p>These get used together so routinely they can look like one step. But making things up is about <strong>quantity</strong> — more situations than anyone could demonstrate by hand. Checking is about <strong>quality</strong>, and it will judge anything you hand it, no matter where it came from: made-up footage, real recordings, or the robot's own attempts during practice. It's a separate job that happens to be useful downstream of the first one.</p>
-      <p>You <em>can</em> skip the checking — early systems did. It's just risky, because generated footage sometimes shows things that are physically impossible, and a robot that learns from impossible examples learns nonsense.</p>
+      <p>Training-time uses are the practical win happening today; runtime, in-the-moment decision-making is the harder, less-solved half.</p>
     </section>
 
     <section class="s" id="s6">
+      <p class="bridge">One of the training-time uses above — making up practice material — assumed there was footage to learn from in the first place. Here's where that footage can come from when nobody demonstrated the task on a robot at all.</p>
       <h3>Learning movement from video nobody labelled</h3>
       <p>Here's the puzzle. There's an enormous amount of video of people doing things with their hands. It would be extraordinarily useful for training robots — except none of it records <em>what movements were made</em>. You see the outcome, not the instruction.</p>
       <p>The solution is a clever trick called a <strong>latent action model</strong>. "Latent" here just means hidden — it works out the hidden action that must have happened between one frame and the next.</p>
@@ -254,13 +218,15 @@
     <div class="part-head">
       <span class="pnum">Part Three</span>
       <h2>The big debate</h2>
-      <p>Should a machine that understands the world predict pictures — or ideas?</p>
+      <p>Every one of Part Two's uses depends on the imagination being accurate. This part asks: accurate about what — pictures, or ideas?</p>
     </div>
 
     <section class="s" id="s7">
       <h3>Predicting pictures vs. predicting ideas</h3>
       <p>This is the deepest live disagreement in the field, and it's surprisingly easy to grasp.</p>
       <p>Most world models predict what the world will <em>look</em> like — actual images. An alternative approach, championed by Yann LeCun and called <strong>JEPA</strong>, argues this is fundamentally wasteful. Instead of predicting pictures, it predicts a compressed summary of what's happening — the gist rather than the image.</p>
+
+      <p>This maps onto the three-way split from Part One: predicting pictures is the <strong>renderer</strong> approach; predicting the gist is closer to how a <strong>planner</strong> reasons. (The <strong>simulator</strong> camp — modelling physics directly rather than predicting either pixels or gists — is a third option this particular debate mostly sets aside.)</p>
 
       <h4>An example: a ball rolling behind a box</h4>
       <p>A red ball rolls across a table and disappears behind a box for a moment.</p>
@@ -285,6 +251,7 @@
     </section>
 
     <section class="s" id="s8">
+      <p class="bridge">That's the abstract argument. Here's what it looks like as two companies, and roughly two billion dollars, betting opposite ways.</p>
       <h3>Two companies betting opposite ways</h3>
       <p>The two most prominent startups in this space disagree about precisely the question above — and both have raised enormous sums to prove their side.</p>
       <table>
@@ -292,7 +259,7 @@
         <tr><td>Founded by</td><td><strong>Fei-Fei Li</strong>, with a team rooted in computer vision and 3D graphics</td><td><strong>Yann LeCun</strong>, who left Meta in late 2025 after 12 years as its chief AI scientist</td></tr>
         <tr><td>The bet</td><td>Build genuinely interactive 3D worlds with real physics, so robots have somewhere realistic to practise</td><td>Skip the pictures entirely; learn to predict consequences in the abstract</td></tr>
         <tr><td>Reasoning</td><td>Robots can't learn from the internet the way chatbots did — what they're starved of is cheap, varied, physically realistic places to practise</td><td>Predicting the world in full visual detail is inherently imprecise, because much of that detail is genuinely unpredictable</td></tr>
-        <tr><td>Which of the four roles</td><td>Mostly "make up practice material"</td><td>Mostly "learn better instincts" and "think before acting"</td></tr>
+        <tr><td>Which role</td><td>Mostly making up practice material, during training</td><td>Mostly thinking before acting, at runtime</td></tr>
         <tr><td>Money raised</td><td>Around $1 billion in early 2026</td><td>Just over $1 billion — the largest seed round in European AI history</td></tr>
         <tr><td>First market</td><td>Gaming, visual effects, robot simulation</td><td>Healthcare first; robotics framed as roughly a five-year research effort</td></tr>
       </table>
@@ -303,7 +270,7 @@
     <div class="part-head">
       <span class="pnum">Part Four</span>
       <h2>The real world</h2>
-      <p>Who's building what, and how much actually works today.</p>
+      <p>Parts One through Three covered the ideas. This part covers who's actually building them.</p>
     </div>
 
     <section class="s" id="s9">
@@ -313,9 +280,9 @@
       <table>
         <tr><th>Name</th><th>Who</th><th>Worth knowing</th></tr>
         <tr><td><strong>OpenVLA</strong></td><td>Stanford / Berkeley</td><td>Fully open and freely usable — the standard starting point for researchers without a corporate lab behind them.</td></tr>
-        <tr><td><strong>π0 family</strong></td><td>Physical Intelligence</td><td>Uses the "sketch the motion smoothly" approach. Known for delicate tasks like folding laundry. Not openly available.</td></tr>
-        <tr><td><strong>RT-2</strong></td><td>Google DeepMind</td><td>The original work that established treating movement like a language.</td></tr>
-        <tr><td><strong>Gemini Robotics 2</strong></td><td>Google DeepMind</td><td>Released July 2026 — discussed below.</td></tr>
+        <tr><td><strong>π0 family</strong></td><td>Physical Intelligence</td><td>Predicts motion as a smooth, continuous sketch rather than picking from a menu of slots — better suited to delicate tasks like folding laundry. Not openly available.</td></tr>
+        <tr><td><strong>RT-2</strong></td><td>Google DeepMind</td><td>The original work that established treating movement like a language — chopping every possible motion into a numbered menu of slots, and predicting them one at a time the way a chatbot predicts words.</td></tr>
+        <tr><td><strong>Gemini Robotics 2</strong></td><td>Google DeepMind</td><td>Released July 2026 as three tiers: Gemini Robotics 2 (the core brain — turns what it sees and hears into movement), ER 2 (the planner — breaks tasks into steps and talks to people, but doesn't simulate physics), and On-Device 2 (a compressed version that runs locally and adapts to a new robot from fewer than 200 examples).</td></tr>
         <tr><td><strong>GR00T</strong></td><td>NVIDIA</td><td>Aimed squarely at humanoids, and tied into NVIDIA's simulation tools.</td></tr>
         <tr><td><strong>SmolVLA</strong></td><td>Hugging Face</td><td>Deliberately small, so it runs on affordable hardware.</td></tr>
       </table>
@@ -350,35 +317,13 @@
       <div class="note warn"><strong>A practical warning.</strong> Datasets with nearly identical names can carry completely different usage rights — one version free for commercial use, its similarly-named sibling restricted to research only. Several teams have been caught out by this. Anyone building a product on this data should check the licence carefully rather than assuming.</div>
     </section>
 
-    <section class="s" id="s10">
-      <h3>Where things actually stand</h3>
-
-      <h4>A recent example: Gemini Robotics 2</h4>
-      <p>Google DeepMind released three models in July 2026, which map neatly onto the ideas in this guide:</p>
-      <table>
-        <tr><th>Model</th><th>Its job</th></tr>
-        <tr><td><strong>Gemini Robotics 2</strong></td><td>The core robot brain — turns what it sees and hears into movement, for full humanoid bodies.</td></tr>
-        <tr><td><strong>Gemini Robotics ER 2</strong></td><td>The planner — understands the environment, breaks long tasks into steps, and talks to people. Notably, this is <em>not</em> a physics simulator; it reasons about steps, not about forces.</td></tr>
-        <tr><td><strong>On-Device 2</strong></td><td>A compressed version that runs locally on the robot rather than in a data centre, and can adapt to a new robot from fewer than 200 examples.</td></tr>
-      </table>
-      <p>Read against everything above, this is a <strong>"brain and hands" arrangement</strong> — a thinking layer on top of a doing layer — rather than a robot with an imagination attached. Nothing published suggests any of the three predicts future video or mentally rehearses actions. Which is interesting: one of the best-resourced labs in the world has, at least for now, not bet on the world-model approach.</p>
-      <p>Google's own reporting notes that fine finger control remains inconsistent, and that its safety testing doesn't replace properly certified safety systems.</p>
-
-      <h4>The honest scorecard</h4>
-      <table>
-        <tr><th>Status</th><th>What</th></tr>
-        <tr><td><strong>Working well</strong></td><td>Walking on flat ground. Table-top tasks with simple grippers. Starting from a general-purpose AI model and teaching it movement.</td></tr>
-        <tr><td><strong>Improving fast</strong></td><td>Agile, athletic movement. Generated practice footage genuinely closing the data gap. Trial-and-error practice pushing robots past what imitation alone achieves.</td></tr>
-        <tr><td><strong>Not solved</strong></td><td>Walking and doing careful hand work at the same time, in a messy real environment. Individual finger dexterity. Translating movements learned from video onto real bodies. Judging whether a generated world is physically <em>correct</em> rather than merely convincing. Running a large model fast enough to keep up with real hands.</td></tr>
-      </table>
-
-      <div class="note"><strong>The thread running through all of it.</strong> Nearly every technique in this guide is a response to one stubborn fact: robot experience is scarce and expensive, while video of the world is abundant and free. Learning movement from unlabelled video, generating fake practice footage, predicting the gist instead of the picture — all of them are attempts to convert cheap watching into expensive doing. The disagreements in the field are mostly arguments about which conversion rate is best.</div>
-    </section>
-
     <section class="s" id="glossary">
       <h3>Glossary</h3>
       <div class="glossary">
         <dl>
+          <dt>Policy</dt>
+          <dd>The general term for a function that turns a command, plus a sense of the robot's own body and the world around it, into what to do next. A hard-coded controller is a policy; a VLA is a policy too — just a much bigger one.</dd>
+
           <dt>VLA (vision-language-action model)</dt>
           <dd>A robot's brain. Takes in what the robot sees plus a spoken instruction, and outputs movements.</dd>
 
