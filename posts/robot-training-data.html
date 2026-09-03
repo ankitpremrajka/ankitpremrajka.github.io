@@ -38,7 +38,7 @@
 <div class="hero">
   <div class="hero-inner">
     <h1>Where robot training data <span>comes from</span></h1>
-    <p class="lede">Every robot policy is downstream of a data-collection decision. There are four places training data can come from, and each one buys scale by giving something up. This guide covers what they are, how they're actually run in practice, what each costs, and where the unsolved problems sit.</p>
+    <p class="lede">Every robot policy is downstream of a data-collection decision. Training data comes from three tiers of a pyramid, each buying scale by giving something up. This guide covers what they are, how they're actually run in practice, and where the unsolved problems sit.</p>
     <p class="hero-note">Technical terms appear in <strong>bold</strong> when introduced, and are collected in a glossary at the end.</p>
   </div>
 </div>
@@ -50,21 +50,24 @@
     <div class="rail-part">Part 1 · The landscape</div>
     <a href="#s1">The data pyramid</a>
 
-    <div class="rail-part">Part 2 · From the real world</div>
+    <div class="rail-part">Part 2 · Real robot data</div>
     <a href="#s2">Driving a real robot</a>
-    <a href="#s3">Five ways to drive one</a>
-    <a href="#s4">Watching people instead</a>
-    <a href="#s5">Turning that into a business</a>
-    <a href="#s6">Inventing the missing label</a>
+    <a href="#s3">Four ways to drive one</a>
+    <a href="#s4">Learning on the job</a>
 
-    <div class="rail-part">Part 3 · Made by the machine</div>
+    <div class="rail-part">Part 3 · Real human data</div>
+    <a href="#s5">Watching people instead</a>
+    <a href="#s6">Turning that into a business</a>
+
+    <div class="rail-part">Part 4 · Digital, not real</div>
     <a href="#s7">Practising in a fake world</a>
-    <a href="#s8">Learning on the job</a>
-    <a href="#s9">Why nobody picks just one</a>
+    <a href="#s8">Inventing the missing label</a>
+    <a href="#s9">Building a body to fit the footage</a>
+    <a href="#s10">Why nobody picks just one</a>
 
-    <div class="rail-part">Part 4 · The real world</div>
-    <a href="#s10">The four, side by side</a>
-    <a href="#s11">Who's betting on what</a>
+    <div class="rail-part">Part 5 · The real world</div>
+    <a href="#s11">The four, side by side</a>
+    <a href="#s12">Who's betting on what</a>
     <a href="#glossary">Glossary</a>
   </nav>
 
@@ -84,33 +87,31 @@
       <div class="three">
         <div class="box">
           <h5>Top — real robot data</h5>
-          <p>The exact system, doing the exact task, in the real world. $15–150+ per hour.</p>
+          <p>The exact system, doing the exact task, in the real world. Two techniques live here: teleoperation, and a robot's own deployment experience.</p>
           <div class="meter"><span>quantity ●○○○○</span><span>fidelity ●●●●●</span></div>
         </div>
         <div class="box m">
-          <h5>Middle — human video &amp; simulation</h5>
-          <p>Borrows scale from adjacent sources, at some cost to accuracy.</p>
+          <h5>Middle — real human data</h5>
+          <p>Borrows scale from a body that isn't the robot's, at some cost to accuracy and embodiment. One technique lives here: human video, captured deliberately for the purpose.</p>
           <div class="meter"><span>quantity ●●●○○</span><span>fidelity ●●●○○</span></div>
         </div>
         <div class="box c">
-          <h5>Bottom — internet video &amp; images</h5>
-          <p>Effectively unlimited, but carries no information about robot actions.</p>
-          <div class="meter"><span>quantity ●●●●●</span><span>fidelity ●○○○○</span></div>
+          <h5>Bottom — digital, not real</h5>
+          <p>Two techniques live here: simulation, and widely available video nobody built for this. Neither one is a direct capture of the task — a physics engine invented the world, or the footage was never made with a robot in mind.</p>
+          <div class="meter"><span>quantity ●●●●●</span><span>fidelity ●●○○○</span></div>
         </div>
       </div>
 
       <p>The bottom layer contains no information about what a robot should <em>do</em> — it's just pixels of the world. The top layer is the only place where the observations, the physics, and the actions all come from the actual system being deployed. Everything in between borrows scale from below without losing too much truth from above.</p>
 
-      <div class="note"><strong>Action label</strong> — the recorded number saying what the robot's motors were commanded to do. A video shows what happened; an action label says what was done to make it happen. Only data carrying action labels can directly teach a model to act.</div>
-
-      <p>Part Two covers the two sources where a real body actually did the task. Part Three covers the two where no human demonstrated anything at all. Part Four pulls it together.</p>
+      <p>Parts Two through Four now follow the pyramid tier by tier. Part Two covers the top: teleoperation and a robot's own deployment experience — both a real robot doing the real task, just collected at different moments. Part Three covers the middle: human video, a real body, but the wrong one. Part Four covers the bottom: simulation and widely available video, neither one a direct capture of anything — one imagined by a physics engine, the other never made with a robot in mind. Part Five pulls all four back together against the pyramid.</p>
     </section>
 
     <!-- ================= PART TWO ================= -->
     <div class="part-head">
       <span class="pnum">Part Two</span>
-      <h2>Data from the real world</h2>
-      <p>Where a real body — robot or human — genuinely did the thing. Highest fidelity, highest cost.</p>
+      <h2>Real robot data</h2>
+      <p>Part One placed teleoperation and deployment experience at the top of the pyramid — the same robot, doing the real task, just captured at different moments. This part covers both.</p>
     </div>
 
     <section class="s" id="s2">
@@ -132,9 +133,6 @@
         <div>Package into a standard dataset format</div>
       </div>
 
-      <h4>What it costs</h4>
-      <p>Published figures come mostly from data vendors, so treat the precision as directional. The trend is unambiguous: high-quality teleoperation data fell from roughly $340 per hour in early 2024 to about $136 per hour by late 2025, reaching around $118 per hour by early 2026 for a standard pick-and-place task. Complexity drives an enormous spread — simple single-arm work runs $15–30 per hour, two-armed programs $40–80, and full humanoid multi-sensor programs $80–150 and up.</p>
-
       <div class="note warn"><strong>The bottleneck is people, not money.</strong> A new operator produces only 8–12 usable recordings per hour, rising to 25–40 after two or three weeks of practice — and 10–30% of what they produce gets rejected in review anyway. Doubling your dataset means doubling operators, rigs and floor space. There is no equivalent of "scrape more of the internet."</div>
 
       <h4>What goes wrong</h4>
@@ -146,10 +144,11 @@
     </section>
 
     <section class="s" id="s3">
-      <h3>Five ways to drive one</h3>
+      <p class="bridge">That's the pipeline. Here's the hardware that actually does the driving — four different ways to do it.</p>
+      <h3>Four ways to drive one</h3>
       <p>Every rig solves the same problem — turning a human's motion into a command a robot can replay later. What separates them is how much translation sits in between. The closer a rig is to being a literal copy of the robot, the cleaner the recorded action; the further away, the cheaper and faster collection becomes.</p>
 
-      <div class="three">
+      <div class="two">
         <div class="box">
           <h5>Leader-follower arms</h5>
           <p>A puppet arm with the same joints as the robot. The human moves it by hand and the real arm mirrors it — so whatever angle they set <em>is</em> the recorded action, with no guessing. Also gives real physical feedback when the robot bumps something.</p>
@@ -160,31 +159,62 @@
           <p>The same idea built cheaply — a lightweight 3D-printed skeleton rather than a second full robot arm. Loses the force feedback, keeps nearly all of the clean joint-angle data, at a fraction of the price.</p>
           <div class="meter"><span>fidelity ●●●●○</span><span>cost ●●○○○</span></div>
         </div>
-        <div class="box c">
+      </div>
+      <div class="two">
+        <div class="box">
           <h5>VR controllers</h5>
           <p>No physical twin at all. A headset tracks where the hand is in space and converts that into a target for the robot's gripper. Cheap, off-the-shelf, quick to set up — but that conversion adds lag and mismatch.</p>
           <div class="meter"><span>fidelity ●●●○○</span><span>cost ●○○○○</span></div>
         </div>
-      </div>
-      <div class="two">
-        <div class="box">
+        <div class="box m">
           <h5>Desktop six-way controllers</h5>
           <p>A small knob you push, twist and tilt in six directions, of the kind used in design software. Precise for small careful movements, but abstract — the operator is working a dial, not their own hand, so fluency takes practice.</p>
           <div class="meter"><span>fidelity ●●●○○</span><span>cost ●○○○○</span></div>
         </div>
-        <div class="box m">
-          <h5>Handheld capture tools</h5>
-          <p>A handheld gripper — imagine tongs with a camera on them — that a person carries around and uses to do the task themselves. No robot needed during collection, so it's the fastest and cheapest, but needs a conversion step afterwards.</p>
-          <div class="meter"><span>fidelity ●●○○○</span><span>cost ●○○○○</span></div>
-        </div>
       </div>
 
-      <div class="note">All five, even the loosest, exist to produce one thing: a number saying exactly what the robot's gripper should do. That is what separates every rig here from the category in the next section.</div>
+      <div class="note">All four, even the loosest, exist to produce one thing: a number saying exactly what the robot's gripper should do.</div>
     </section>
 
     <section class="s" id="s4">
+      <p class="bridge">Every rig in the last section captures data before deployment — a human driving, on purpose, to build a training set. This section covers what the robot generates entirely on its own, once it's already out working.</p>
+      <h3>Learning on the job</h3>
+      <p>Data the robot generates itself once it's out doing real work: its own successes, failures, near-misses, and every moment a human had to take over. That last one — an <strong>intervention</strong> — is unusually valuable, because it marks the exact point where the robot's judgment broke down.</p>
+
+      <div class="flow">
+        <div>Deploy the policy across a fleet of robots</div>
+        <div class="ar">↓</div>
+        <div>Robots act — successes, failures and interventions all recorded</div>
+        <div class="ar">↓</div>
+        <div>Everything pools into a shared training store</div>
+        <div class="ar">↓</div>
+        <div>Policy retrained, then redeployed — and the loop runs again</div>
+      </div>
+
+      <p>Fleet scale is the point. Any single robot samples only a narrow slice of what deployment actually looks like, whereas a fleet spans different tasks, rooms, objects and instructions, producing edge cases no individual machine would ever encounter. The important recent shift is from harvesting demonstrations to running proper <strong>reinforcement learning</strong> across both the stored and the live data with one unified objective. In plain terms: instead of only imitating recorded successes, the policy is trained by trial and error — try an action, get a signal for how good the outcome was, adjust to make good outcomes more likely. That lets it learn something from a failure too, rather than discarding it as unusable, which is exactly what imitation on successes-only data can't do.</p>
+
+      <h4>What goes wrong</h4>
+      <ul>
+        <li><strong>Nothing keeps score.</strong> There's no points counter in a kitchen. Detecting success automatically from video is unreliable, and having a human label it defeats the purpose.</li>
+        <li><strong>Safety caps exploration.</strong> The random flailing that makes trial-and-error work in simulation breaks things and hurts people in a real room.</li>
+        <li><strong>Variety runs out.</strong> Improvement stalls once the diversity of objects and environments plateaus — a robot deployed in one warehouse gets very good at that warehouse and learns nothing else.</li>
+      </ul>
+
+      <div class="note">This is where "proper reinforcement learning," above, gets complicated in practice. RL nominally needs a reward signal, and a real kitchen doesn't hand one out — which is exactly the first problem in the list. Real deployments substitute proxies instead: an intervention counts as an implicit failure signal, and a separately-trained reward model — built by having humans label a small sample of outcomes, then used to score the rest automatically — stands in for the missing scoreboard. Neither is as clean as a simulator's exact reward function, which is why this stays one of the harder open problems rather than a solved one.</div>
+    </section>
+
+    <!-- ================= PART THREE ================= -->
+    <div class="part-head">
+      <span class="pnum">Part Three</span>
+      <h2>Real human data</h2>
+      <p>Part Two's two techniques both used the real robot itself. This part covers the middle tier — a real body, but not the robot's: human video, captured on purpose for this.</p>
+    </div>
+
+    <section class="s" id="s5">
       <h3>Watching people instead</h3>
-      <p>Video of people doing things, ideally filmed from their own point of view. Effectively unlimited supply, with real-world physics and visual variety thrown in free. The catch: no action labels exist anywhere in the footage, and the body doing the task is the wrong shape. That second problem has a name — the <strong>embodiment gap</strong>, the mismatch between a human hand with five soft fast fingers and a robot gripper with two rigid slow ones.</p>
+      <p>Video of people doing things, ideally filmed from their own point of view. Effectively unlimited supply, with real-world physics and visual variety thrown in free. The catch: no <strong>action labels</strong> exist anywhere in the footage, and the body doing the task is the wrong shape. That second problem has a name — the <strong>embodiment gap</strong>, the mismatch between a human hand with five soft fast fingers and a robot gripper with two rigid slow ones.</p>
+
+      <div class="note"><strong>Action label</strong> — the recorded number saying what the robot's motors were commanded to do. A video shows what happened; an action label says what was done to make it happen. Only data carrying action labels can directly teach a model to act.</div>
 
       <h4>Why this isn't just teleoperation with a cheaper rig</h4>
       <p>The distinction is worth being precise about, because the hardware can be identical. A headset used for teleoperation is steering a real robot live, and what gets recorded is the robot's own resulting joint state. A headset used for this category is just a well-built camera strapped to someone's head — no robot in the room, no motor command produced anywhere.</p>
@@ -202,16 +232,20 @@
       <div class="analogy">
         <p>Teleoperation is a steering wheel: a person's motion is captured specifically to instruct a machine, and the recording is fundamentally about what the machine did. Human video is a nature documentary: a camera just watches a person be a person. It's useful because hands and grippers do vaguely similar things — but nothing about the setup was built with a robot in mind.</p>
       </div>
+
+      <h4>A middle ground: handheld capture tools</h4>
+      <p>Between passive video and a full teleoperation rig sits a <strong>handheld capture tool</strong> — imagine tongs with a camera mounted on them — that a person carries around and uses to do the task themselves, no robot involved. It's still human data, not robot data, so the embodiment gap doesn't go away. But the tool itself records something a camera alone can't: how far the gripper opened and closed, which is closer to an action label than raw video gets. It still needs a conversion step to translate a human hand's grip onto a robot's — just a smaller one.</p>
     </section>
 
-    <section class="s" id="s5">
+    <section class="s" id="s6">
+      <p class="bridge">That's the concept. Here's what it looks like run as an actual company, not a lab experiment.</p>
       <h3>Turning that into a business</h3>
-      <p>The word "VR" in "VR headset" describes what the hardware was originally designed for, not what it's used for here. Nobody is wearing one to <em>see</em> anything. It's being repurposed as a cheap bundle of exactly the right sensors: cameras positioned roughly where a robot's eyes would be, motion tracking for the head, and sometimes gaze and hand-position estimates. Options run from a consumer headset at a few hundred dollars up to research-grade glasses built specifically for this.</p>
+      <div class="note">The headset from the last section is usually a literal VR headset, just run without the VR rendering — repurposed as a cheap bundle of exactly the right sensors: cameras positioned roughly where a robot's eyes would be, motion tracking for the head, and sometimes gaze and hand-position estimates. Research-grade versions exist too, built specifically for this rather than adapted from consumer gear.</div>
 
       <h4>Industrialising it</h4>
       <p>The clearest example of this category run as an actual operation rather than a research convenience is <strong>Shift</strong>, built by the German embodied-AI lab <strong>MicroAGI</strong>. Cleaners wear camera headsets inside customers' homes, and the resulting footage is licensed to labs training household robots. Operators record everyday household and professional tasks for pay across fifteen countries, with a viral free-cleaning offer in New York serving as both marketing and collection funnel. Several robotics labs are already buying data through the platform.</p>
 
-      <div class="note"><strong>Why it matters as a pattern.</strong> Shift is this category industrialised — no robot on site, no teleoperation rig, just paid people wearing head cameras through work they were doing anyway. It's real-world evidence that the cost argument for human video holds up as a business, not just as a research shortcut. The arithmetic behind it: a five-thousand-hour annotated human corpus costs roughly $150–200K, where the same volume via two-armed teleoperation runs $140–300K and takes three to five times as long.</div>
+      <div class="note"><strong>Why it matters as a pattern.</strong> Shift is this category industrialised — no robot on site, no teleoperation rig, just paid people wearing head cameras through work they were doing anyway. It's real-world evidence that the cost argument for human video holds up as a business, not just as a research shortcut. The arithmetic behind it: collecting the same volume via two-armed teleoperation costs more, and takes three to five times as long.</div>
 
       <h4>What still breaks</h4>
       <ul>
@@ -221,46 +255,11 @@
       </ul>
     </section>
 
-    <section class="s" id="s6">
-      <h3>Inventing the missing label</h3>
-      <p>So you have a million hours of people using their hands, and none of it records what movements were made. The fix isn't to recover the real action — it's to invent a substitute and let the model define it. The technique is called a <strong>latent action model</strong>; "latent" just means learned but never directly labelled.</p>
-
-      <h4>The trick</h4>
-      <div class="flow">
-        <div>Two consecutive video frames go into an encoder</div>
-        <div class="ar">↓ which outputs a deliberately tiny code</div>
-        <div>A decoder gets only the <em>first</em> frame plus that code</div>
-        <div class="ar">↓ and must predict the second frame</div>
-        <div>Compare the prediction to reality, adjust both, repeat millions of times</div>
-      </div>
-
-      <p>The decoder never sees the answer directly — the only route for that information is through the code, and the code is far too small to carry a whole image. That size limit is the entire mechanism. The encoder is forced to throw away everything that stayed the same (the countertop, the wall, the lighting) and keep only what changed. In footage of someone doing a task, what changed is almost always the motion.</p>
-
-      <div class="analogy">
-        <p>It's a game of telephone with only one word allowed. One person sees both photos and may pass along a single word. The other sees only the first photo plus that word, and must draw the second. Over thousands of rounds they're forced to develop a shared vocabulary where each word genuinely means a specific kind of movement — even though nobody ever handed them a dictionary.</p>
-      </div>
-
-      <h4>Two stages</h4>
-      <div class="flow">
-        <div><strong>Stage one — pretrain, cheaply, at enormous scale</strong></div>
-        <div class="ar">↳ thousands of hours of human video, every frame pair now carrying a code</div>
-        <div class="ar">↳ the policy learns to predict the next code from what it sees</div>
-        <div class="stage"><strong>Stage two — ground it, expensively, at tiny scale</strong></div>
-        <div class="ar">↳ a few dozen real robot recordings, where true motor commands exist</div>
-        <div class="ar">↳ learn the translation: this code means these joint movements, on this body</div>
-      </div>
-
-      <p>The coarseness of the code is exactly what makes this work across different bodies. It never tried to capture five-fingered dexterity, so it's abstract enough to be true of both a hand and a two-finger gripper. The grounding step fills in the body-specific detail.</p>
-
-      <h4>Where it goes wrong</h4>
-      <p>The compression bottleneck captures <em>any</em> change, not just the one you care about. A camera pan, a flickering light, someone walking through the background — all of it competes for room in an already tiny code. This is the dominant failure mode: the representation entangles motion with appearance rather than separating them. Most current research targets exactly this, by masking out backgrounds, using the task description to steer attention toward relevant motion, or explicitly factoring out camera movement before the code is computed.</p>
-    </section>
-
-    <!-- ================= PART THREE ================= -->
+    <!-- ================= PART FOUR ================= -->
     <div class="part-head">
-      <span class="pnum">Part Three</span>
-      <h2>Data the machine makes itself</h2>
-      <p>The two sources where nobody demonstrated anything — a simulator generated it, or the robot generated it by acting.</p>
+      <span class="pnum">Part Four</span>
+      <h2>Digital, not real</h2>
+      <p>Parts Two and Three both involved a body actually attempting the task, robot or human. This part covers the bottom tier, where neither happened: a simulator imagining the task, and video that was never about robots at all.</p>
     </div>
 
     <section class="s" id="s7">
@@ -289,6 +288,9 @@
       </div>
       <p>The enabling technique is <strong>3D Gaussian splatting</strong> — representing a scanned scene as millions of fuzzy coloured blobs that render photorealistically and fast. It means high-fidelity environments can be built directly from camera captures rather than hand-modelled by an artist, which is the thesis behind World Labs' acquisition of the simulation company SceniX: an engine that turns one physical task into many controllable, reusable worlds.</p>
 
+      <h4>Trick three — skip demonstrations, learn by doing</h4>
+      <p>Both tricks above still start from recorded demonstrations and multiply them. A third approach skips demonstrations entirely: let the robot practice directly inside the simulator through trial and error, guided by a reward signal — the same reinforcement learning idea from Part Two, but far easier here, because a simulator can compute an exact reward on demand instead of guessing at one. A simple, concrete version: give the robot nothing but a high-level command like "walk forward," and let it learn the actual walking policy itself through repeated simulated attempts. <a href="training-robot-policies.html">A companion piece</a> walks through exactly this case.</p>
+
       <h4>What goes wrong</h4>
       <ul>
         <li><strong>Contact and squishiness.</strong> Rigid blocks on rigid tables simulate well. Cloth, cable, liquid, and the moment a gripper's fingers actually start applying pressure do not.</li>
@@ -298,48 +300,92 @@
     </section>
 
     <section class="s" id="s8">
-      <h3>Learning on the job</h3>
-      <p>Data the robot generates itself once it's out doing real work: its own successes, failures, near-misses, and every moment a human had to take over. That last one — an <strong>intervention</strong> — is unusually valuable, because it marks the exact point where the robot's judgment broke down.</p>
+      <p class="bridge">Simulation fakes the world; this technique fakes the label instead — starting from video that's completely real, just never meant to teach a robot anything.</p>
+      <h3>Inventing the missing label</h3>
+      <p>Human video, from two parts ago, was at least captured on purpose — someone strapped on a headset specifically to generate training data. There's a far larger pool that wasn't: home movies, cooking videos, sports footage, security-camera feeds — an internet's worth of people using their hands, none of it recorded with a robot in mind, and none of it carrying any record of what movements were made. The fix isn't to recover the real action — it's to invent a substitute and let the model define it. The technique is called a <strong>latent action model</strong>; "latent" just means learned but never directly labelled.</p>
 
+      <h4>The trick</h4>
       <div class="flow">
-        <div>Deploy the policy across a fleet of robots</div>
-        <div class="ar">↓</div>
-        <div>Robots act — successes, failures and interventions all recorded</div>
-        <div class="ar">↓</div>
-        <div>Everything pools into a shared training store</div>
-        <div class="ar">↓</div>
-        <div>Policy retrained, then redeployed — and the loop runs again</div>
+        <div>Two consecutive video frames go into an encoder</div>
+        <div class="ar">↓ which outputs a deliberately tiny code</div>
+        <div>A decoder gets only the <em>first</em> frame plus that code</div>
+        <div class="ar">↓ and must predict the second frame</div>
+        <div>Compare the prediction to reality, adjust both, repeat millions of times</div>
       </div>
 
-      <p>Fleet scale is the point. Any single robot samples only a narrow slice of what deployment actually looks like, whereas a fleet spans different tasks, rooms, objects and instructions, producing edge cases no individual machine would ever encounter. The important recent shift is from harvesting demonstrations to running proper reinforcement learning across both the stored and the live data with one unified objective — because that can learn from failure, where imitation only learns from the successes you filtered for.</p>
+      <p>The decoder never sees the answer directly — the only route for that information is through the code, and the code is far too small to carry a whole image. That size limit is the entire mechanism. The encoder is forced to throw away everything that stayed the same (the countertop, the wall, the lighting) and keep only what changed. In footage of someone doing a task, what changed is almost always the motion.</p>
 
-      <h4>What goes wrong</h4>
-      <ul>
-        <li><strong>Nothing keeps score.</strong> There's no points counter in a kitchen. Detecting success automatically from video is unreliable, and having a human label it defeats the purpose.</li>
-        <li><strong>Safety caps exploration.</strong> The random flailing that makes trial-and-error work in simulation breaks things and hurts people in a real room.</li>
-        <li><strong>Variety runs out.</strong> Improvement stalls once the diversity of objects and environments plateaus — a robot deployed in one warehouse gets very good at that warehouse and learns nothing else.</li>
-      </ul>
+      <div class="analogy">
+        <p>It's a game of telephone with only one word allowed. One person sees both photos and may pass along a single word. The other sees only the first photo plus that word, and must draw the second. Over thousands of rounds they're forced to develop a shared vocabulary where each word genuinely means a specific kind of movement — even though nobody ever handed them a dictionary.</p>
+      </div>
+
+      <p>Once trained, the decoder is discarded. What's left — the encoder — is a tool that can watch <em>any</em> video and label what movement occurred, which is exactly what unlocks all that footage as training material in the first place.</p>
+
+      <h4>What these discovered movements look like</h4>
+      <p>Nobody tells the system what categories to find, but recognisable ones emerge anyway. On video game footage, the codes have naturally sorted themselves into things like move-left, move-right, jump, and do-nothing. On robot footage, they tend to separate into hand-opening, hand-closing, moving in a rough direction, wrist-turning, and staying still. They're coarse — think about thirty broad categories of motion, not precise measurements.</p>
+
+      <h4>The hard part: translating into real movement</h4>
+      <div class="note warn">
+        A discovered code isn't an actual instruction a robot can follow. Turning "code number 17" into real motor commands runs into several problems:
+        <br><br>
+        <strong>Different bodies.</strong> A human hand has dozens of independently moving parts; a simple robot gripper has one. The same "closing" code has to mean very different things depending on the body.<br>
+        <strong>No sense of scale.</strong> The same code might mean "move 2cm" or "move 8cm" depending on the situation — it captures direction better than distance.<br>
+        <strong>It picks up noise.</strong> The system only knows "something changed," so a wobbling camera or a flickering light can get recorded as if it were a deliberate movement.<br>
+        <strong>Mistakes get locked in.</strong> If the vocabulary is learned once and then frozen, the robot inherits all its quirks with no way to correct them.
+      </div>
+
+      <p>The practical fix works around most of this by splitting training into two stages.</p>
+
+      <h4>Two stages</h4>
+      <div class="flow">
+        <div><strong>Stage one — pretrain, cheaply, at enormous scale</strong></div>
+        <div class="ar">↳ thousands of hours of human video, every frame pair now carrying a code</div>
+        <div class="ar">↳ the <strong>policy</strong> learns to predict the next code from what it sees</div>
+        <div class="stage"><strong>Stage two — ground it, expensively, at tiny scale</strong></div>
+        <div class="ar">↳ a few dozen real robot recordings, where true motor commands exist</div>
+        <div class="ar">↳ learn the translation: this code means these joint movements, on this body</div>
+      </div>
+
+      <p>The coarseness of the code is exactly what makes this work across different bodies. It never tried to capture five-fingered dexterity, so it's abstract enough to be true of both a hand and a two-finger gripper. The grounding step fills in the body-specific detail.</p>
+
+      <h4>Where the encoding itself goes wrong</h4>
+      <p>The compression bottleneck captures <em>any</em> change, not just the one you care about. A camera pan, a flickering light, someone walking through the background — all of it competes for room in an already tiny code. This is the dominant failure mode: the representation entangles motion with appearance rather than separating them. Most current research targets exactly this, by masking out backgrounds, using the task description to steer attention toward relevant motion, or explicitly factoring out camera movement before the code is computed.</p>
     </section>
 
     <section class="s" id="s9">
+      <p class="bridge">The latent action model trick narrows the embodiment gap computationally, after the fact. There's a second way to close it: build the robot's body to need less translation in the first place.</p>
+      <h3>Building a body to fit the footage</h3>
+      <p>The embodiment gap is why the trick above is needed at all: a five-fingered hand doing delicate manipulation doesn't map cleanly onto a two-finger parallel gripper, no matter how good the translation is. One response is computational — invent a code, ground it, accept the loss. A growing number of companies are betting on a different response: shrink the gap in hardware, by building the robot's body to already resemble the one in the footage.</p>
+
+      <h4>Two arms and a human-shaped hand</h4>
+      <p>Figure, 1X, Tesla and others have converged on a similar template: two arms roughly human in proportion, and — increasingly — hands with five independently articulated fingers rather than a simple two- or three-finger gripper. None of that is necessary for a robot confined to a fixed cell doing one task, where a purpose-built gripper usually wins outright. It matters specifically for a robot meant to learn from, and eventually work inside, spaces built around human bodies: human tools, human doorknobs, human stairs — and, most relevantly here, an internet's worth of video of human hands doing things.</p>
+
+      <div class="note warn"><strong>The trade-off is real.</strong> Five-fingered hands are mechanically fragile, expensive, and hard to control precisely — a plain gripper is more reliable for a narrow, well-specified task. The bet only pays off if a company actually needs the general-purpose flexibility a human-like body buys, compatibility with human video included. For most industrial work, a humanoid hand is still the wrong tool.</div>
+
+      <p>Read against the pyramid, this is a bet that paying for hardware compatibility beats paying for top-tier data collection: match the body to video that already exists at effectively unlimited scale, and trade a smaller translation problem for a larger collection problem you never have to solve.</p>
+    </section>
+
+    <section class="s" id="s10">
+      <p class="bridge">Every source across the last three parts has a distinct failure mode. That's exactly why no lab relies on just one.</p>
       <h3>Why nobody picks just one</h3>
       <p>No lab uses a single category. Mixing is a first-class problem rather than an implementation detail, because the sources fail in complementary ways: simulation supplies the robot actions that human video lacks, while human video supplies the real-world appearance that simulation struggles to render. Training on several at once, rather than one then the other, is called <strong>co-training</strong>.</p>
       <p>The open questions here are unglamorous but decisive. What mixture ratio? Should sources be weighted by quality, by volume, or by how closely they resemble the intended deployment? Does the answer change as models get bigger? Right now these are tuned by hand, lab by lab, and mostly unpublished — there is no equivalent yet of the well-understood data-mixture literature that language models have.</p>
     </section>
 
-    <!-- ================= PART FOUR ================= -->
+    <!-- ================= PART FIVE ================= -->
     <div class="part-head">
-      <span class="pnum">Part Four</span>
+      <span class="pnum">Part Five</span>
       <h2>The real world</h2>
-      <p>The four sources compared directly, and how the leading labs are actually placing their bets.</p>
+      <p>Parts Two through Four covered where the data comes from, tier by tier. This part compares all four sources directly, and shows how the leading labs are actually placing their bets.</p>
     </div>
 
-    <section class="s" id="s10">
+    <section class="s" id="s11">
       <h3>The four, side by side</h3>
       <div class="table-scroll">
       <table>
         <tr>
           <th>Source</th>
+          <th>Tier</th>
           <th>Typical cost</th>
           <th>Scale ceiling</th>
           <th>Fidelity</th>
@@ -348,7 +394,8 @@
         </tr>
         <tr>
           <td><strong>Teleoperation</strong></td>
-          <td>$15–150+ per hour</td>
+          <td>Top</td>
+          <td>High — skilled operator time, ongoing</td>
           <td>Low — bounded by operators and rigs</td>
           <td>Exact: real actions, real physics</td>
           <td>Records only successes; drift at deployment</td>
@@ -356,7 +403,8 @@
         </tr>
         <tr>
           <td><strong>Human video</strong></td>
-          <td>~$30–40 per hour equivalent</td>
+          <td>Middle</td>
+          <td>Moderate — cheaper than teleoperation, still labour-driven</td>
           <td>Very high — near internet scale</td>
           <td>Approximate: wrong body, no forces</td>
           <td>Embodiment gap; camera motion contaminating the signal</td>
@@ -364,6 +412,7 @@
         </tr>
         <tr>
           <td><strong>Simulation</strong></td>
+          <td>Bottom</td>
           <td>Near zero per extra recording</td>
           <td>Effectively unlimited</td>
           <td>Variable: fine for rigid, poor for contact</td>
@@ -372,6 +421,7 @@
         </tr>
         <tr>
           <td><strong>Deployment</strong></td>
+          <td>Top</td>
           <td>Cheap per hour, expensive to reach at all</td>
           <td>Grows only as fast as the fleet</td>
           <td>Exact, and on the true target distribution</td>
@@ -380,10 +430,11 @@
         </tr>
       </table>
       </div>
-      <p>Read across any row and the same pattern holds: fidelity and scale trade against each other. Every technique in this guide is an attempt to buy back scale without giving up too much fidelity.</p>
+      <p>Read across any row and the same pattern holds: fidelity and scale trade against each other, tier by tier. Every technique in this guide is an attempt to buy back scale without giving up too much fidelity.</p>
     </section>
 
-    <section class="s" id="s11">
+    <section class="s" id="s12">
+      <p class="bridge">That's the abstract trade-off. Here's how five real companies are actually weighting it.</p>
       <h3>Who's betting on what</h3>
       <p>No two labs weight these four the same way, and the differences track their business models more than their research taste.</p>
 
@@ -434,6 +485,10 @@
     <section class="s" id="glossary">
       <h3>Glossary</h3>
       <dl class="glossary">
+        <dt>Policy</dt>
+        <dd>The trained model that turns what a robot senses into what it should do — the thing all this training data ultimately exists to teach.</dd>
+        <dt>Reinforcement learning</dt>
+        <dd>Training a policy by trial and error rather than by copying demonstrations: try an action, get a signal for how good the outcome was, adjust to make good outcomes more likely. Needs a reward signal, which is easy to define in simulation and hard to define in the real world.</dd>
         <dt>Action label</dt>
         <dd>The recorded motor command at a given instant — what the robot was told to do, not merely what was seen.</dd>
         <dt>Teleoperation</dt>
