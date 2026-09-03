@@ -176,42 +176,13 @@
       <p>Here's the puzzle. There's an enormous amount of video of people doing things with their hands. It would be extraordinarily useful for training robots — except none of it records <em>what movements were made</em>. You see the outcome, not the instruction.</p>
       <p>The solution is a clever trick called a <strong>latent action model</strong>. "Latent" here just means hidden — it works out the hidden action that must have happened between one frame and the next.</p>
 
-      <h4>How it works, step by step</h4>
-      <p>Take two consecutive frames from unlabelled video: a robot hand 10cm from a cup, then the same hand 5cm from the cup. Nobody recorded what caused that.</p>
-      <div class="three">
-        <div class="box">
-          <h5>Step 1 · Summarise</h5>
-          <p>One part of the system looks at <em>both</em> frames and squeezes "whatever changed" into a tiny code. At this point the code means nothing in particular — it's just a compressed note.</p>
-        </div>
-        <div class="box">
-          <h5>Step 2 · Reconstruct</h5>
-          <p>A second part gets only the <em>first</em> frame plus that tiny code — never the answer — and must try to draw the second frame.</p>
-        </div>
-        <div class="box">
-          <h5>Step 3 · Correct</h5>
-          <p>Compare its attempt to the real second frame. Both parts get adjusted based on how wrong it was, and the whole thing repeats millions of times.</p>
-        </div>
-      </div>
+      <p>The trick: feed two consecutive frames into an encoder that compresses "whatever changed" into a tiny code. A separate decoder gets only the first frame plus that code — never the real second frame — and has to predict it. Compare the guess to reality, adjust both, repeat millions of times. Because the code is too small to carry a whole image, the encoder is forced to throw away everything that stayed the same and keep only the motion.</p>
 
       <div class="analogy">
         <p>It's a game of telephone with only one word allowed. One person sees both photos and can pass along a single word. The other person sees only the first photo plus that word, and has to draw the second. If the word-chooser is careless, the drawing is hopeless. Over thousands of rounds, they're forced to develop a shared vocabulary where each word genuinely means a specific kind of movement — even though nobody ever handed them a dictionary.</p>
       </div>
 
-      <p>Once trained, the second part is discarded. The first part is now a tool that can watch <em>any</em> video and label what movement occurred — which unlocks all that unlabelled human footage as robot training material.</p>
-
-      <h4>What these discovered movements look like</h4>
-      <p>Nobody tells the system what categories to find, but recognisable ones emerge anyway. On video game footage, the codes have naturally sorted themselves into things like move-left, move-right, jump, and do-nothing. On robot footage, they tend to separate into hand-opening, hand-closing, moving in a rough direction, wrist-turning, and staying still. They're coarse — think about thirty broad categories of motion, not precise measurements.</p>
-
-      <div class="note warn">
-        <strong>The hard part: translating into real movement.</strong> A discovered code isn't an actual instruction a robot can follow. Turning "code number 17" into real motor commands runs into several problems:
-        <br><br>
-        <strong>Different bodies.</strong> A human hand has dozens of independently moving parts; a simple robot gripper has one. The same "closing" code has to mean very different things depending on the body.<br>
-        <strong>No sense of scale.</strong> The same code might mean "move 2cm" or "move 8cm" depending on the situation — it captures direction better than distance.<br>
-        <strong>It picks up noise.</strong> The system only knows "something changed," so a wobbling camera or a flickering light can get recorded as if it were a deliberate movement.<br>
-        <strong>Mistakes get locked in.</strong> If the vocabulary is learned once and then frozen, the robot inherits all its quirks with no way to correct them.
-        <br><br>
-        <strong>The practical answer:</strong> use this trick to learn cheaply and roughly from millions of hours of video, then use a small amount of proper, carefully-recorded robot data to teach the final translation into real movement. The video gives you breadth; the small real dataset gives you accuracy.
-      </div>
+      <div class="note warn">Once trained, the decoder is discarded — the encoder alone becomes a tool that can watch <em>any</em> video and label the movement in it, which is what unlocks all that footage as training material in the first place. Turning that discovered code into an actual robot instruction is its own hard problem: different bodies, ambiguous scale, picked-up camera noise, and early mistakes that get locked in permanently. (This site's companion piece, <a href="robot-training-data.html#s8">Where Robot Training Data Comes From</a>, walks through that translation step, what the discovered codes actually look like, and the two-stage training recipe that grounds them, in more depth.)</div>
     </section>
 
     <!-- PART 3 -->
