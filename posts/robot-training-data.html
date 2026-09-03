@@ -57,17 +57,16 @@
 
     <div class="rail-part">Part 3 · Real human data</div>
     <a href="#s5">Watching people instead</a>
-    <a href="#s6">Turning that into a business</a>
 
     <div class="rail-part">Part 4 · Digital, not real</div>
-    <a href="#s7">Practising in a fake world</a>
-    <a href="#s8">Inventing the missing label</a>
-    <a href="#s9">Building a body to fit the footage</a>
-    <a href="#s10">Why nobody picks just one</a>
+    <a href="#s6">Practising in a fake world</a>
+    <a href="#s7">Inventing the missing label</a>
+    <a href="#s8">Building a body to fit the footage</a>
+    <a href="#s9">Why nobody picks just one</a>
 
     <div class="rail-part">Part 5 · The real world</div>
-    <a href="#s11">The four, side by side</a>
-    <a href="#s12">Who's betting on what</a>
+    <a href="#s10">The four, side by side</a>
+    <a href="#s11">Who's betting on what</a>
     <a href="#glossary">Glossary</a>
   </nav>
 
@@ -235,14 +234,11 @@
 
       <h4>A middle ground: handheld capture tools</h4>
       <p>Between passive video and a full teleoperation rig sits a <strong>handheld capture tool</strong> — imagine tongs with a camera mounted on them — that a person carries around and uses to do the task themselves, no robot involved. It's still human data, not robot data, so the embodiment gap doesn't go away. But the tool itself records something a camera alone can't: how far the gripper opened and closed, which is closer to an action label than raw video gets. It still needs a conversion step to translate a human hand's grip onto a robot's — just a smaller one.</p>
-    </section>
 
-    <section class="s" id="s6">
-      <div class="note">The headset from the last section is usually a literal VR headset, just run without the VR rendering — repurposed as a cheap bundle of exactly the right sensors: cameras positioned roughly where a robot's eyes would be, motion tracking for the head, and sometimes gaze and hand-position estimates. Research-grade versions exist too, built specifically for this rather than adapted from consumer gear.</div>
-      <p class="bridge">That's the concept. Here's what it looks like run as an actual company, not a lab experiment.</p>
+      <div class="note">The headset used for this kind of capture is usually a literal VR headset, just run without the VR rendering — repurposed as a cheap bundle of exactly the right sensors: cameras positioned roughly where a robot's eyes would be, motion tracking for the head, and sometimes gaze and hand-position estimates. Research-grade versions exist too, built specifically for this rather than adapted from consumer gear.</div>
 
       <h4>Industrialising it</h4>
-      <p>The clearest example of this category run as an actual operation rather than a research convenience is <strong>Shift</strong>, built by the German embodied-AI lab <strong>MicroAGI</strong>. Cleaners wear camera headsets inside customers' homes, and the resulting footage is licensed to labs training household robots. Operators record everyday household and professional tasks for pay across fifteen countries, with a viral free-cleaning offer in New York serving as both marketing and collection funnel. Several robotics labs are already buying data through the platform.</p>
+      <p>Capture like that doesn't stay a research setup — it scales into an actual company. The clearest example of this category run as an actual operation rather than a research convenience is <strong>Shift</strong>, built by the German embodied-AI lab <strong>MicroAGI</strong>. Cleaners wear camera headsets inside customers' homes, and the resulting footage is licensed to labs training household robots. Operators record everyday household and professional tasks for pay across fifteen countries, with a viral free-cleaning offer in New York serving as both marketing and collection funnel. Several robotics labs are already buying data through the platform.</p>
 
       <div class="note"><strong>Why it matters as a pattern.</strong> Shift is this category industrialised — no robot on site, no teleoperation rig, just paid people wearing head cameras through work they were doing anyway. It's real-world evidence that the cost argument for human video holds up as a business, not just as a research shortcut. The arithmetic behind it: collecting the same volume via two-armed teleoperation costs more, and takes three to five times as long.</div>
 
@@ -261,7 +257,7 @@
       <p>Parts Two and Three both involved a body actually attempting the task, robot or human. This part covers the bottom tier, where neither happened: a simulator imagining the task, and video that was never about robots at all.</p>
     </div>
 
-    <section class="s" id="s7">
+    <section class="s" id="s6">
       <h3>Practising in a fake world</h3>
       <p>Instead of a human or robot producing data in the real world, a computer program that pretends to be the real world produces it. You describe a table, a cup and an arm, and it calculates thousands of times per second what would happen if the arm moved this way or that. Free and instant — but fake, because the program has to <em>guess</em> how friction works and how objects bounce. That gap has a name: the <strong>sim-to-real gap</strong>.</p>
 
@@ -298,7 +294,7 @@
       </ul>
     </section>
 
-    <section class="s" id="s8">
+    <section class="s" id="s7">
       <p class="bridge">Simulation fakes the world; this technique fakes the label instead — starting from video that's completely real, just never meant to teach a robot anything.</p>
       <h3>Inventing the missing label</h3>
       <p>Human video, from two parts ago, was at least captured on purpose — someone strapped on a headset specifically to generate training data. There's a far larger pool that wasn't: home movies, cooking videos, sports footage, security-camera feeds — an internet's worth of people using their hands, none of it recorded with a robot in mind, and none of it carrying any record of what movements were made. The fix isn't to recover the real action — it's to invent a substitute and let the model define it. The technique is called a <strong>latent action model</strong>; "latent" just means learned but never directly labelled.</p>
@@ -351,7 +347,7 @@
       <p>The compression bottleneck captures <em>any</em> change, not just the one you care about. A camera pan, a flickering light, someone walking through the background — all of it competes for room in an already tiny code. This is the dominant failure mode: the representation entangles motion with appearance rather than separating them. Most current research targets exactly this, by masking out backgrounds, using the task description to steer attention toward relevant motion, or explicitly factoring out camera movement before the code is computed.</p>
     </section>
 
-    <section class="s" id="s9">
+    <section class="s" id="s8">
       <p class="bridge">The latent action model trick narrows the embodiment gap computationally, after the fact. There's a second way to close it: build the robot's body to need less translation in the first place.</p>
       <h3>Building a body to fit the footage</h3>
       <p>The embodiment gap is why the trick above is needed at all: a five-fingered hand doing delicate manipulation doesn't map cleanly onto a two-finger parallel gripper, no matter how good the translation is. One response is computational — invent a code, ground it, accept the loss. A growing number of companies are betting on a different response: shrink the gap in hardware, by building the robot's body to already resemble the one in the footage.</p>
@@ -364,7 +360,7 @@
       <p>Read against the pyramid, this is a bet that paying for hardware compatibility beats paying for top-tier data collection: match the body to video that already exists at effectively unlimited scale, and trade a smaller translation problem for a larger collection problem you never have to solve.</p>
     </section>
 
-    <section class="s" id="s10">
+    <section class="s" id="s9">
       <p class="bridge">Every source across the last three parts has a distinct failure mode. That's exactly why no lab relies on just one.</p>
       <h3>Why nobody picks just one</h3>
       <p>No lab uses a single category. Mixing is a first-class problem rather than an implementation detail, because the sources fail in complementary ways: simulation supplies the robot actions that human video lacks, while human video supplies the real-world appearance that simulation struggles to render. Training on several at once, rather than one then the other, is called <strong>co-training</strong>.</p>
@@ -378,7 +374,7 @@
       <p>Parts Two through Four covered where the data comes from, tier by tier. This part compares all four sources directly, and shows how the leading labs are actually placing their bets.</p>
     </div>
 
-    <section class="s" id="s11">
+    <section class="s" id="s10">
       <h3>The four, side by side</h3>
       <div class="table-scroll">
       <table>
@@ -432,7 +428,7 @@
       <p>Read across any row and the same pattern holds: fidelity and scale trade against each other, tier by tier. Every technique in this guide is an attempt to buy back scale without giving up too much fidelity.</p>
     </section>
 
-    <section class="s" id="s12">
+    <section class="s" id="s11">
       <p class="bridge">That's the abstract trade-off. Here's how five real companies are actually weighting it.</p>
       <h3>Who's betting on what</h3>
       <p>No two labs weight these four the same way, and the differences track their business models more than their research taste.</p>
