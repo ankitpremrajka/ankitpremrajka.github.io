@@ -152,7 +152,7 @@ p.intro {
   font-size: 1.05rem;
 }
 
-section.posts h2.section-title {
+.section-title {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 0.74rem;
   text-transform: uppercase;
@@ -160,6 +160,56 @@ section.posts h2.section-title {
   color: var(--clay);
   margin-top: 2.5rem;
   margin-bottom: 1rem;
+}
+
+.section-lede {
+  margin: -0.5rem 0 1.4rem;
+  color: var(--ink-2);
+  font-size: 0.95rem;
+}
+
+.product-grid {
+  margin: 0;
+}
+
+.product-card {
+  display: block;
+  padding: 1.1rem 1.2rem;
+  margin-bottom: 0.85rem;
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  box-shadow: 3px 3px 0 var(--paper-2);
+  text-decoration: none;
+  color: inherit;
+}
+
+.product-card .badge {
+  display: block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--cobalt);
+  margin-bottom: 0.3rem;
+}
+
+.product-card h3 {
+  margin: 0;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.product-card:hover h3 {
+  color: var(--cobalt);
+}
+
+.product-card p {
+  margin: 0.35rem 0 0;
+  font-size: 0.95rem;
+  color: var(--ink-2);
 }
 
 ul.post-list {
