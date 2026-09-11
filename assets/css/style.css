@@ -470,6 +470,8 @@ tr:last-child td { border-bottom: none; }
   padding: .85rem 1.5rem; border-radius: 4px; text-decoration: none;
 }
 .cta-button:hover { opacity: .85; }
+.cta-button[aria-disabled="true"] { cursor: default; }
+.cta-button[aria-disabled="true"]:hover { opacity: 1; }
 .cta-sub { margin: 0 0 1.6rem; font-size: .82rem; color: var(--ink-3); }
 
 .sms-preview {

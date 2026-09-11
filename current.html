@@ -105,11 +105,23 @@
 
   <script>
     (function () {
+      var ua = navigator.userAgent;
+      var isMobile = /Android|iPhone|iPod|iPad|Mobile/.test(ua);
+      var buttons = document.querySelectorAll('.cta-button');
+      if (!isMobile) {
+        // Desktop/laptop: leave the buttons as plain, non-clickable labels —
+        // sms: links there trigger the Messages app via Handoff, which isn't the intent.
+        buttons.forEach(function (a) {
+          a.removeAttribute('href');
+          a.setAttribute('aria-disabled', 'true');
+        });
+        return;
+      }
       var number = '+16505499456';
       var body = encodeURIComponent('HELLO');
-      var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      var isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
       var href = isIOS ? ('sms:' + number + '&body=' + body) : ('sms:' + number + '?body=' + body);
-      document.querySelectorAll('.cta-button').forEach(function (a) {
+      buttons.forEach(function (a) {
         a.setAttribute('href', href);
       });
     })();
