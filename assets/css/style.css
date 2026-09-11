@@ -459,6 +459,28 @@ tr:last-child td { border-bottom: none; }
   border-top: 1px solid var(--rule); color: var(--ink-3); font-size: .88rem;
 }
 
+/* ---------------------------------------------------
+   Product landing pages (e.g. current.html)
+   --------------------------------------------------- */
+
+.cta-row { margin: 1.6rem 0 .6rem; }
+.cta-button {
+  display: inline-block; background: var(--ink); color: var(--paper);
+  font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 1rem;
+  padding: .85rem 1.5rem; border-radius: 4px; text-decoration: none;
+}
+.cta-button:hover { opacity: .85; }
+.cta-sub { margin: 0 0 1.6rem; font-size: .82rem; color: var(--ink-3); }
+
+.sms-preview {
+  background: var(--card); border: 1px solid var(--rule); border-radius: 14px;
+  padding: 1.1rem 1.3rem; margin: 0 0 .5rem; max-width: 420px;
+  font-size: .95rem; color: var(--ink-2); box-shadow: 2px 2px 0 var(--paper-2);
+}
+.sms-preview p { margin: 0 0 .8rem; }
+.sms-preview p:last-child { margin-bottom: 0; }
+.sms-caption { margin: 0 0 1.6rem; font-size: .8rem; color: var(--ink-3); font-style: italic; }
+
 @media (max-width: 680px) {
   .two, .three { grid-template-columns: 1fr; }
 }
