@@ -194,6 +194,19 @@ p.intro {
   margin-bottom: 0.3rem;
 }
 
+.product-card-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.product-card-logo {
+  width: 24px;
+  height: 24px;
+  display: block;
+  flex-shrink: 0;
+}
+
 .product-card h3 {
   margin: 0;
   font-family: 'Bricolage Grotesque', sans-serif;
@@ -512,6 +525,11 @@ tr:last-child td { border-bottom: none; }
 /* ---------------------------------------------------
    Product landing pages (e.g. current.html)
    --------------------------------------------------- */
+
+.product-title-row { display: flex; align-items: center; gap: .8rem; margin-bottom: .5rem; }
+.product-title-row h1 { margin: 0; }
+.product-title-row + .kicker { margin-top: 0; }
+.product-logo { width: 56px; height: 56px; display: block; flex-shrink: 0; }
 
 .cta-row { display: flex; flex-wrap: wrap; gap: .7rem; margin: 1.6rem 0 .6rem; }
 .cta-button {
