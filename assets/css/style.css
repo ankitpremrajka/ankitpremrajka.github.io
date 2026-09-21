@@ -531,7 +531,15 @@ tr:last-child td { border-bottom: none; }
 .product-title-row + .kicker { margin-top: 0; }
 .product-logo { width: 56px; height: 56px; display: block; flex-shrink: 0; }
 
-.cta-row { display: flex; flex-wrap: wrap; gap: .7rem; margin: 1.6rem 0 .6rem; }
+.cta-lead { margin: 1.6rem 0 .6rem; font-size: .95rem; color: var(--ink-2); }
+.cta-lead + .cta-row { margin-top: 0; }
+.qr-hint { display: none; }
+/* Desktop: the sms: link can't work here, so hide that button and the text naming it */
+@media (hover: hover) and (pointer: fine) {
+  .qr-hint { display: inline; }
+  .cta-button.sms, .sms-word { display: none; }
+}
+.cta-row { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem; margin: 1.6rem 0 .6rem; }
 .cta-button {
   display: inline-flex; align-items: center; gap: .55rem;
   background: var(--ink); color: var(--paper);
@@ -552,6 +560,16 @@ tr:last-child td { border-bottom: none; }
 }
 .cta-button.whatsapp:hover { opacity: .88; }
 .cta-sub { margin: 0 0 1.6rem; font-size: .82rem; color: var(--ink-3); }
+
+/* Shown only where there's a mouse — on a phone you can't scan your own screen */
+.qr-block { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  .qr-block { display: flex; align-items: center; gap: .55rem; margin-left: .3rem; }
+}
+.qr-block img {
+  width: 86px; height: 86px; display: block;
+  background: #fff; padding: 4px; border: 1px solid var(--rule); border-radius: 4px;
+}
 
 .sms-preview {
   background: var(--card); border: 1px solid var(--rule); border-radius: 14px;
