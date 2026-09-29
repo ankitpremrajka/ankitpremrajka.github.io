@@ -534,10 +534,8 @@ tr:last-child td { border-bottom: none; }
 .cta-lead { margin: 1.6rem 0 .6rem; font-size: .95rem; color: var(--ink-2); }
 .cta-lead + .cta-row { margin-top: 0; }
 .qr-hint { display: none; }
-/* Desktop: the sms: link can't work here, so hide that button and the text naming it */
 @media (hover: hover) and (pointer: fine) {
   .qr-hint { display: inline; }
-  .cta-button.sms, .sms-word { display: none; }
   .qr-link { display: none; }
 }
 .qr-link { margin: -1rem 0 1.6rem; font-size: .82rem; color: var(--ink-3); }
@@ -598,14 +596,14 @@ tr:last-child td { border-bottom: none; }
   background: #fff; padding: 4px; border: 1px solid var(--rule); border-radius: 4px;
 }
 
-.sms-preview {
+.msg-preview {
   background: var(--card); border: 1px solid var(--rule); border-radius: 14px;
   padding: 1.1rem 1.3rem; margin: 0 0 .5rem; max-width: 420px;
   font-size: .95rem; color: var(--ink-2); box-shadow: 2px 2px 0 var(--paper-2);
 }
-.sms-preview p { margin: 0 0 .8rem; }
-.sms-preview p:last-child { margin-bottom: 0; }
-.sms-caption { margin: 0 0 1.6rem; font-size: .8rem; color: var(--ink-3); font-style: italic; }
+.msg-preview p { margin: 0 0 .8rem; }
+.msg-preview p:last-child { margin-bottom: 0; }
+.msg-caption { margin: 0 0 1.6rem; font-size: .8rem; color: var(--ink-3); font-style: italic; }
 
 @media (max-width: 680px) {
   .two, .three { grid-template-columns: 1fr; }
