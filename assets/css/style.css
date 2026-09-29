@@ -563,6 +563,31 @@ tr:last-child td { border-bottom: none; }
 .cta-button.whatsapp:hover { opacity: .88; }
 .cta-sub { margin: 0 0 1.6rem; font-size: .82rem; color: var(--ink-3); }
 
+.why-carousel { margin: 1.2rem 0 1.6rem; overflow: hidden; padding: 4px 0 8px; }
+/* Static wrapped grid by default (no JS, or reduced motion); JS adds .looping to animate */
+.why-track { display: flex; flex-wrap: wrap; gap: 14px; }
+.why-card {
+  flex: 1 1 200px;
+  background: var(--card); border: 1px solid var(--rule); border-radius: 2px;
+  box-shadow: 3px 3px 0 var(--paper-2);
+  padding: 1.1rem 1.15rem;
+}
+.why-icon { font-size: 1.6rem; line-height: 1; margin-bottom: .7rem; }
+.why-card h3 {
+  margin: 0 0 .4rem; font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 1rem; font-weight: 600; color: var(--ink);
+}
+.why-card p { margin: 0; font-size: .92rem; color: var(--ink-2); line-height: 1.55; }
+/* Two identical sets; sliding by -50% lands exactly one set along, so the loop is seamless.
+   Spacing is a per-card margin (not gap) so each set's width is exactly half the track. */
+.why-track.looping {
+  flex-wrap: nowrap; gap: 0; width: max-content;
+  animation: why-drift 63s linear infinite;
+}
+.why-track.looping .why-card { flex: 0 0 240px; margin-right: 14px; }
+.why-carousel:hover .why-track.looping { animation-play-state: paused; }
+@keyframes why-drift { to { transform: translateX(-50%); } }
+
 /* Shown only where there's a mouse — on a phone you can't scan your own screen */
 .qr-block { display: none; }
 @media (hover: hover) and (pointer: fine) {

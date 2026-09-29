@@ -57,6 +57,48 @@
       <p class="cta-sub">Each one opens a message to +1 (650) 549-9456 with HELLO ready to send. Msg &amp; data rates may apply.</p>
       <p class="qr-link"><a href="assets/img/current-whatsapp-qr.png">Show the QR code</a> to help someone nearby sign up.</p>
 
+      <h2>Why Current</h2>
+      <p>Staying current shouldn't mean another app, another feed, or another inbox to keep up with.</p>
+      <div class="why-carousel">
+        <div class="why-track">
+          <div class="why-card">
+            <div class="why-icon" aria-hidden="true">🎯</div>
+            <h3>Only what you care about.</h3>
+            <p>One short update for each topic you pick, and nothing about the rest. Add or drop topics anytime as the list grows.</p>
+          </div>
+          <div class="why-card">
+            <div class="why-icon" aria-hidden="true">🪥</div>
+            <h3>Read it in a minute.</h3>
+            <p>Short enough to skim while you brush your teeth.</p>
+          </div>
+          <div class="why-card">
+            <div class="why-icon" aria-hidden="true">🙋</div>
+            <h3>Curious? Just ask.</h3>
+            <p>Reply with a follow-up question about that day's updates and get an answer right in the chat. No switching apps.</p>
+          </div>
+          <div class="why-card">
+            <div class="why-icon" aria-hidden="true">💬</div>
+            <h3>Nothing to install.</h3>
+            <p>No app to download, no inbox to filter. It shows up in WhatsApp or your texts, right next to your chats with friends and family.</p>
+          </div>
+          <div class="why-card">
+            <div class="why-icon" aria-hidden="true">🌅</div>
+            <h3>Once a day, then quiet.</h3>
+            <p>Everything arrives together around 7am Pacific, not as a stream of alerts all day.</p>
+          </div>
+          <div class="why-card">
+            <div class="why-icon" aria-hidden="true">🔍</div>
+            <h3>Easy to find later.</h3>
+            <p>Every update stays in your chat, so when you're trying to remember where you read about something, just search.</p>
+          </div>
+          <div class="why-card">
+            <div class="why-icon" aria-hidden="true">📈</div>
+            <h3>It adds up.</h3>
+            <p>A little every day compounds, so you always have something to bring to lunch with colleagues or drinks after work.</p>
+          </div>
+        </div>
+      </div>
+
       <h2>How it works</h2>
       <div class="flow">
         <div>Text or WhatsApp HELLO to +1 (650) 549-9456</div>
@@ -67,7 +109,7 @@
         <div class="ar">↓</div>
         <div>After that, one update a day for each topic you picked, around 7am Pacific</div>
         <div class="ar">↓</div>
-        <div>Add or drop topics anytime by replying in plain words — no commands. <strong>Reply STOP to cancel, HELP for help</strong></div>
+        <div>Add or drop topics, or ask a follow-up question, anytime by replying in plain words — no commands. <strong>Reply STOP to cancel, HELP for help</strong></div>
       </div>
 
       <h2>Topics</h2>
@@ -127,7 +169,7 @@
       <p class="cta-sub">Each one opens a message to +1 (650) 549-9456 with HELLO ready to send. Msg &amp; data rates may apply.</p>
 
       <h2>Good to know</h2>
-      <p>Current is free to join. Updates arrive around 7am Pacific — up to 1 msg/day per topic you're subscribed to, plus replies while you're getting set up or changing topics. Add or drop topics anytime by replying in plain words; no commands to remember. Msg &amp; data rates may apply. Reply STOP at any time to cancel, HELP for assistance. See our <a href="terms.html">Terms &amp; Conditions</a> and <a href="terms.html#privacy">Privacy Policy</a>.</p>
+      <p>Current is free to join. Updates arrive around 7am Pacific — up to 1 msg/day per topic you're subscribed to, plus replies while you're getting set up, changing topics, or asking questions. Add or drop topics anytime by replying in plain words; no commands to remember. Msg &amp; data rates may apply. Reply STOP at any time to cancel, HELP for assistance. See our <a href="terms.html">Terms &amp; Conditions</a> and <a href="terms.html#privacy">Privacy Policy</a>.</p>
     </article>
   </main>
 
@@ -158,6 +200,18 @@
       buttons.forEach(function (a) {
         a.setAttribute('href', href);
       });
+    })();
+
+    (function () {
+      // Duplicate the cards so the CSS drift can loop seamlessly; skipped for reduced motion.
+      var track = document.querySelector('.why-track');
+      if (!track || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      Array.prototype.slice.call(track.children).forEach(function (card) {
+        var clone = card.cloneNode(true);
+        clone.setAttribute('aria-hidden', 'true');
+        track.appendChild(clone);
+      });
+      track.classList.add('looping');
     })();
   </script>
 
