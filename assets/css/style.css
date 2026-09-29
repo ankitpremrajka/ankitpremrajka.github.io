@@ -582,7 +582,7 @@ tr:last-child td { border-bottom: none; }
    Spacing is a per-card margin (not gap) so each set's width is exactly half the track. */
 .why-track.looping {
   flex-wrap: nowrap; gap: 0; width: max-content;
-  animation: why-drift 63s linear infinite;
+  animation: why-drift 45s linear infinite; /* ~28px/s: 5 cards x 254px */
 }
 .why-track.looping .why-card { flex: 0 0 240px; margin-right: 14px; }
 .why-carousel:hover .why-track.looping { animation-play-state: paused; }
