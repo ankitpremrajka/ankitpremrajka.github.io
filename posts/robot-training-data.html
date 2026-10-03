@@ -533,12 +533,17 @@
         const link = document.querySelector(`.rail a[href="#${id}"]`);
         if(link){
           link.classList.add('active');
-          if(link === links[0]){
-            document.querySelector('.rail').scrollTo({top:0, behavior:'smooth'});
-          } else {
-            const prev = link.previousElementSibling;
-            const scrollTarget = (prev && prev.classList.contains('rail-part')) ? prev : link;
-            scrollTarget.scrollIntoView({block:'nearest', behavior:'smooth'});
+          // Only keep the active link in view when the contents are a sticky sidebar (wide screens).
+          // On narrow screens they sit at the top of the page, and scrolling them into view would pull the reader back up.
+          const rail = document.querySelector('.rail');
+          if(getComputedStyle(rail).position === 'sticky'){
+            if(link === links[0]){
+              rail.scrollTo({top:0, behavior:'smooth'});
+            } else {
+              const prev = link.previousElementSibling;
+              const scrollTarget = (prev && prev.classList.contains('rail-part')) ? prev : link;
+              scrollTarget.scrollIntoView({block:'nearest', behavior:'smooth'});
+            }
           }
         }
       }
