@@ -469,6 +469,69 @@ pre code { background: none; border: none; padding: 0; font-size: inherit; }
 .flow .ar { color: var(--cobalt); font-weight: 600; padding-left: .4rem; }
 .flow .stage { padding-top: .7rem; }
 
+/* Pipeline flows: stages colour-coded by the job they do, with a legend */
+.flow .job { border-left: 3px solid var(--rule); padding-left: .6rem; }
+.flow .job.compress { border-left-color: var(--cobalt); }
+.flow .job.dynamics { border-left-color: var(--mustard); }
+.flow .job.fast { border-left-color: var(--clay); }
+.flow .side { display: block; font-size: .78rem; color: var(--ink-3); }
+.tag {
+  display: inline-block; margin-left: .45rem; padding: .02rem .4rem; border: 1px solid currentColor;
+  border-radius: 2px; font-family: 'IBM Plex Mono', monospace; font-size: .64rem;
+  letter-spacing: .04em; text-transform: uppercase; vertical-align: 1px;
+}
+.tag.compress { color: var(--cobalt); }
+.tag.dynamics { color: var(--mustard); }
+.tag.fast { color: var(--clay); }
+.legend { display: flex; flex-wrap: wrap; gap: .3rem .2rem; margin: -.8rem 0 1.4rem; font-size: .8rem; color: var(--ink-3); }
+.legend .tag { margin-left: 0; margin-right: .5rem; }
+
+/* Two-axis diagram: autoregression across time (horizontal), diffusion within a frame (vertical) */
+.ar-diagram {
+  margin: 1.4rem 0; background: var(--card); border: 1px solid var(--rule); border-radius: 2px;
+  padding: 1.2rem 1rem 1rem; overflow-x: auto;
+}
+.ar-grid {
+  display: grid; min-width: 280px; align-items: center; justify-items: center; row-gap: .15rem;
+  grid-template-columns: minmax(40px,1fr) 14px minmax(40px,1fr) 14px minmax(40px,1fr) 14px minmax(40px,1fr) 14px minmax(40px,1fr);
+  grid-template-areas:
+    ".  .  .  .  .  .  n   dl dl"
+    ".  .  .  .  .  .  d1  dl dl"
+    ".  .  .  .  .  .  s2  dl dl"
+    ".  .  .  .  .  .  d2  dl dl"
+    ".  .  .  .  .  .  s3  dl dl"
+    ".  .  .  .  .  .  d3  dl dl"
+    "f1 x1 f2 x2 f3 x3 f4  x4 f5"
+    ".  .  .  .  .  .  up  .  ."
+    ".  .  .  .  .  .  act .  ."
+    "tl tl tl tl tl tl tl  tl tl";
+  font-family: 'Bricolage Grotesque', sans-serif; font-size: .76rem; color: var(--ink-2);
+}
+.ar-box {
+  width: 100%; padding: .4rem .2rem; text-align: center; line-height: 1.25;
+  border: 1px solid var(--rule); border-radius: 2px; background: var(--paper);
+}
+.ar-box.past { background: var(--paper-2); }
+.ar-box.now { border: 2px solid var(--cobalt); color: var(--ink); font-weight: 600; }
+.ar-box.next { border-style: dashed; color: var(--ink-3); background: transparent; }
+.ar-box.noise { background: repeating-linear-gradient(45deg, var(--rule) 0 2px, transparent 2px 5px); }
+.ar-box.step { border-style: dotted; }
+.ar-box.act { border-color: var(--mustard); color: var(--mustard); font-weight: 600; }
+.ar-arrow { color: var(--cobalt); font-weight: 600; line-height: 1; }
+.ar-arrow.up { color: var(--mustard); }
+.ar-label { font-family: 'IBM Plex Mono', monospace; font-size: .66rem; letter-spacing: .03em; color: var(--ink-3); }
+.ar-label.v { justify-self: start; padding-left: .5rem; }
+.ar-label.h { padding-top: .6rem; }
+.ar-n { grid-area: n; } .ar-d1 { grid-area: d1; } .ar-s2 { grid-area: s2; } .ar-d2 { grid-area: d2; }
+.ar-s3 { grid-area: s3; } .ar-d3 { grid-area: d3; } .ar-dl { grid-area: dl; }
+.ar-f1 { grid-area: f1; } .ar-x1 { grid-area: x1; } .ar-f2 { grid-area: f2; } .ar-x2 { grid-area: x2; }
+.ar-f3 { grid-area: f3; } .ar-x3 { grid-area: x3; } .ar-f4 { grid-area: f4; } .ar-x4 { grid-area: x4; }
+.ar-f5 { grid-area: f5; } .ar-up { grid-area: up; } .ar-act { grid-area: act; } .ar-tl { grid-area: tl; }
+.ar-diagram figcaption { margin-top: .8rem; font-size: .8rem; color: var(--ink-3); font-style: italic; text-align: center; }
+
+.sources { font-size: .9rem; color: var(--ink-2); padding-left: 1.2rem; }
+.sources li { margin-bottom: .35rem; }
+
 .two { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.4rem 0; }
 .three { display: grid; grid-template-columns: repeat(3,1fr); gap: .85rem; margin: 1.4rem 0; }
 .box { background: var(--card); border: 1px solid var(--rule); border-radius: 2px; padding: 1.1rem 1.15rem; }

@@ -18,7 +18,7 @@
 <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/style.css?v=2026-10-02c">
+<link rel="stylesheet" href="../assets/css/style.css?v=2026-10-08">
 </head>
 <body class="article">
 
@@ -195,7 +195,7 @@
     <section class="s" id="s7">
       <h3>Predicting pictures vs. predicting ideas</h3>
       <p>This is the deepest live disagreement in the field, and it's surprisingly easy to grasp.</p>
-      <p>Most world models predict what the world will <em>look</em> like — actual images. An alternative approach, championed by Yann LeCun and called <strong>JEPA</strong>, argues this is fundamentally wasteful. Instead of predicting pictures, it predicts a compressed summary of what's happening — the gist rather than the image.</p>
+      <p>Most world models predict what the world will <em>look</em> like — actual images. An alternative approach, championed by Yann LeCun and called <strong>JEPA</strong>, argues this is fundamentally wasteful. Instead of predicting pictures, it predicts a compressed summary of what's happening — the gist rather than the image. (My later primer, <a href="world-models-primer.html#s1">World models, from the ground up</a>, covers both camps and how each is built.)</p>
 
       <p>This maps onto the three-way split from Part One: predicting pictures is the <strong>renderer</strong> approach; predicting the gist is closer to how a <strong>planner</strong> reasons. (The <strong>simulator</strong> camp — modelling physics directly rather than predicting either pixels or gists — is a third option this particular debate mostly sets aside.)</p>
 
@@ -266,6 +266,7 @@
         <tr><td><strong>V-JEPA 2</strong> (Meta)</td><td>The "predict the gist" approach, trained on over a million hours of video.</td></tr>
         <tr><td><strong>Marble</strong> (World Labs)</td><td>Turns photos or descriptions into persistent 3D environments.</td></tr>
       </table>
+      <p>For a fuller, more recent look at who is building world models, and how, see <a href="world-models-primer.html#s11">World models, from the ground up</a>.</p>
 
       <h4>Practice environments</h4>
       <p>These are the virtual worlds where robots do most of their learning:</p>

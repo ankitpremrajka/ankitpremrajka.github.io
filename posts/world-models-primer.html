@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>World Models: What They Are, How They're Built, and Who's Building Them</title>
+<meta name="description" content="Every AI company now claims a &quot;world model&quot;. Here's what one actually is, and how to tell.">
+<link rel="canonical" href="https://premrajka.com/posts/world-models-primer.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="World Models: What They Are, How They're Built, and Who's Building Them">
+<meta property="og:description" content="Every AI company now claims a &quot;world model&quot;. Here's what one actually is, and how to tell.">
+<meta property="og:url" content="https://premrajka.com/posts/world-models-primer.html">
+<meta property="og:image" content="https://premrajka.com/assets/img/og-world-models-primer.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="World Models: What They Are, How They're Built, and Who's Building Them">
+<meta name="twitter:description" content="Every AI company now claims a &quot;world model&quot;. Here's what one actually is, and how to tell.">
+<meta name="twitter:image" content="https://premrajka.com/assets/img/og-world-models-primer.png">
+<link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css?v=2026-10-08">
+</head>
+<body class="article">
+
+<header class="site-header">
+  <img class="avatar" src="../assets/img/ankit.jpg" alt="Ankit Premrajka">
+  <h1><a href="../index.html">Ankit Premrajka</a></h1>
+  <div class="social-links">
+    <a class="x-icon" href="https://x.com/ankitp" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+      <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+    </a>
+    <a class="linkedin-icon" href="https://linkedin.com/in/ankitpremrajka" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+      <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1>World models, <span>from the ground up</span></h1>
+    <p class="lede">"World model" has become one of the most overloaded terms in AI. Startups use it in pitch decks, chip companies sell "world foundation model" platforms, and research labs use it to mean several quite different things. This post builds a precise mental model from the ground up: what a world model is, how it differs from the two things it's most often confused with, how frontier labs actually train one, how anyone measures whether it gets physics right, and who is building them today.</p>
+    <p class="hero-note">A primer on the learned simulators behind the next wave of robotics, driving, and interactive media. Facts about companies and models are current as of October 2026. Technical terms are collected in a glossary, and sources are listed at the end.</p>
+  </div>
+</div>
+
+<div class="layout">
+  <nav class="rail">
+    <div class="rail-title">Contents</div>
+
+    <div class="rail-part">1 · Foundations</div>
+    <a href="#s1">What a world model is</a>
+    <a href="#s2">vs. video generators</a>
+    <a href="#s3">vs. game physics engines</a>
+
+    <div class="rail-part">2 · How they work</div>
+    <a href="#s4">Autoregressive vs. diffusion</a>
+    <a href="#s5">How they're trained</a>
+    <a href="#s6">Where quality comes from</a>
+
+    <div class="rail-part">3 · Measuring &amp; challenges</div>
+    <a href="#s7">Measuring physics fidelity</a>
+    <a href="#s8">The biggest open challenges</a>
+    <a href="#s9">Frontier research directions</a>
+
+    <div class="rail-part">4 · Landscape</div>
+    <a href="#s10">Where they're used today</a>
+    <a href="#s11">Who's building them</a>
+
+    <div class="rail-part">5 · Reference</div>
+    <a href="#glossary">Glossary</a>
+    <a href="#sources">Sources</a>
+  </nav>
+
+  <main>
+
+    <!-- ============ PART 1 ============ -->
+    <div class="part-head">
+      <span class="pnum">Part One</span>
+      <h2>Foundations</h2>
+      <p>What a world model is, and how it differs from the two things it's most often confused with.</p>
+    </div>
+
+    <section class="s" id="s1">
+      <h3>What a world model is</h3>
+      <p>A <strong>world model</strong> is a learned system that answers one question:</p>
+      <p><strong>"If the world is in this state, and this action happens, what does the world look like next?"</strong></p>
+      <p>Three ingredients are involved:</p>
+      <ul>
+        <li><strong>State:</strong> what the world looks like right now, represented either as images or as a compressed internal summary.</li>
+        <li><strong>Action:</strong> something that changes the world, such as a keypress, a steering angle, or a robot arm motion.</li>
+        <li><strong>Prediction:</strong> the next state.</li>
+      </ul>
+      <p>Chain those predictions together, feeding each prediction back in as the new state, and you get a simulator you can "play" or plan inside. The crucial difference from a traditional simulator is that this one is <em>learned from data</em> rather than written by hand.</p>
+      <div class="analogy">
+        <p>A chess engine can look ahead because it knows exactly how each move changes the board. A world model tries to learn the "rules" of a messy physical world (gravity, occlusion, how a door swings, how a pedestrian behaves) purely by watching enough of it, so an agent can look ahead the same way.</p>
+      </div>
+
+      <h4>Two camps under one name</h4>
+      <p>The term covers two families that are worth keeping separate:</p>
+      <ul>
+        <li><strong>Generative world models</strong> predict actual images, video, or 3D scenes you can look at. Examples: Google DeepMind's Genie, Odyssey, World Labs, NVIDIA Cosmos.</li>
+        <li><strong>Predictive world models</strong> (sometimes called latent world models) predict only an abstract summary of the future and never render pixels, because their purpose is planning rather than viewing. Generative models work in a compressed internal space too, as the training section shows; the difference is that predictive models never turn it back into pictures. Examples: Yann LeCun's JEPA line of research (now at AMI Labs) and Dreamer-style reinforcement learning agents.</li>
+      </ul>
+      <p>Most of this post focuses on the generative camp, since that's where most of the current activity and funding sits, with notes where the predictive camp differs. For an intuitive take on the debate between the two camps, with a worked example of a ball rolling behind a box, see my earlier post, <a href="robot-world-models.html#s7">Demystifying AI models in robotics</a>.</p>
+    </section>
+
+    <section class="s" id="s2">
+      <p class="bridge">That definition hinges on one word: action. It's also exactly what separates a world model from the thing it's most often mistaken for.</p>
+      <h3>How world models differ from video generators like Sora</h3>
+      <p>The defining difference is <strong>action-conditioning</strong>: the ability to change what happens next based on an input that arrives mid-stream.</p>
+      <p>A video generator like Sora takes a prompt and produces a complete clip. You are a spectator. A world model generates the future step by step in response to inputs as they arrive. You are a participant. When DeepMind released the first Genie in 2024, its research lead made this exact point: a video generator can be visually stunning, but a world model needs actions.</p>
+      <p>That one requirement forces three others:</p>
+      <ol>
+        <li><strong>It must run in real time,</strong> because it's waiting on your next input. Genie 3 generates at 24 frames per second in 720p.</li>
+        <li><strong>It must generate step by step</strong> (autoregressively, explained in <a href="#s4">Autoregressive vs. diffusion</a>), building each frame from the previous ones rather than producing the whole clip at once.</li>
+        <li><strong>It must remember.</strong> If you turn away from a building and turn back, the building should still be there. A 10-second clip never has to worry about this.</li>
+      </ol>
+      <p>The two are close cousins, though. Video models are often the starting point for world models: Genie 3 builds on both its predecessor Genie 2 and DeepMind's Veo 3 video model. OpenAI made the relationship explicit in March 2026 when it shut down the Sora app and API, stating that Sora's original goal had been to teach AI to understand and simulate the physical world, and that the Sora research team would continue on world simulation research aimed at robotics.</p>
+    </section>
+
+    <section class="s" id="s3">
+      <p class="bridge">A video generator is, in effect, a world model without the actions. A physics engine is the opposite case: all hand-written rules, nothing learned.</p>
+      <h3>How world models differ from game physics engines</h3>
+      <p>Game engines like Unity rely on a classical <strong>physics engine</strong> (Unity's 3D physics runs on NVIDIA PhysX). It's worth being precise about what that is:</p>
+      <ul>
+        <li>It stores an <strong>explicit list of objects</strong> with known positions, masses, and shapes.</li>
+        <li>It advances them using <strong>hand-written equations</strong> of motion and collision rules.</li>
+        <li>It <strong>does not draw anything.</strong> A separate renderer turns the state into pixels, using 3D assets a human artist built.</li>
+      </ul>
+      <p>A world model collapses all three jobs (the state, the physics, and the rendering) into one learned network. That produces a clean set of trade-offs:</p>
+      <div class="table-scroll">
+      <table>
+        <tr><th></th><th>Physics engine</th><th>World model</th></tr>
+        <tr><td><strong>Accuracy</strong></td><td>Exact and deterministic</td><td>Approximate; can hallucinate</td></tr>
+        <tr><td><strong>Guarantees</strong></td><td>Conservation laws hold by construction</td><td>No hard guarantees; objects can morph</td></tr>
+        <tr><td><strong>Content</strong></td><td>Only what someone authored</td><td>New worlds from a sentence or photo</td></tr>
+        <tr><td><strong>Hard phenomena</strong> <span class="sub">cloth, fluids, crowds</span></td><td>Difficult to write equations for</td><td>Learned from data, often convincingly</td></tr>
+        <tr><td><strong>Visual realism</strong></td><td>Limited by authored assets</td><td>Photorealism comes "for free" from data</td></tr>
+        <tr><td><strong>Cost to run</strong></td><td>Cheap</td><td>Roughly a GPU per user</td></tr>
+      </table>
+      </div>
+      <p>Google itself has been careful about this distinction, describing its Project Genie as not a game engine and not capable of a full game experience.</p>
+      <div class="analogy">
+        <p>The physics engine is an accountant applying the tax code line by line. The world model is a veteran tax preparer who has seen a million returns and can tell you what the answer <em>looks</em> like: usually right, occasionally confidently wrong.</p>
+      </div>
+    </section>
+
+    <!-- ============ PART 2 ============ -->
+    <div class="part-head">
+      <span class="pnum">Part Two</span>
+      <h2>How they work</h2>
+      <p>Part One defined what a world model does. This part opens it up: the generation technique underneath, how frontier labs train one, and where quality comes from.</p>
+    </div>
+
+    <section class="s" id="s4">
+      <h3>Autoregressive vs. diffusion, and why world models need both</h3>
+      <p>Two generation techniques sit at the heart of every modern generative world model. They're often presented as rivals, but they actually answer different questions.</p>
+
+      <h4>The two ideas</h4>
+      <ul>
+        <li><strong>Autoregressive</strong> generation answers <em>"how do you build a long sequence?"</em> One piece at a time, each piece conditioned only on what came before, never revising what's already been produced. This is how a large language model writes text, token by token.</li>
+        <li><strong>Diffusion</strong> answers <em>"how do you build one complex sample?"</em> Start from pure random noise and refine all of it in parallel over many small cleanup steps, from coarse to fine, until a sharp image emerges.</li>
+      </ul>
+      <div class="analogy">
+        <p>Autoregression is a novelist writing chapter by chapter, unable to go back and edit chapter 2 once chapter 3 is written. Diffusion is a sculptor working on a whole block at once, roughing out the shape first and then refining every surface together.</p>
+      </div>
+
+      <h4>Why neither works alone</h4>
+      <p><strong>Pure diffusion over a whole clip</strong> is roughly how Sora-class video generators work. All frames are denoised simultaneously, and every frame can "see" every other frame during generation (called <em>bidirectional attention</em>), so the future can influence the past. That gives excellent coherence within a clip, but it's fatal for a world model: the clip length is fixed in advance, and you can't inject an action at frame 40 because frame 40 was already being shaped alongside frame 100 from the very first step. Looking ahead is fine for a movie but impossible in an interactive world where the next input hasn't happened yet.</p>
+      <p><strong>Pure autoregression over discrete tokens</strong> was the earlier world-model approach (the original Genie and Wayve's GAIA-1 worked roughly this way). Each frame is chopped into a grid of codes from a fixed vocabulary, LLM-style, and the model predicts the next frame's codes. This is naturally interactive, but compressing images into a fixed vocabulary throws away detail, and the results tend to be blurrier and glitchier than diffusion.</p>
+
+      <h4>The hybrid: autoregressive across time, diffusion within each frame</h4>
+      <p>Modern world models (Genie 3, Odyssey-3, World Labs' Atlas, NVIDIA Cosmos) combine the two on separate axes. Both Atlas and Odyssey-3 describe themselves as <em>autoregressive diffusion transformers</em>, and this is what that phrase means.</p>
+
+      <figure class="ar-diagram">
+        <div class="ar-grid" role="img" aria-label="Frames 1 to 3 are already generated. Frame 4, the current frame, is produced by denoising pure noise in a few steps, guided by an action. Frame 5 is not yet generated.">
+          <div class="ar-box noise ar-n">Noise</div>
+          <div class="ar-arrow ar-d1">↓</div>
+          <div class="ar-box step ar-s2">Step 2</div>
+          <div class="ar-arrow ar-d2">↓</div>
+          <div class="ar-box step ar-s3">Step 3</div>
+          <div class="ar-arrow ar-d3">↓</div>
+          <div class="ar-label v ar-dl">Diffusion:<br>noise → clean,<br>within one frame</div>
+          <div class="ar-box past ar-f1">Frame 1</div>
+          <div class="ar-arrow ar-x1">→</div>
+          <div class="ar-box past ar-f2">Frame 2</div>
+          <div class="ar-arrow ar-x2">→</div>
+          <div class="ar-box past ar-f3">Frame 3</div>
+          <div class="ar-arrow ar-x3">→</div>
+          <div class="ar-box now ar-f4">Frame 4</div>
+          <div class="ar-arrow ar-x4">→</div>
+          <div class="ar-box next ar-f5">Frame 5</div>
+          <div class="ar-arrow up ar-up">↑</div>
+          <div class="ar-box act ar-act">Action</div>
+          <div class="ar-label h ar-tl">Autoregression: one frame after another, across time →</div>
+        </div>
+        <figcaption>Diffusion within one frame (vertical); autoregression across time (horizontal).</figcaption>
+      </figure>
+
+      <p>The loop at every tick:</p>
+      <ol>
+        <li>Take the clean frames generated so far, plus the action that just arrived.</li>
+        <li>Start the next frame as pure noise.</li>
+        <li>Denoise it in a handful of steps while "looking at" that context.</li>
+        <li>Append the finished frame to the context and repeat.</li>
+      </ol>
+      <p>The model's attention is <strong>causal</strong> in time: a frame can see the past but never the future. The past is cached so it isn't recomputed every tick, exactly like an LLM's <strong>KV cache</strong>. Many systems generate a small chunk of frames per tick instead of one, trading a little latency for smoother motion.</p>
+
+      <h4>What makes the hybrid hard</h4>
+      <p><strong>Exposure bias.</strong> During training, the model is normally given perfect, real past frames as context. At inference, it gets its own slightly imperfect outputs instead. It has never practiced recovering from its own mistakes, so small errors accumulate into drift. This is the root of the <em>compounding error</em> problem discussed under <a href="#s8">open challenges</a>. Several techniques target it:</p>
+      <ul>
+        <li><strong>Noise augmentation:</strong> deliberately corrupt context frames during training so the model learns not to trust them blindly. Google's GameNGen (the neural Doom simulator) relied on this.</li>
+        <li><strong>Diffusion Forcing</strong> (Chen et al., 2024): train each frame with its own independent noise level, teaching the model to treat the past as reliable and the future as uncertain on a sliding scale.</li>
+        <li><strong>Self Forcing</strong> (2025): train the model on its own generated rollouts, so practice matches deployment.</li>
+      </ul>
+      <p><strong>Speed.</strong> At 24 frames per second there are about 40 milliseconds per frame, and diffusion normally takes dozens of denoising steps. The standard fix is <strong>distillation</strong>: train a slow, high-quality "teacher" model first, then train a fast "student" to reproduce its output in one to four steps. A widely copied recipe, CausVid, distills a bidirectional teacher (which can look ahead) into a causal few-step student, keeping the teacher's quality while gaining real-time interactivity.</p>
+      <p><strong>Memory.</strong> The KV cache can't grow forever, so models use sliding windows, compressed summaries of older frames, or explicit 3D memory structures (see <a href="#s9">frontier research directions</a>).</p>
+      <div class="note"><strong>A note on the predictive camp:</strong> JEPA-style models are autoregressive in time but use no diffusion at all, because they never generate pixels. They predict the next abstract representation directly.</div>
+    </section>
+
+    <section class="s" id="s5">
+      <p class="bridge">That loop is what a finished world model runs. Getting a model that can run it takes a training pipeline of six stages.</p>
+      <h3>How frontier world models are trained</h3>
+      <p>At the architecture level, a generative world model has three jobs: <strong>compress</strong> video into something manageable, <strong>learn dynamics</strong> (how the compressed world evolves under actions), and <strong>make it fast</strong> enough for real time. The actual training <em>pipeline</em> spreads those jobs across six stages, much as an LLM pipeline has pretraining, instruction tuning, and reinforcement learning from feedback.</p>
+
+      <div class="flow">
+        <div class="job">Curate data</div>
+        <div class="ar">↓</div>
+        <div class="job compress">Train tokenizer <span class="tag compress">Compress</span></div>
+        <div class="ar">↓</div>
+        <div class="job dynamics">Pretrain on video <span class="tag dynamics">Learn dynamics</span><span class="side">millions of hours</span></div>
+        <div class="ar">↓</div>
+        <div class="job dynamics">Action mid-training <span class="tag dynamics">Learn dynamics</span><span class="side">tens of thousands of hours</span></div>
+        <div class="ar">↓</div>
+        <div class="job fast">Distill for real time <span class="tag fast">Make fast</span></div>
+        <div class="ar">↓</div>
+        <div class="job">Post-train</div>
+      </div>
+      <div class="legend"><span><span class="tag compress">Compress</span></span><span><span class="tag dynamics">Learn dynamics</span></span><span><span class="tag fast">Make fast</span></span></div>
+
+      <h4>Where the data comes from: the data pyramid</h4>
+      <p>The single most important fact about world-model data is that it forms a pyramid. There is an enormous amount of video with no actions attached, and only a tiny amount where you know exactly which action caused what happened.</p>
+      <p>NVIDIA's published numbers make this concrete. The original Cosmos was trained on 20 million hours of raw video, filtered down to 100 million clips. The action-labeled set used for Cosmos 3 contains 8.4 million episodes totaling about 61,300 hours: roughly <strong>0.3% of the raw pool</strong>. Every lab's data strategy is essentially an answer to "how do we make the top of the pyramid bigger?"</p>
+      <p>From most abundant to scarcest:</p>
+      <ul>
+        <li><strong>Internet video.</strong> Volume and visual diversity (every material, lighting condition, and place on earth), but no actions. It's also biased toward edited, interesting footage with camera cuts and very few failures.</li>
+        <li><strong>Egocentric human video.</strong> Head-mounted camera footage of people cooking, assembling, and walking. Head and hand motion can be estimated from the footage and treated as actions. In Cosmos 3's action data, egocentric motion is the largest component at about 41,300 hours (67%).</li>
+        <li><strong>Video games.</strong> The classic action-labeled source, since every controller input can be recorded alongside every frame. The first Genie was trained on internet footage of 2D platformer games.</li>
+        <li><strong>Driving logs.</strong> Camera feeds paired with exact steering, braking, and speed. This is why self-driving companies (Waymo, Wayve, Tesla) hold a structural data advantage, and why Odyssey's founders came from that world.</li>
+        <li><strong>Robot data.</strong> The scarcest and most valuable. In Cosmos 3, robotics contributes only about 5,400 hours (9%), aggregated from open-source datasets.</li>
+        <li><strong>Purpose-captured data.</strong> Footage collected specifically for training. Odyssey, for example, built its own 360-degree camera backpack rig early on to film real places.</li>
+        <li><strong>Synthetic data from physics engines.</strong> Perfectly labeled ground truth, at the cost of looking like a simulator.</li>
+      </ul>
+      <p><strong>The camera-motion trick.</strong> Any video shot from a moving camera implicitly contains a "where did the viewer move?" signal, recoverable with 3D reconstruction tools. For navigation-style world models (walk forward, turn left), that's a free action label on millions of hours of footage. Cosmos 3 mined about 4,600 hours of camera-motion data from its own pretraining videos this way.</p>
+
+      <h4>Stage by stage</h4>
+      <p><strong>1. Curate data.</strong> Raw video is mostly unusable: talking heads, slideshows, static shots, watermarks, duplicates. NVIDIA's pipeline is representative: split long videos into individual shots, filter out low-value clips, write a text caption for each clip, remove near-duplicates, and group clips by resolution and aspect ratio. Captioning matters more than it sounds, because captions become the conditioning signal during pretraining, and caption quality directly limits how controllable the final model is.</p>
+      <p><strong>2. Train the tokenizer</strong> <span class="tag compress">Compress</span><br>A <strong>tokenizer</strong> here is a separate neural network, an autoencoder, trained before anything else. An encoder squeezes a chunk of video into a small grid of numbers called a <strong>latent</strong>; a decoder reconstructs the video from it; training minimizes the difference. A typical tokenizer shrinks each spatial dimension about 8x and time 4 to 8x, so a 720p frame of roughly 2.7 million values becomes a grid of a few thousand latent positions, each a short list of numbers. For world models the tokenizer must be <em>causal</em>: the encoding of frame 10 can't depend on frame 11. The key trade-off is that more compression makes everything downstream cheaper, but detail the tokenizer discards (hand poses, small objects, text) can never be recovered. <strong>The tokenizer sets the ceiling on visual fidelity.</strong></p>
+      <p><strong>3. Pretrain on video</strong> <span class="tag dynamics">Learn dynamics, part one</span><br>The large transformer trains on the curated latents, usually conditioned only on text captions or a starting image. Each training step follows the diffusion recipe: take a real future latent, add noise at a random level, and teach the model to recover the clean version given the noisy one plus the past. Without actions, the model learns "what typically happens next": appearance, object permanence, typical motion and gravity. This is where most of the compute goes, and it's the equivalent of LLM pretraining on internet text.</p>
+      <p><strong>4. Action mid-training</strong> <span class="tag dynamics">Learn dynamics, part two</span><br>The pretrained model is trained further on the action-labeled top of the pyramid, with each action injected as an extra input at every time step. This teaches what pretraining cannot: <em>which</em> future happens depends on <em>what you do</em>. Cosmos 3 frames the goal as learning the relationship in both directions: predicting the future from actions, inferring which actions explain an observed trajectory, and generating actions and future video together. Two details matter:</p>
+      <ul>
+        <li><strong>Action normalization.</strong> Every robot has different joints and ranges, so actions from different embodiments are converted into a common format and rescaled to a comparable range (roughly -1 to 1 in Cosmos 3).</li>
+        <li><strong>Failure data.</strong> NVIDIA deliberately includes both successful and failed episodes. A world model that only ever saw successful grasps can't show a robot what a failed grasp looks like.</li>
+      </ul>
+      <p>Where actions aren't logged, they are inferred, either with a <strong>latent action model</strong> (which learns its own compact action vocabulary from the differences between consecutive frames, as Genie does) or with an <strong>inverse dynamics model</strong> trained on a small labeled set and then used to pseudo-label a much larger unlabeled one.</p>
+      <p><strong>5. Distill for real time</strong> <span class="tag fast">Make fast</span><br>If pretraining used bidirectional attention, the model is converted to causal, frame-by-frame generation, and its 30 to 50 denoising steps are compressed to a few using the distillation and Self Forcing techniques covered <a href="#s4">earlier</a>. This stage also covers serving engineering (caching, quantization, chunk sizes, hardware choice) that decides whether a session costs dollars or cents per hour.</p>
+      <p><strong>6. Post-train.</strong> The general model is specialized: fine-tuned on a specific robot, a driving fleet, or a game's art style, and increasingly tuned with reward signals for physical correctness. An early form is reranking: generate several candidates and keep the one a learned critic scores best. Cosmos 3's reported physics results include a variant using best-of-N reranking with a learned world-model reward.</p>
+    </section>
+
+    <section class="s" id="s6">
+      <p class="bridge">If every frontier lab runs roughly that pipeline, the obvious question is whether they're all building the same thing.</p>
+      <h3>Is everyone doing the same thing? Where quality comes from</h3>
+
+      <h4>Convergence on the backbone</h4>
+      <p>Broadly, yes. The field has converged quickly on a latent diffusion transformer, rolled out autoregressively, pretrained on massive unlabeled video, tuned on actions, and then distilled. This mirrors how language labs converged on the decoder-only transformer.</p>
+
+      <h4>Where labs diverge</h4>
+      <ul>
+        <li><strong>What the model outputs.</strong> Genie and Odyssey output video frames. World Labs bets on explicit 3D: its Atlas model was pretrained from scratch to natively operate on text, images, video, and 3D. AMI Labs outputs only embeddings and skips diffusion entirely.</li>
+        <li><strong>The action space.</strong> Genie's actions are mostly navigation (move, look, trigger an event by prompt). Cosmos 3, Odyssey-3, and 1X target actual motor commands for robot bodies, a much harder and more physics-sensitive problem.</li>
+        <li><strong>Starting point.</strong> DeepMind builds Genie on its Veo video model, inheriting years of video work. Others train from scratch to avoid inheriting a video model's habits (cinematic cuts, aesthetic bias) that hurt simulation.</li>
+      </ul>
+
+      <h4>Where quality differentiation comes from</h4>
+      <p>Roughly in order of importance:</p>
+      <ol>
+        <li><strong>Proprietary action-labeled data.</strong> The deepest moat, because it can't be bought or scraped. Waymo's fleet logs, Tesla's fleet, and robotics companies' deployment data are the top of the pyramid that internet video can't replace. Google, with YouTube-scale video <em>and</em> Waymo logs, is unusually well placed.</li>
+        <li><strong>Curation and captioning quality.</strong> Two labs with the same raw footage can produce very different models depending on filtering, deduplication, domain balance, and caption accuracy.</li>
+        <li><strong>Tokenizer quality.</strong> It caps fidelity: sharper hands, stable small objects, readable text.</li>
+        <li><strong>Long-horizon stability.</strong> Anti-drift training, memory design, and consistency tricks decide whether a world holds together for 10 seconds or 10 minutes. Short demos hide this.</li>
+        <li><strong>Compute and serving efficiency.</strong> World Labs reports Atlas's performance improves with training compute, so spending matters; at deployment, distillation and inference economics decide who can offer real-time worlds at a viable price.</li>
+      </ol>
+      <div class="analogy">
+        <p>Once language labs all adopted the transformer, the winners were decided by data, post-training, and infrastructure rather than core architecture. World models appear to be entering the same phase. The key difference: in language, the internet supplied nearly all the data anyone needed. In world models, the most valuable data, actions paired with consequences, mostly has to be generated by owning cars, robots, or games.</p>
+      </div>
+    </section>
+
+    <!-- ============ PART 3 ============ -->
+    <div class="part-head">
+      <span class="pnum">Part Three</span>
+      <h2>Measuring &amp; challenges</h2>
+      <p>Part Two showed how world models are built. This part asks whether they work: how anyone checks that the physics is right, what's still unsolved, and where research is heading.</p>
+    </div>
+
+    <section class="s" id="s7">
+      <h3>Measuring physics fidelity: the benchmark landscape</h3>
+      <p>There's no single accepted benchmark. The useful way to understand the landscape is to sort benchmarks by <em>how</em> they judge physics, because each method catches some kinds of failure and misses others.</p>
+
+      <h4>Reference-based: compare against real footage</h4>
+      <p><strong>Physics-IQ</strong> (Google DeepMind) is the most widely cited. It compares generated continuations against real recordings of 66 controlled physical experiments spanning solid mechanics, fluid dynamics, optics, thermodynamics, and magnetism, each filmed from three angles (198 test videos in all). Four metrics check whether motion happens in the right place, at the right time, and in the right amount, plus pixel-level error; the combined score is normalized so that two real recordings of the same experiment score 100%. It became the default number to report, including in the Sora 2 paper. On the original leaderboard, Cosmos 3 Super scores 59.7% when given several frames of context. Given the same single starting image as Sora 2, the comparison is much closer: 43.8% to Sora 2's 42.3%.</p>
+      <p><em>Blind spot:</em> once everyone optimized for it, its flaws mattered. A June 2026 audit, <strong>Physics-IQ Verified</strong>, refined 57.6% of samples and improved 34.8% of prompts. On it, the same single-image comparison widens to 42.7% for Cosmos 3 Super's image-to-video version against 26.5% for Sora 2. More fundamentally, it rewards matching <em>one</em> real outcome, so a physically valid but different outcome is penalized.</p>
+
+      <h4>Judge-based: a checklist of physics questions</h4>
+      <ul>
+        <li><strong>WorldModelBench</strong> scores instruction following, common sense, and physics adherence across five violation types (Newton's laws, mass conservation, fluid dynamics, object penetration, gravity), over 350 instances in 7 domains.</li>
+        <li><strong>PAI-Bench</strong> (NVIDIA, CVPR 2026) is broader: three tracks covering generation, conditional generation, and video understanding, with 2,808 real-world instances across driving, robotics, industry, and egocentric scenarios.</li>
+      </ul>
+      <p><em>Blind spot:</em> saturation. On WorldModelBench, Kling scores a perfect 1.00 on all five physics categories, which shows the test can't separate frontier models, not that physics is solved. These benchmarks also typically use vision-language models as judges, and those judges are themselves weak at spotting subtle physics errors.</p>
+
+      <h4>Measurement-based: test the laws directly</h4>
+      <p><strong>World Models' Last Exam in Physics</strong> (October 2026) uses 40 controlled tasks spanning mechanics, optics, fluids, thermal and phase-change phenomena, electromagnetism, and surface tension, explicitly to test physical laws rather than similarity to a reference video.</p>
+
+      <h4>Intuitive physics: does the model <em>understand</em>?</h4>
+      <p><strong>IntPhys 2</strong> uses the "violation of expectation" method from infant psychology: show a possible and an impossible video and check whether the model registers surprise at the impossible one. This matters for non-generative models like V-JEPA, which can't be scored on pixels.</p>
+
+      <h4>Closed-loop: does the world model make a robot better?</h4>
+      <p>The category most relevant to robotics.</p>
+      <ul>
+        <li><strong>RBench</strong> scores task correctness and physical plausibility in robot–object interactions rather than visual realism, across 650 cases spanning dual-arm, humanoid, single-arm, and quadruped robots.</li>
+        <li><strong>RoboWM-Bench, World-in-World, and WorldArena</strong> plug the world model into an actual control loop (<em>closed-loop evaluation</em>) and measure whether policies trained or planned inside it succeed.</li>
+      </ul>
+
+      <h4>The overarching gap</h4>
+      <p>Nearly all these benchmarks were built for video generators, so they score passive continuations from an image or prompt. Very few test what makes a world model a world model: whether physics stays right <em>in response to actions</em> over long interactive rollouts. Closed-loop benchmarks come closest, and they're also the youngest.</p>
+    </section>
+
+    <section class="s" id="s8">
+      <p class="bridge">Measurement is one unsolved problem among several. Here are the rest, many of them already met earlier in this post.</p>
+      <h3>The biggest open challenges</h3>
+      <ul>
+        <li><strong>Compounding error.</strong> Each predicted frame becomes the input for the next, so small mistakes snowball into drift (see <a href="#s4">exposure bias</a>). This is the core reason interactive sessions are short; Genie 3 launched supporting only a few minutes of continuous interaction.</li>
+        <li><strong>Memory and consistency.</strong> Keeping a world stable over long horizons without an ever-growing context. Genie 3's consistency was notable precisely because it emerged without being explicitly programmed.</li>
+        <li><strong>Plausible vs. correct physics.</strong> The training objective rewards outputs that <em>look</em> like real video, not outputs that obey physics, and these diverge in rare or causal situations. A June 2026 benchmark study found current systems break down under small distribution shifts.</li>
+        <li><strong>Action-labeled data scarcity.</strong> The top of the <a href="#s5">data pyramid</a>.</li>
+        <li><strong>Evaluation.</strong> No agreed score (see <a href="#s7">the benchmark landscape</a>). Odyssey-3's preview, for example, initially shipped with no benchmark results; it has since self-reported a top score on Physics-IQ Verified, using its own prompts and best-of-8 selection.</li>
+        <li><strong>Cost and latency.</strong> Real-time generation means serving a large model continuously per user.</li>
+        <li><strong>Multi-agent interaction.</strong> DeepMind has acknowledged that modeling multiple independent agents in a shared environment remains difficult.</li>
+      </ul>
+    </section>
+
+    <section class="s" id="s9">
+      <p class="bridge">Each of those challenges has researchers working on it. These are the directions getting the most attention.</p>
+      <h3>Frontier research directions</h3>
+      <ul>
+        <li><strong>Explicit memory and 3D state.</strong> Rather than relying only on a history of pixels, recent work adds persistent spatial structure (e.g., "Beyond Pixel Histories: World Models with Persistent 3D State" and "MosaicMem," both 2026).</li>
+        <li><strong>Unified world-action models.</strong> One network both imagines the future and outputs motor commands. Cosmos 3 can serve as a backbone for world-action models, and Odyssey-3 outputs world state plus motor actions. (For how world models differ from the vision-language-action models that decide what a robot does, see <a href="robot-world-models.html#s1">this earlier explainer</a>.)</li>
+        <li><strong>Predicting in representation space.</strong> The JEPA line, plus 2026 Dreamer variants that drop pixel reconstruction in favor of predicting representations.</li>
+        <li><strong>Real-to-sim.</strong> Reconstructing real places as simulatable worlds. World Labs frames this as real-to-sim-to-real: a scalable engine for training and evaluating robot policies.</li>
+        <li><strong>Closed-loop evaluation and multiplayer worlds.</strong> Benchmarks like World-in-World, and models like MIRA, a multiplayer interactive world model.</li>
+      </ul>
+    </section>
+
+    <!-- ============ PART 4 ============ -->
+    <div class="part-head">
+      <span class="pnum">Part Four</span>
+      <h2>Landscape</h2>
+      <p>With the technology mapped, the last part turns to the market: where world models are used today, and who's building them.</p>
+    </div>
+
+    <section class="s" id="s10">
+      <h3>Where world models are used today</h3>
+      <ul>
+        <li><strong>Autonomous driving</strong> is the most mature deployment. In February 2026 Waymo announced the Waymo World Model, built on Genie 3, to simulate rare edge cases (a tornado, an elephant on the road) that can't be safely collected in reality.</li>
+        <li><strong>Robotics:</strong> generating synthetic training data and evaluating policies before risking hardware. This is the core of NVIDIA's Cosmos pitch.</li>
+        <li><strong>Creative tools and game prototyping:</strong> a visible consumer use, though still early.</li>
+        <li><strong>Planning:</strong> the longer-term research bet, in which an agent imagines consequences before acting. This is the stated motivation of DeepMind and AMI Labs.</li>
+      </ul>
+    </section>
+
+    <section class="s" id="s11">
+      <p class="bridge">Those uses explain who's investing. These are the companies building the models themselves.</p>
+      <h3>Who's building world models (as of October 2026)</h3>
+
+      <h4>Google DeepMind</h4>
+      <p>Arguably the leader in interactive generative world models. Genie 3 (August 2025) was introduced as the first real-time interactive general-purpose world model. <strong>Project Genie</strong> opened it to the public in January 2026, limited to U.S. Google AI Ultra subscribers at $250/month, with generated worlds lasting 60 seconds. In May 2026, Genie gained the ability to simulate real streets using Street View. Genie 3 also underpins the Waymo World Model.</p>
+
+      <h4>World Labs (Fei-Fei Li)</h4>
+      <p>The spatial / 3D bet. Released <strong>Marble</strong>, its first commercial product, in late 2025, and a World API in January 2026. Raised $1 billion, acquired <strong>SceniX</strong> in July 2026 to push into robot training, and on September 1, 2026 launched <strong>Atlas</strong>, an omni world model pretrained from scratch on text, images, video, and 3D that stays 3D-consistent with everything it has seen.</p>
+
+      <h4>Odyssey</h4>
+      <p>Founded in late 2023 by Oliver Cameron and Jeff Hawke, both self-driving veterans. Raised a $310 million Series B at a $1.45 billion valuation, led by the venture arms of Amazon, NVIDIA, and AMD. Previewed <strong>Odyssey-3</strong> on September 15, 2026, pitched as a single unified world model for robots, humanoids, cars, drones, and video games rather than one domain at a time. No independent benchmarks yet; its Physics-IQ results are self-reported.</p>
+
+      <h4>AMI Labs (Yann LeCun)</h4>
+      <p>The non-generative JEPA bet. Launched in March 2026 with a $1.03 billion seed round at a $3.5 billion pre-money valuation, the largest seed round in European history. Paris-headquartered and openly research-first, with a long time horizon. Released V-JEPA 2.1 alongside its launch.</p>
+
+      <h4>NVIDIA</h4>
+      <p>The open-weights infrastructure play. <strong>Cosmos 3</strong> (June 2026) is an open "omnimodel" that understands and generates text, images, video, ambient sound, and actions, released in Super (64B), Nano (16B), and Edge (4B) sizes under an open license. Adopted across robotics (Doosan, LG, Samsung) and autonomous vehicles (Li Auto, Xiaomi), and backed by a Cosmos Coalition of partners including Runway and Skild AI.</p>
+
+      <h4>Others worth tracking</h4>
+      <ul>
+        <li><strong>Runway</strong> — GWM-1 (December 2025), extending its video stack toward interactive worlds.</li>
+        <li><strong>Wayve</strong> — the GAIA family of driving world models.</li>
+        <li><strong>1X Technologies</strong> — a world model that serves as a virtual simulator for its humanoid robots.</li>
+        <li><strong>Tesla</strong> — internal driving simulator built on fleet data.</li>
+        <li><strong>Chinese labs</strong> — Tencent (HunyuanWorld) and Skywork (Matrix-Game), among others.</li>
+      </ul>
+
+      <h4>OpenAI</h4>
+      <p>Shut down the Sora consumer app and API in March 2026. The Sora research team continues on world simulation research aimed at robotics and real-world physical tasks. No new world model has been publicly released from that effort.</p>
+
+      <h4>Anthropic</h4>
+      <p>No announced world model program. Anthropic's public focus has been language models, agents, and safety and interpretability research.</p>
+
+      <div class="note"><strong>A closing caution.</strong> At AMI Labs' launch, its CEO predicted that within six months every company would call itself a world model to raise funding. That has largely come true. The quickest test for sorting real world models from rebranded video generators is the one from <a href="#s2">the start of this post</a>: <strong>does it take actions, and does the world respond to them in real time?</strong></div>
+    </section>
+
+    <!-- ============ PART 5 ============ -->
+    <div class="part-head">
+      <span class="pnum">Part Five</span>
+      <h2>Reference</h2>
+      <p>Terms used throughout, and where the facts come from.</p>
+    </div>
+
+    <section class="s" id="glossary">
+      <h3>Glossary</h3>
+      <dl class="glossary">
+        <dt>Action-conditioning</dt>
+        <dd>Generating the next state based on an input (action) that arrives during generation, rather than only on an initial prompt.</dd>
+        <dt>Autoregressive generation</dt>
+        <dd>Producing a sequence one piece at a time, each conditioned only on what came before.</dd>
+        <dt>Bidirectional attention</dt>
+        <dd>An attention pattern where every element can see every other, including future ones. Good for fixed clips; incompatible with interactivity.</dd>
+        <dt>Causal attention</dt>
+        <dd>An attention pattern where each element can see only the past. Required for real-time world models.</dd>
+        <dt>Closed-loop evaluation</dt>
+        <dd>Testing a world model by plugging it into a control loop and measuring whether an agent using it succeeds at real tasks.</dd>
+        <dt>Compounding error</dt>
+        <dd>Small prediction mistakes accumulating over a rollout because each output becomes the next input.</dd>
+        <dt>Diffusion</dt>
+        <dd>Generating a sample by starting from noise and refining it over many denoising steps.</dd>
+        <dt>Diffusion transformer</dt>
+        <dd>A transformer network trained to do diffusion's denoising; in world models it typically works on latents rather than raw pixels.</dd>
+        <dt>Distillation</dt>
+        <dd>Training a fast "student" model to reproduce the outputs of a slower "teacher" model, typically in far fewer steps.</dd>
+        <dt>Exposure bias</dt>
+        <dd>The mismatch between training on perfect past inputs and running on the model's own imperfect outputs; a primary cause of drift.</dd>
+        <dt>Inverse dynamics model (IDM)</dt>
+        <dd>A model that infers which action caused the change between two observations; used to pseudo-label unlabeled video.</dd>
+        <dt>JEPA (Joint Embedding Predictive Architecture)</dt>
+        <dd>Yann LeCun's approach of predicting abstract representations of missing or future content instead of reconstructing pixels.</dd>
+        <dt>KV cache</dt>
+        <dd>Stored intermediate computations for past context, so they don't need to be recomputed at every step.</dd>
+        <dt>Latent</dt>
+        <dd>A compact numerical representation of an image or video chunk produced by a tokenizer's encoder.</dd>
+        <dt>Latent action model</dt>
+        <dd>A model that learns its own compact vocabulary of actions from changes between consecutive frames, enabling training on video without action labels.</dd>
+        <dt>Rollout</dt>
+        <dd>A sequence of predictions produced by feeding a model's own output back in as its next input, step after step.</dd>
+        <dt>Tokenizer (video)</dt>
+        <dd>An autoencoder that compresses video into latents and reconstructs video from them; it caps the world model's visual fidelity.</dd>
+        <dt>World model</dt>
+        <dd>A learned system that predicts how the world's state changes in response to actions.</dd>
+      </dl>
+    </section>
+
+    <section class="s" id="sources">
+      <h3>Sources</h3>
+      <ul class="sources">
+        <li><a href="https://www.worldlabs.ai/blog/atlas" target="_blank" rel="noopener noreferrer">World Labs — Atlas: A World Model for Spatial Intelligence</a></li>
+        <li><a href="https://www.worldlabs.ai/blog" target="_blank" rel="noopener noreferrer">World Labs — Research &amp; Insights (SceniX, real-to-sim-to-real)</a></li>
+        <li><a href="https://techcrunch.com/2025/08/05/deepmind-reveals-genie-3-a-world-model-that-could-be-the-key-to-reaching-agi" target="_blank" rel="noopener noreferrer">TechCrunch — DeepMind reveals Genie 3</a></li>
+        <li><a href="https://techcrunch.com/2026/01/29/i-built-marshmallow-castles-in-googles-new-ai-world-generator-project-genie" target="_blank" rel="noopener noreferrer">TechCrunch — Hands-on with Project Genie</a></li>
+        <li><a href="https://shellypalmer.com/2026/01/google-will-simulate-a-world-for-you/" target="_blank" rel="noopener noreferrer">Shelly Palmer — Project Genie details</a></li>
+        <li><a href="https://en.wikipedia.org/wiki/Genie_(world_model)" target="_blank" rel="noopener noreferrer">Wikipedia — Genie (world model)</a></li>
+        <li><a href="https://en.wikipedia.org/wiki/Waymo_World_Model" target="_blank" rel="noopener noreferrer">Wikipedia — Waymo World Model</a></li>
+        <li><a href="https://decrypt.co/362243/openai-shut-down-sora-derailing-1-billion-deal-disney" target="_blank" rel="noopener noreferrer">Decrypt — OpenAI shuts down Sora</a></li>
+        <li>Odyssey-3 coverage: <a href="https://explainx.ai/blog/odyssey-3-world-model-launch-2026" target="_blank" rel="noopener noreferrer">ExplainX</a> and <a href="https://www.orcarouter.ai/blog/odyssey-3-physics-agent-preview" target="_blank" rel="noopener noreferrer">OrcaRouter</a></li>
+        <li><a href="https://logicity.in/en/blog/odyssey-ml-raises-310m-to-build-ai-that-simulates-physics" target="_blank" rel="noopener noreferrer">Odyssey funding</a></li>
+        <li><a href="https://siliconangle.com/2026/03/10/yann-lecuns-new-startup-ami-labs-raises-1-03b-train-world-models/" target="_blank" rel="noopener noreferrer">SiliconANGLE — AMI Labs raises $1.03B</a></li>
+        <li><a href="https://arxiv.org/pdf/2606.02800" target="_blank" rel="noopener noreferrer">NVIDIA — Cosmos 3: Omnimodal World Models for Physical AI (technical report)</a></li>
+        <li><a href="https://arxiv.org/pdf/2501.03575" target="_blank" rel="noopener noreferrer">NVIDIA — Cosmos World Foundation Model Platform (original Cosmos paper)</a></li>
+        <li><a href="https://github.com/google-deepmind/physics-iq-benchmark" target="_blank" rel="noopener noreferrer">Physics-IQ and Physics-IQ Verified leaderboards</a></li>
+        <li><a href="https://arxiv.org/pdf/2606.18943" target="_blank" rel="noopener noreferrer">Physics-IQ Verified paper</a></li>
+        <li><a href="https://openaccess.thecvf.com/content/CVPR2026/papers/Zhou_PAI-Bench_A_Comprehensive_Benchmark_For_Physical_AI_CVPR_2026_paper.pdf" target="_blank" rel="noopener noreferrer">PAI-Bench (CVPR 2026)</a></li>
+        <li><a href="https://arxiv.org/html/2610.08791" target="_blank" rel="noopener noreferrer">World Models' Last Exam in Physics</a></li>
+        <li><a href="https://arxiv.org/pdf/2609.29669" target="_blank" rel="noopener noreferrer">Survey of evaluation benchmarks for predictive embodied intelligence</a></li>
+        <li><a href="https://arxiv.org/pdf/2606.17030" target="_blank" rel="noopener noreferrer">WorldModelBench results (reported in Qwen-RobotWorld technical report)</a></li>
+        <li><a href="https://github.com/nik-55/world-models" target="_blank" rel="noopener noreferrer">Curated list of world model research</a></li>
+      </ul>
+    </section>
+
+    <div class="footer">
+      Written October 2026. World models are moving fast; facts about companies and models are current as of the time of writing.
+    </div>
+
+  </main>
+</div>
+
+<footer class="site-footer">
+  <p>&copy; 2026 Premrajka LLC. All rights reserved.</p>
+  <p>Contact: <a href="mailto:ankit@premrajka.com">ankit@premrajka.com</a></p>
+  <p><a href="../terms.html">Terms &amp; Conditions</a> · <a href="../terms.html#privacy">Privacy Policy</a></p>
+</footer>
+
+<script>
+  const links = document.querySelectorAll('.rail a');
+  const sections = document.querySelectorAll('section.s');
+  const obs = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const id = e.target.getAttribute('id');
+        links.forEach(l=>l.classList.remove('active'));
+        const link = document.querySelector(`.rail a[href="#${id}"]`);
+        if(link){
+          link.classList.add('active');
+          // Only keep the active link in view when the contents are a sticky sidebar (wide screens).
+          // On narrow screens they sit at the top of the page, and scrolling them into view would pull the reader back up.
+          const rail = document.querySelector('.rail');
+          if(getComputedStyle(rail).position === 'sticky'){
+            if(link === links[0]){
+              rail.scrollTo({top:0, behavior:'smooth'});
+            } else {
+              const prev = link.previousElementSibling;
+              const scrollTarget = (prev && prev.classList.contains('rail-part')) ? prev : link;
+              scrollTarget.scrollIntoView({block:'nearest', behavior:'smooth'});
+            }
+          }
+        }
+      }
+    });
+  },{rootMargin:'-15% 0px -75% 0px'});
+  sections.forEach(s=>obs.observe(s));
+</script>
+
+</body>
+</html>
