@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spectrum, Satellites and Your Phone: How Mobile Connectivity Works</title>
+<meta name="description" content="How mobile networks use radio spectrum, how satellites are starting to connect directly to ordinary phones, and why SpaceX and AST SpaceMobile are racing to buy airwaves.">
+<link rel="canonical" href="https://premrajka.com/posts/spectrum-satellites.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spectrum, Satellites and Your Phone">
+<meta property="og:description" content="How mobile networks use radio spectrum, how satellites are starting to connect directly to ordinary phones, and why SpaceX and AST SpaceMobile are racing to buy airwaves.">
+<meta property="og:url" content="https://premrajka.com/posts/spectrum-satellites.html">
+<meta property="og:image" content="https://premrajka.com/assets/img/og-spectrum-satellites.png?v=1">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Spectrum, Satellites and Your Phone">
+<meta name="twitter:description" content="How mobile networks use radio spectrum, how satellites are starting to connect directly to ordinary phones, and why SpaceX and AST SpaceMobile are racing to buy airwaves.">
+<meta name="twitter:image" content="https://premrajka.com/assets/img/og-spectrum-satellites.png?v=1">
+<link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css?v=2026-10-11">
+</head>
+<body class="article">
+
+<header class="site-header">
+  <img class="avatar" src="../assets/img/ankit.jpg" alt="Ankit Premrajka">
+  <h1><a href="../index.html">Ankit Premrajka</a></h1>
+  <div class="social-links">
+    <a class="x-icon" href="https://x.com/ankitp" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+      <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+    </a>
+    <a class="linkedin-icon" href="https://linkedin.com/in/ankitpremrajka" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+      <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1>Spectrum, satellites <span>and your phone</span></h1>
+    <p class="lede">How mobile networks use radio spectrum, how satellites are starting to connect directly to ordinary phones, and why SpaceX and AST SpaceMobile are racing to buy airwaves.</p>
+    <p class="hero-note">Current as of October 9, 2026. The figures are interactive: tap, step through, or pause them. Each section opens with a line connecting it to the one before, and technical terms are collected in a glossary at the end.</p>
+  </div>
+</div>
+
+<div class="layout">
+  <nav class="rail">
+    <div class="rail-title">Contents</div>
+
+    <div class="rail-part">1 · Spectrum basics</div>
+    <a href="#s1">What spectrum is</a>
+    <a href="#s2">Who decides</a>
+    <a href="#s3">How carriers use it</a>
+
+    <div class="rail-part">2 · Satellites meet phones</div>
+    <a href="#s4">How a satellite talks to a phone</a>
+    <a href="#s5">Reaching space</a>
+
+    <div class="rail-part">3 · Constellations in motion</div>
+    <a href="#s7">Laser links</a>
+    <a href="#s8">Where the tower brains live</a>
+
+    <div class="rail-part">4 · Rules and the race</div>
+    <a href="#share">Sharing a band</a>
+    <a href="#s9">SpaceX and AST</a>
+    <a href="#today">Your phone today</a>
+    <a href="#s10">Key takeaways</a>
+
+    <div class="rail-part">5 · Reference</div>
+    <a href="#glossary">Glossary</a>
+  </nav>
+
+  <main>
+
+    <!-- ============ PART 1 ============ -->
+    <div class="part-head">
+      <span class="pnum">Part One</span>
+      <h2>Spectrum basics</h2>
+      <p>The radio lanes every wireless device shares, who controls them, and how mobile carriers put them to work.</p>
+    </div>
+
+    <section class="s" id="s1">
+      <h3>What spectrum is</h3>
+      <p>Every wireless device, from your phone to your car key fob, communicates by sending radio waves at particular frequencies. The full range of usable radio frequencies is called the <strong>spectrum</strong>.</p>
+      <div class="analogy">
+        <p>Picture a highway. Each frequency band is a set of lanes. Two signals in the same lane, in the same place, at the same time, collide and garble each other.</p>
+      </div>
+      <p>That collision is called <strong>interference</strong>, and avoiding it is the whole point of managing spectrum: deciding who gets which lanes, where, and how loudly they can transmit.</p>
+
+      <h4>Everyday examples: Wi-Fi and Bluetooth</h4>
+      <p>Wi-Fi and Bluetooth use <strong>unlicensed</strong> bands, mainly 2.4 GHz, plus 5 GHz and 6 GHz for Wi-Fi. Nobody owns these lanes. Anyone can use them, as long as their equipment is certified and stays at low power. That's why your neighbor's router can slow down yours: you're all sharing the same lanes, and the low power limits keep the crowding local.</p>
+
+      <h4>The basic trade-off: reach versus capacity</h4>
+      <p>Frequency changes how a signal behaves:</p>
+      <ul>
+        <li><strong>Lower frequencies</strong> (below 1 GHz) travel farther and pass through walls, trees and hills better. But they carry less data.</li>
+        <li><strong>Higher frequencies</strong> carry much more data. But they fade faster with distance and are blocked more easily.</li>
+      </ul>
+
+      <h4>How big is a band?</h4>
+      <p>A band also has a <strong>width</strong>, the number of lanes it has. The wider the band, the more data it can carry at once. There's far more room for wide bands higher up the dial, which is the real reason higher frequencies carry more data. So when this post says a company holds "65 MHz", that's a width: how many lanes it owns.</p>
+      <p>Almost every decision in this post comes back to those two things: where a band sits, and how wide it is.</p>
+    </section>
+
+    <section class="s" id="s2">
+      <p class="bridge">If spectrum is a shared highway, someone has to paint the lanes and hand out the keys.</p>
+      <h3>Who decides who uses which frequencies</h3>
+      <p>In the United States, two agencies divide the spectrum:</p>
+      <ul>
+        <li><strong>The FCC</strong> (Federal Communications Commission) manages spectrum used by businesses, consumers, and state and local governments.</li>
+        <li><strong>The NTIA</strong> (part of the Commerce Department) manages spectrum used by the federal government, such as military systems, aviation radar and weather satellites.</li>
+      </ul>
+      <p>When a band moves from government to commercial use, the two must coordinate. Internationally, a UN agency called the ITU sets broad rules so that neighboring countries don't interfere with each other.</p>
+
+      <h4>Three ways spectrum is handed out</h4>
+      <ol>
+        <li><strong>Exclusive licenses.</strong> These work like a private lane leased to one company. The FCC auctions the right to use a band in a geographic area, from a small region up to the whole country, for a term of roughly 10–15 years, usually with an expectation of renewal. The FCC's power to hold auctions comes from Congress; it lapsed in 2023 and was restored in 2025. Licenses can be resold, but every sale needs FCC approval, which is why the spectrum deals in this post go through the FCC.</li>
+        <li><strong>Unlicensed bands.</strong> These are the public lanes: anyone can drive in them, within the speed limit, as Wi-Fi and Bluetooth do.</li>
+        <li><strong>Shared bands.</strong> These work like a bus lane. In the CBRS band (3.55–3.7 GHz), Navy radar has first claim, paying license holders come next, and everyone else may use it when it's empty. A database decides, in real time, who may transmit where.</li>
+      </ol>
+
+      <h4>Strings attached</h4>
+      <p>Licenses come with conditions:</p>
+      <ul>
+        <li>Power limits.</li>
+        <li>Rules protecting the neighboring bands.</li>
+        <li>Rules on whether the band can be used from the ground, from satellites, or both.</li>
+        <li><strong>Buildout obligations:</strong> deadlines to actually put the spectrum to use, typically covering a certain share of the population by a certain date. If a holder misses them, the FCC can shrink or take back the license. As you'll see in <a href="#s9">the spectrum race</a>, that "use it or lose it" pressure is what pushed EchoStar to sell its spectrum to SpaceX.</li>
+      </ul>
+    </section>
+
+    <section class="s" id="s3">
+      <p class="bridge">Those rules decide who holds which bands. Here's what the biggest license holders, the mobile carriers, actually do with them.</p>
+      <h3>How mobile carriers use spectrum</h3>
+      <p>AT&amp;T, Verizon and T-Mobile (often called <strong>MNOs</strong>, mobile network operators) buy exclusive licenses and organize them into three layers that work together:</p>
+      <div class="table-scroll">
+      <table>
+        <tr><th>Layer</th><th>Role</th><th>Indoors?</th></tr>
+        <tr><td><strong>Low-band</strong> <span class="sub">under 1 GHz</span></td><td>The coverage blanket: reaches far, at modest speeds.</td><td>Yes, deep inside.</td></tr>
+        <tr><td><strong>Mid-band</strong> <span class="sub">about 1.7–4 GHz</span></td><td>The workhorse: carries most data in towns and cities.</td><td>Usually, but weaker deep inside large buildings.</td></tr>
+        <tr><td><strong>High-band</strong> <span class="sub">24 GHz and up (mmWave)</span></td><td>Extremely fast, but only within about a block. Used in stadiums and downtowns.</td><td>Rarely: walls, and even windows, block it.</td></tr>
+      </table>
+      </div>
+      <p>Your phone switches between these layers constantly and often uses several at once.</p>
+
+      <h4>Why every carrier wants low-band spectrum</h4>
+      <ul>
+        <li><strong>Physics.</strong> One low-band tower can cover many times the area of a mid-band tower. That's often the difference between rural coverage that pays for itself and coverage that doesn't. Low-band also helps your phone's weak transmitter reach the tower from the edge of a cell.</li>
+        <li><strong>History.</strong> Most low-band spectrum came out of TV broadcasting:
+          <ul>
+            <li>850 MHz was the original 1980s cellular band.</li>
+            <li>700 MHz was freed when TV went digital and auctioned in 2008.</li>
+            <li>600 MHz was bought back from TV stations in a 2017 auction.</li>
+          </ul>
+        </li>
+        <li><strong>Competition.</strong> A carrier without low-band can't match rivals on rural or indoor coverage, so the FCC watches closely when one company tries to gather too much of it.</li>
+        <li><strong>Scarcity.</strong> The whole 600–900 MHz range is only about 300 MHz wide, and it's shared with TV, public safety and others. A single mid-band band, C-band, is 280 MHz wide by itself. So carriers each hold many <em>narrow</em> slices of low-band, often just 10–20 MHz per band.</li>
+      </ul>
+
+      <h4>What "managing" spectrum looks like on the ground</h4>
+      <p>Three techniques do most of the work:</p>
+      <ul>
+        <li><strong>Frequency reuse.</strong> A carrier might own only 20 MHz in a band, but must serve millions of people. So it divides the map into cells and reuses the same frequencies again and again, just never in neighboring cells, where they would interfere. Each cell gets the full 20 MHz, so more, smaller cells mean more total capacity. That's why cities have so many towers.</li>
+        <li><strong>Carrier aggregation.</strong> Your phone connects on several bands at the same time and combines them into one faster connection. Picture your data driving down three roads at once and meeting at the destination: speed roughly adds up across the bands. It also lets carriers mix strengths, for example sending uploads over low-band, which reaches the tower more reliably, while downloads arrive over wide mid-band channels. It only works when both the phone and the network support that particular combination of bands, and only where you're in range of all of them.</li>
+        <li><strong>Meeting buildout obligations.</strong> Carriers must actually deploy the spectrum on the FCC's timeline, or risk losing it.</li>
+      </ul>
+
+      <h4>Map: who uses which frequencies in the US</h4>
+      <p>The map below shows the main bands used by each carrier, the two satellite players, and the unlicensed and shared bands. The bottom chart zooms into 1.5–2.25 GHz, where the satellite companies and the carriers sit side by side. Tap any block for details.</p>
+      <figure class="anim" id="fig-spectrum-map">
+        <p class="anim-label">Overview, 600 MHz – 7 GHz (log scale). Tap any block for details.</p>
+        <svg id="m-ov" role="img"><title>Spectrum overview</title><desc>Bands by operator from 600 MHz to 7 GHz.</desc></svg>
+        <p class="anim-label gap">Zoom: 1.5 – 2.25 GHz, where the satellite players and carriers sit side by side</p>
+        <svg id="m-zm" role="img"><title>Zoomed 1.5 to 2.25 GHz</title><desc>Close-up showing AST's L-band, SpaceX's AWS-3, H-block and AWS-4, and carriers' PCS and AWS bands.</desc></svg>
+        <div class="anim-legend">
+          <span><i class="sw sw-lic"></i>Licensed, terrestrial</span>
+          <span><i class="sw sw-sat"></i>Satellite / hybrid</span>
+          <span><i class="sw sw-pend"></i>Pending FCC approval</span>
+          <span><i class="sw sw-shr"></i>Shared (CBRS)</span>
+          <span><i class="sw sw-unl"></i>Unlicensed</span>
+        </div>
+        <div id="m-info" class="anim-info">Tap a block to see what it is.</div>
+        <figcaption>Figure 1. Approximate, simplified view. Carriers hold different slices of shared bands (PCS, AWS, C-band) market by market. mmWave (24–47 GHz) is not shown.</figcaption>
+      </figure>
+    </section>
+
+    <!-- ============ PART 2 ============ -->
+    <div class="part-head">
+      <span class="pnum">Part Two</span>
+      <h2>Satellites meet phones</h2>
+      <p>Part One covered spectrum on the ground. This part follows it into orbit: how a satellite reaches the phone already in your pocket.</p>
+    </div>
+
+    <section class="s" id="s4">
+      <h3>How a satellite talks to an ordinary phone</h3>
+      <p>Until recently, satellite service meant a special phone or a dish. <strong>Direct-to-phone</strong> service (also called direct-to-device or direct-to-cell) connects a satellite straight to the phone already in your pocket.</p>
+
+      <h4>Do you need a dish?</h4>
+      <p>No. The satellite transmits on ordinary cellular frequencies your phone already supports, so to your phone it looks like a normal cell tower, just a very distant one. Dishes still exist, but only at a handful of ground stations the satellite operator runs, not with users.</p>
+
+      <h4>Two links, two jobs</h4>
+      <p>Every direct-to-phone satellite runs two separate radio links at once:</p>
+      <ul>
+        <li><strong>The access link</strong> is the satellite talking to your phone on cellular frequencies. This is the "last hop" to you, and it's where the spectrum SpaceX and AST are buying gets used.</li>
+        <li><strong>The backhaul link</strong> is the satellite talking to the operator's ground station dishes (also called gateways), on high-frequency satellite bands that carry lots of data. On the ground, a cell tower connects back to the network through a fiber cable. A satellite can't, so the backhaul link replaces that cable with a radio beam.</li>
+      </ul>
+      <p>So the switch between "phone frequencies" and "satellite frequencies" does happen, just in orbit: the satellite receives on one band and transmits on another.</p>
+      <div class="analogy">
+        <p>A direct-to-phone satellite is a cell tower whose fiber cable has been cut and replaced with a radio beam to the ground.</p>
+      </div>
+
+      <h4>Following a Claude prompt through space</h4>
+      <p>To see both links at work, follow what happens when you ask Claude a question from a phone connected only to a satellite. Your prompt goes up the access link, down the backhaul link to a ground station, across the internet to Claude's servers, and the answer comes back the same way. Use the arrows to step through it.</p>
+      <figure class="anim" id="fig-claude-roundtrip">
+        <svg viewBox="0 0 680 400" role="img" aria-labelledby="q-svgt q-svgd">
+          <title id="q-svgt">Claude query over a satellite network</title>
+          <desc id="q-svgd">Prompt goes phone to satellite on the access link, satellite to ground station on the backhaul, then over the internet to Claude. The response returns in reverse.</desc>
+          <line id="q-lnA" x1="98" y1="290" x2="270" y2="92" stroke="#1D9E75" stroke-width="2.5" stroke-dasharray="6 5" opacity="0.35"/>
+          <line id="q-lnB" x1="290" y1="92" x2="395" y2="306" stroke="#7F77DD" stroke-width="2.5" stroke-dasharray="6 5" opacity="0.35"/>
+          <line id="q-lnG1" x1="424" y1="322" x2="448" y2="322" stroke="#888780" stroke-width="2.5" opacity="0.35"/>
+          <line id="q-lnG2" x1="532" y1="322" x2="548" y2="322" stroke="#888780" stroke-width="2.5" opacity="0.35"/>
+          <g class="c-gray">
+            <rect x="208" y="62" width="46" height="16" rx="2" stroke-width="0.5"/>
+            <rect x="306" y="62" width="46" height="16" rx="2" stroke-width="0.5"/>
+            <rect x="258" y="54" width="44" height="32" rx="4" stroke-width="0.5"/>
+          </g>
+          <text class="th" x="280" y="38" text-anchor="middle">Satellite</text>
+          <circle id="q-ring" cx="280" cy="70" r="26" fill="none" stroke="#EF9F27" stroke-width="2" opacity="0"/>
+          <g class="c-gray"><rect x="70" y="294" width="36" height="64" rx="7" stroke-width="0.5"/></g>
+          <text class="th" x="88" y="382" text-anchor="middle">Your phone</text>
+          <path d="M377 304 Q400 336 423 304" fill="none" stroke="var(--t)" stroke-width="2"/>
+          <line x1="400" y1="320" x2="400" y2="346" stroke="var(--t)" stroke-width="2"/>
+          <line x1="387" y1="346" x2="413" y2="346" stroke="var(--t)" stroke-width="2"/>
+          <text class="th" x="400" y="370" text-anchor="middle">Ground station</text>
+          <text class="ts" x="400" y="388" text-anchor="middle">Operator's dish</text>
+          <g class="c-gray"><rect x="450" y="300" width="80" height="44" rx="6" stroke-width="0.5"/>
+            <text class="th" x="490" y="315" text-anchor="middle" dominant-baseline="central">Internet</text>
+            <text class="ts" x="490" y="331" text-anchor="middle" dominant-baseline="central">Fiber</text></g>
+          <g class="c-coral"><rect x="550" y="300" width="90" height="44" rx="6" stroke-width="0.5"/>
+            <text class="th" x="595" y="315" text-anchor="middle" dominant-baseline="central">Claude</text>
+            <text class="ts" x="595" y="331" text-anchor="middle" dominant-baseline="central">Data center</text></g>
+          <rect id="q-hl" x="544" y="294" width="102" height="56" rx="9" fill="none" stroke="#EF9F27" stroke-width="2" opacity="0"/>
+          <text class="th t-access" x="24" y="170">Access link</text>
+          <text class="ts" x="24" y="188">Cellular band to phone</text>
+          <text class="ts" x="24" y="204">e.g. 2 GHz, 800 MHz</text>
+          <text class="th t-backhaul" x="360" y="170">Backhaul link</text>
+          <text class="ts" x="360" y="188">Satellite band to dish</text>
+          <text class="ts" x="360" y="204">e.g. Ka/Ku band</text>
+          <circle id="q-pk" cx="88" cy="292" r="7" fill="#1D9E75"/>
+        </svg>
+        <div class="controls">
+          <span id="q-phase" class="pill">Prompt</span>
+          <span id="q-stepn" class="stepn"></span>
+          <span class="spacer"></span>
+          <button id="q-prev" aria-label="Previous step">&#8249;</button>
+          <button id="q-play">Pause</button>
+          <button id="q-next" aria-label="Next step">&#8250;</button>
+        </div>
+        <p id="q-cap" class="cap" aria-live="polite"></p>
+        <figcaption>Figure 2. A Claude prompt's round trip over a satellite connection, through both links. The dot changes color at the satellite: that's where the signal switches between bands.</figcaption>
+      </figure>
+      <p>A few things the animation simplifies:</p>
+      <ul>
+        <li><strong>The space leg is fast.</strong> A low-orbit satellite is about 550 km up, so the radio trip adds only tens of milliseconds. Most of the wait is Claude writing its answer.</li>
+        <li><strong>The response streams.</strong> The answer comes back as many small chunks, which is why text appears word by word. Each chunk makes the same trip.</li>
+        <li><strong>Capacity matters more than distance.</strong> One satellite beam is shared by everyone in a large area. A text prompt is tiny, but uploading photos or files would feel the limit.</li>
+      </ul>
+      <p>Satellite home internet (the familiar Starlink dish) is a different product. It uses satellite frequencies phones can't receive and delivers much higher speeds. Direct-to-phone trades speed for convenience: no extra hardware at all.</p>
+    </section>
+
+    <section class="s" id="s5">
+      <p class="bridge">The animation makes it look easy. But a phone's signal only reaches a few miles on the ground, so how does it reach a satellite at all?</p>
+      <h3>How a weak phone signal reaches space</h3>
+      <p>Satellites orbit hundreds of miles up, yet cellular signals only reach a few miles on the ground. The answer is that on the ground, the limit usually isn't the frequency itself. It's everything in the way.</p>
+
+      <h4>What limits range on the ground</h4>
+      <ul>
+        <li><strong>The horizon.</strong> A tower can only "see" so far before the Earth curves away.</li>
+        <li><strong>Obstacles.</strong> Ground signals travel sideways through buildings, trees and hills, losing strength at each one.</li>
+        <li><strong>Deliberate design.</strong> Carriers keep cells small on purpose so they can reuse frequencies (see <a href="#s3">frequency reuse</a>).</li>
+        <li><strong>The phone's weak transmitter.</strong> Your phone sends a fraction of a watt, and that signal often decides how far the connection can stretch.</li>
+      </ul>
+      <p>A satellite is straight overhead, with a clear line of sight through mostly empty space. At these frequencies, the air absorbs almost nothing. The signal simply spreads out and gets weaker with distance.</p>
+
+      <h4>Your phone already does this</h4>
+      <p>GPS satellites orbit about 20,000 km up and broadcast at around 1.5 GHz, close to cellular frequencies. Your phone receives them with a tiny built-in antenna. The signal is extremely faint, but it works because GPS sends very little data.</p>
+
+      <h4>Paying the distance penalty</h4>
+      <p>Signal strength drops with the square of distance. A satellite 550 km away versus a tower 5 km away is about 110 times farther, which means roughly 10,000 times weaker. Operators make up the gap in four ways:</p>
+      <ul>
+        <li><strong>Huge antennas on the satellite.</strong> A large antenna focuses transmitted power into a tight beam and catches more of the phone's faint signal, like a bigger ear. This is why AST builds enormous antenna arrays.</li>
+        <li><strong>Narrow, steerable beams</strong> that aim energy at small patches of ground, each acting like a cell. Shaping these beams electronically is called <strong>beamforming</strong>.</li>
+        <li><strong>More transmit power</strong> on the satellite than any phone could manage.</li>
+        <li><strong>Slower, sturdier signals when needed.</strong> This is why early service was texting-only and why speeds per user are still modest.</li>
+      </ul>
+      <p>The phone-to-satellite direction, the uplink, is the hardest, because you can't make the phone's antenna or battery bigger. Everything depends on the satellite's antenna.</p>
+
+      <h4>Indoors is still hard</h4>
+      <p>Walls weaken every signal, and the higher the frequency, the more they take: a concrete wall cuts an 800 MHz signal about sevenfold, but a 3.5 GHz signal about eightyfold. A tower can absorb that loss because it's close, which is how mid-band reaches you indoors. A satellite can't: the distance has already used up almost all of its spare signal. That's why today's satellite service works best outdoors with a clear view of the sky, and why SpaceX and AST want low-band (see <a href="#s9">the spectrum race</a>). It improves the odds near windows, in cars and in lighter buildings, though no one has yet published proof that it works deep indoors from space.</p>
+
+      <h4>Moving fast</h4>
+      <p>Low-orbit satellites move at roughly 7.5 km per second. That motion shifts the signal's frequency slightly and adds small delays, and the network must keep handing your phone from one satellite to the next, a <strong>handover</strong>. The network corrects for these effects so the phone doesn't have to. Newer mobile standards (called "non-terrestrial networks") build that support directly into phones and networks.</p>
+    </section>
+
+    <!-- ============ PART 3 ============ -->
+    <div class="part-head">
+      <span class="pnum">Part Three</span>
+      <h2>Constellations in motion</h2>
+      <p>Part Two treated the satellite as if it stood still. It doesn't, and that shapes how these networks are built.</p>
+    </div>
+
+    <section class="s" id="s7">
+      <h3>Satellites never stand still: why laser links matter</h3>
+      <p>Satellites in <strong>low Earth orbit</strong>, where Starlink and AST operate, circle the planet about every 95 minutes. Any one satellite is overhead for only a few minutes. That's why these networks need thousands of satellites, and why the handovers mentioned in <a href="#s5">Reaching space</a> happen every few minutes.</p>
+      <p>The only satellites that stay fixed over one spot are <strong>geostationary</strong> satellites, about 36,000 km up. At that height they circle at the same speed the Earth turns. But they're roughly 65 times farther away than low-orbit satellites, which makes the signal far too weak for useful phone data.</p>
+
+      <h4>The ground-station problem</h4>
+      <p>A moving constellation creates a second problem: the satellite above you might not have a ground station in view. Mid-ocean, in polar regions or in remote areas, there may be none within reach. The fix is <strong>laser links</strong> between satellites, which let each satellite pass data to its neighbor until it reaches one that can see a ground station.</p>
+      <p>In the animation below, you are mid-ocean. The teal ring marks the satellite serving your phone; watch it jump as satellites drift past. The purple ring marks the satellite that can see the ground station. Turn the laser links off to see what happens without them.</p>
+      <figure class="anim" id="fig-laser-links">
+        <svg class="svg-clip" viewBox="0 0 680 430" role="img" aria-labelledby="l-svgt l-svgd">
+          <title id="l-svgt">Laser links between moving satellites</title>
+          <desc id="l-svgd">Satellites move along an orbit. A phone mid-ocean connects to the satellite overhead, which relays the data by laser across satellites to one above a distant ground station.</desc>
+          <path d="M32 215 A900 900 0 0 1 648 215" fill="none" stroke="var(--t)" stroke-width="0.5" stroke-dasharray="3 5"/>
+          <text class="ts" x="340" y="134" text-anchor="middle">Orbit direction &#8594;</text>
+          <path d="M30 366 A760 760 0 0 1 650 366" fill="none" stroke="var(--t)" stroke-width="1.5"/>
+          <text class="ts" x="340" y="330" text-anchor="middle">Ocean, no ground stations nearby</text>
+          <g id="l-lasers"></g>
+          <line id="l-cov" stroke="#1D9E75" stroke-width="1" stroke-dasharray="3 4" opacity="0.5"/>
+          <line id="l-act" stroke-width="3" stroke-linecap="round" opacity="0"/>
+          <g id="l-sats"></g>
+          <circle id="l-srvRing" r="14" fill="none" stroke="#1D9E75" stroke-width="1.5"/>
+          <circle id="l-gwRing" r="14" fill="none" stroke="#7F77DD" stroke-width="1.5"/>
+          <g class="c-gray"><rect x="126" y="292" width="22" height="36" rx="4" stroke-width="0.5"/></g>
+          <text class="th" x="137" y="356" text-anchor="middle">Your phone</text>
+          <text class="ts" x="137" y="374" text-anchor="middle">Mid-ocean</text>
+          <path d="M528 310 Q543 332 558 310" fill="none" stroke="var(--t)" stroke-width="2"/>
+          <line x1="543" y1="322" x2="543" y2="334" stroke="var(--t)" stroke-width="2"/>
+          <text class="th" x="543" y="356" text-anchor="middle">Ground station</text>
+          <g class="c-coral"><rect x="483" y="370" width="120" height="44" rx="6" stroke-width="0.5"/>
+            <text class="th" x="543" y="385" text-anchor="middle" dominant-baseline="central">Claude</text>
+            <text class="ts" x="543" y="401" text-anchor="middle" dominant-baseline="central">Via internet</text></g>
+          <rect id="l-hl" x="477" y="364" width="132" height="56" rx="9" fill="none" stroke="#EF9F27" stroke-width="2" opacity="0"/>
+          <circle id="l-pk" r="7" fill="#1D9E75" opacity="0"/>
+        </svg>
+        <div class="anim-legend">
+          <span><i class="ln-access"></i>Access link</span>
+          <span><i class="ln-laser"></i>Laser link</span>
+          <span><i class="ln-backhaul"></i>Backhaul</span>
+          <span><i class="ln-internet"></i>Internet</span>
+        </div>
+        <div class="controls">
+          <span id="l-phase" class="pill"></span>
+          <span class="spacer"></span>
+          <button id="l-laser">Turn laser links off</button>
+          <button id="l-play">Pause</button>
+        </div>
+        <p id="l-cap" class="cap" aria-live="polite"></p>
+        <figcaption>Figure 3. Moving satellites relay a Claude prompt across the ocean by laser.</figcaption>
+      </figure>
+      <p>Laser links matter for three reasons:</p>
+      <ul>
+        <li><strong>Coverage where there are no ground stations,</strong> such as oceans, polar regions and remote areas.</li>
+        <li><strong>Fewer ground stations needed.</strong> Traffic can reach the internet through a handful of well-placed gateways.</li>
+        <li><strong>Speed over long distances.</strong> Light travels faster through vacuum than through fiber, so routing across satellites can sometimes beat undersea cables.</li>
+      </ul>
+      <p>Starlink's newer satellites carry laser links, which is part of why it can serve ships and planes far from land. A <strong>bent-pipe</strong> system, one that relays each signal straight down to a nearby gateway, depends much more on having ground stations close to its users.</p>
+    </section>
+
+    <section class="s" id="s8">
+      <p class="bridge">Laser links depend on what a satellite can do with a signal once it has it. That's where Starlink and AST diverge most.</p>
+      <h3>Where the "tower brains" live: Starlink vs AST</h3>
+      <p>Every cell tower has a <strong>base station</strong>: the electronics that turn raw radio waves into data and decide which phone gets to talk when. The two leading satellite companies put that base station in different places:</p>
+      <ul>
+        <li><strong>Starlink</strong> puts the base station on the satellite. SpaceX describes its satellites as cell towers in space.</li>
+        <li><strong>AST SpaceMobile</strong> keeps the satellite mostly as a giant relay and beam-shaper. Much of the base-station work happens on the ground, where it plugs into partner carriers' networks. This is the bent-pipe approach from the previous section.</li>
+      </ul>
+      <figure class="anim" id="fig-tower-brains">
+        <svg viewBox="0 0 680 360" role="img" aria-labelledby="t-svgt t-svgd">
+          <title id="t-svgt">Starlink vs AST: where the base station lives</title>
+          <desc id="t-svgd">Left: the Starlink satellite contains the base station and converts radio waves to data packets in orbit. Right: the AST satellite is a large relay array; a base station on the ground does the conversion.</desc>
+          <line x1="340" y1="10" x2="340" y2="345" stroke="var(--color-border-tertiary)" stroke-width="0.5"/>
+          <text class="th" x="165" y="22" text-anchor="middle">Starlink</text>
+          <text class="ts" x="165" y="40" text-anchor="middle">Base station in orbit</text>
+          <text class="th" x="505" y="22" text-anchor="middle">AST SpaceMobile</text>
+          <text class="ts" x="505" y="40" text-anchor="middle">Base station on the ground</text>
+          <g id="t-links"></g>
+          <g class="c-gray"><rect x="92" y="94" width="26" height="14" rx="2" stroke-width="0.5"/><rect x="212" y="94" width="26" height="14" rx="2" stroke-width="0.5"/></g>
+          <g class="c-coral"><rect x="120" y="82" width="90" height="38" rx="5" stroke-width="0.5"/><text class="ts" x="165" y="101" text-anchor="middle" dominant-baseline="central">Base station</text></g>
+          <rect id="t-sHL" x="114" y="76" width="102" height="50" rx="8" fill="none" stroke="#EF9F27" stroke-width="2" opacity="0"/>
+          <g class="c-gray"><rect x="435" y="94" width="140" height="14" rx="2" stroke-width="0.5"/></g>
+          <text class="ts" x="505" y="132" text-anchor="middle">Relay + beamformer</text>
+          <rect id="t-aHL" x="429" y="88" width="152" height="26" rx="6" fill="none" stroke="#7F77DD" stroke-width="2" opacity="0"/>
+          <g class="c-gray"><rect x="21" y="268" width="18" height="32" rx="4" stroke-width="0.5"/><rect x="361" y="268" width="18" height="32" rx="4" stroke-width="0.5"/></g>
+          <text class="ts" x="30" y="320" text-anchor="middle">Phone</text><text class="ts" x="370" y="320" text-anchor="middle">Phone</text>
+          <path d="M125 274 Q140 296 155 274" fill="none" stroke="var(--t)" stroke-width="2"/><line x1="140" y1="286" x2="140" y2="300" stroke="var(--t)" stroke-width="2"/>
+          <path d="M465 274 Q480 296 495 274" fill="none" stroke="var(--t)" stroke-width="2"/><line x1="480" y1="286" x2="480" y2="300" stroke="var(--t)" stroke-width="2"/>
+          <text class="ts" x="140" y="320" text-anchor="middle">Gateway</text><text class="ts" x="480" y="320" text-anchor="middle">Gateway</text>
+          <g class="c-gray"><rect x="250" y="270" width="70" height="36" rx="5" stroke-width="0.5"/><text class="ts" x="285" y="288" text-anchor="middle" dominant-baseline="central">Core</text></g>
+          <g class="c-coral"><rect x="518" y="270" width="88" height="36" rx="5" stroke-width="0.5"/><text class="ts" x="562" y="288" text-anchor="middle" dominant-baseline="central">Base station</text></g>
+          <rect id="t-gHL" x="512" y="264" width="100" height="48" rx="8" fill="none" stroke="#EF9F27" stroke-width="2" opacity="0"/>
+          <g class="c-gray"><rect x="616" y="270" width="54" height="36" rx="5" stroke-width="0.5"/><text class="ts" x="643" y="288" text-anchor="middle" dominant-baseline="central">Core</text></g>
+          <g id="t-pS"><path id="t-pSw" d="M-12 0 Q-9 -7 -6 0 T0 0 T6 0 T12 0" fill="none" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/><rect id="t-pSb" x="-7" y="-7" width="14" height="14" rx="3" fill="#D85A30" opacity="0"/></g>
+          <g id="t-pA"><path id="t-pAw" d="M-12 0 Q-9 -7 -6 0 T0 0 T6 0 T12 0" fill="none" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/><rect id="t-pAb" x="-7" y="-7" width="14" height="14" rx="3" fill="#D85A30" opacity="0"/></g>
+        </svg>
+        <div class="anim-legend">
+          <span><svg viewBox="0 0 22 10" aria-hidden="true"><path d="M1 5 Q4 -1 7 5 T13 5 T19 5" fill="none" stroke="#1D9E75" stroke-width="2"/></svg>Raw radio signal</span>
+          <span><i class="sw-packet"></i>Decoded data packets</span>
+        </div>
+        <div class="split-caps">
+          <p id="t-capS"></p>
+          <p id="t-capA"></p>
+        </div>
+        <div class="controls">
+          <span id="t-stp" class="stepn"></span><span class="spacer"></span>
+          <button id="t-pv" aria-label="Previous step">&#8249;</button><button id="t-pl">Pause</button><button id="t-nx" aria-label="Next step">&#8250;</button>
+        </div>
+        <figcaption>Figure 4. The same uplink through both designs. The coral component does the decoding: on the satellite for Starlink, on the ground for AST.</figcaption>
+      </figure>
+      <div class="table-scroll">
+      <table>
+        <tr><th></th><th>Starlink <span class="sub">brains in orbit</span></th><th>AST <span class="sub">brains on the ground</span></th></tr>
+        <tr><td><strong>Strength</strong></td><td>Data is ready to route as soon as it reaches the satellite, so it can hop by laser to any gateway, even mid-ocean.</td><td>Satellites stay simpler; intelligence lives where it's easy to upgrade and connects directly to carrier networks.</td></tr>
+        <tr><td><strong>Cost</strong></td><td>Each satellite needs more power and processing; upgrading means launching new satellites.</td><td>Sending raw signals down needs lots of backhaul capacity, and the satellite must see a gateway and you at the same time.</td></tr>
+        <tr><td><strong>Business model</strong></td><td>Increasingly a carrier in its own right (see <a href="#s9">the spectrum race</a>).</td><td>A partner to existing carriers such as AT&amp;T and Verizon.</td></tr>
+      </table>
+      </div>
+    </section>
+
+    <!-- ============ PART 4 ============ -->
+    <div class="part-head">
+      <span class="pnum">Part Four</span>
+      <h2>Rules and the race</h2>
+      <p>With the technology mapped, this part turns to the rules and the business: how satellites are allowed to use phone airwaves, who owns them, and why SpaceX and AST are racing to buy more.</p>
+    </div>
+
+    <section class="s" id="share">
+      <h3>Can a satellite and a tower share a band?</h3>
+      <p>Satellites that talk to phones often use the same frequencies carriers already use on the ground, and that creates a problem towers never had. A tower's signal covers a few miles. One satellite beam covers an area that would hold dozens of towers. If the beam transmits on a frequency a carrier is using anywhere underneath it, it can drown out every one of those towers.</p>
+      <p>The FCC's answer, adopted in March 2024, rests on three rules:</p>
+      <ul>
+        <li><strong>The carriers must agree.</strong> A satellite company can use a carrier's band only by renting it from whoever holds it across an entire region, such as the whole continental US. A beam can't stop at a license border, so a patchwork won't do.</li>
+        <li><strong>The ground comes first.</strong> If the satellite interferes with the towers, the satellite has to give way.</li>
+        <li><strong>No spilling over.</strong> Satellites may leak only a tiny amount of signal into the neighboring bands.</li>
+      </ul>
+      <p>That's why "nationwide" matters so much for satellites, and why every deal below comes with FCC conditions. Owning a band outright removes the need to rent one, which is a big part of why SpaceX started buying.</p>
+    </section>
+
+    <section class="s" id="s9">
+      <p class="bridge">Renting a carrier's airwaves comes with strings attached. Owning them doesn't, so the satellite companies have started buying.</p>
+      <h3>The spectrum race: SpaceX and AST</h3>
+      <p>To serve phones from space, a satellite company needs the right to transmit on frequencies phones understand. There are two ways to get that right:</p>
+      <ol>
+        <li><strong>Borrow a carrier's spectrum.</strong> Until recently, Starlink's direct-to-cell service ran on T-Mobile's PCS spectrum, and AST beams AT&amp;T's and Verizon's low-band frequencies, such as 850 MHz.</li>
+        <li><strong>Own spectrum outright,</strong> either bands reserved for satellites (called <strong>MSS</strong>, mobile satellite service) or flexible bands that allow both ground and satellite use.</li>
+      </ol>
+
+      <h4>The deals at a glance</h4>
+      <p>Four deals since 2025 have reshaped who holds what:</p>
+      <div class="table-scroll">
+      <table>
+        <tr><th>Buyer</th><th>Seller</th><th>What they get</th><th>Price</th><th>Status</th></tr>
+        <tr><td><strong>AST SpaceMobile</strong></td><td>Ligado Networks</td><td>Airwaves reserved for satellites</td><td>About $550M, plus about $80M a year</td><td>Approved, September 2025</td></tr>
+        <tr><td><strong>AT&amp;T</strong></td><td>EchoStar</td><td>Low-band and mid-band airwaves for its own towers</td><td>About $23B</td><td>Completed, July 2026</td></tr>
+        <tr><td><strong>SpaceX</strong></td><td>EchoStar</td><td>65 MHz of mid-band airwaves, usable from space or the ground</td><td>About $20B in cash and stock</td><td>Approved, May 2026</td></tr>
+        <tr><td><strong>SpaceX</strong></td><td>Grain Management</td><td>Low-band airwaves (800 MHz) that reach indoors</td><td>About $8B <span class="sub">reported</span></td><td>Announced October 2026; awaiting FCC approval</td></tr>
+      </table>
+      </div>
+
+      <h4>AST SpaceMobile: partner first, plus its own L-band</h4>
+      <p>AST's own spectrum comes out of Ligado Networks' bankruptcy: long-term rights, for 80+ years, to L-band satellite spectrum in the US and Canada. AST says the extra spectrum, combined with its partners' cellular bands, could support speeds up to 120 Mbps to unmodified phones. Analysts noted this was a change for AST, which had previously argued that low frequencies were better because they get into buildings.</p>
+
+      <h4>SpaceX: becoming a carrier</h4>
+      <p><strong>EchoStar.</strong> The FCC had questioned whether EchoStar was meeting its <a href="#s2">buildout obligations</a>, with SpaceX among those arguing EchoStar wasn't using its spectrum. EchoStar responded by selling: its 3.45 GHz and 600 MHz bands to AT&amp;T, and three mid-band bands (AWS-4, H-block and AWS-3) to SpaceX. In approving the SpaceX transfer, the FCC let SpaceX use the spectrum on the ground, from space, or both. Instead of the usual tower-building requirements, SpaceX must meet performance targets for signal quality and efficiency.</p>
+      <p><strong>Grain Management.</strong> The 800 MHz licenses belonged to T-Mobile until Grain bought them in August 2026. They add the low-band coverage layer SpaceX was missing: 800 MHz penetrates walls far better than 2 GHz, and most phones already support it. SpaceX is targeting 2027 for its next-generation direct-to-cell satellites, and says the combination makes it the first operator to deploy both satellite and ground-based spectrum.</p>
+      <p>Put together, once the 800 MHz deal clears the FCC, SpaceX will hold the same kind of low-band plus mid-band mix that AT&amp;T, Verizon and T-Mobile hold, delivered from satellites and potentially from ground equipment too. That's why it's increasingly discussed as a potential fourth national carrier, while AST positions itself as a partner to the existing three.</p>
+
+      <h4>Do these bands overlap with the carriers' bands?</h4>
+      <p>No. AST's new band sits in a range set aside for satellites, apart from the carriers' bands; you can see the gap in the zoomed map in <a href="#fig-spectrum-map">Figure 1</a>. SpaceX's bands don't overlap the carriers' either, but they sit right up against them with no gap. Signals leak slightly past their edges, which is exactly what the FCC's "no spilling over" rule (see <a href="#share">sharing a band</a>) is there to police.</p>
+    </section>
+
+    <section class="s" id="today">
+      <p class="bridge">Most of this points to the next few years. Here's what actually works as of October 2026.</p>
+      <h3>Can your phone do this today?</h3>
+      <ul>
+        <li><strong>T-Mobile and Starlink.</strong> T-Satellite launched in July 2025. It handles texting, plus data for a short list of apps built to work on a weak connection, such as WhatsApp, Google Maps, AccuWeather and AllTrails. Ordinary phone calls aren't supported yet. It's included in some T-Mobile plans and costs $10 a month otherwise, including for AT&amp;T and Verizon customers. T-Mobile keeps a <a href="https://www.t-mobile.com/coverage/satellite-phone-service" target="_blank" rel="noopener noreferrer">list of phones that work</a>. Faster data and calls depend on SpaceX's next-generation satellites, planned for 2027, and those will need newer phones to use SpaceX's new airwaves from space.</li>
+        <li><strong>AT&amp;T, Verizon and AST.</strong> Not available yet. After rocket setbacks, AST moved its full launch to early 2027. A limited test service, with gaps in coverage, is planned with AT&amp;T and Verizon first.</li>
+        <li><strong>What your phone may already have.</strong> iPhones since the iPhone 14 can send emergency and regular texts by satellite through a company called Globalstar, which uses its own satellite airwaves rather than a carrier's. That's why the phone asks you to point it at the sky. Recent Pixel phones, and the Galaxy S25 on Verizon, offer satellite texting through a company called Skylo, at least for emergencies. These are slow, text-only services, separate from the Starlink and AST networks this post describes.</li>
+      </ul>
+    </section>
+
+    <section class="s" id="s10">
+      <p class="bridge">Here's everything above, in six lines.</p>
+      <h3>Key takeaways</h3>
+      <ul>
+        <li>Spectrum is a limited, shared resource. Governments decide who may use which frequencies so signals don't collide.</li>
+        <li>Lower frequencies reach farther and get indoors. Higher frequencies carry more data. Carriers combine low-band for coverage with mid-band for capacity.</li>
+        <li>Direct-to-phone satellites act like very tall cell towers. They talk to your phone on cellular frequencies (the access link) and to ground stations on satellite frequencies (the backhaul link). No dish is needed on your end.</li>
+        <li>Low-orbit satellites are always moving. Constant handovers and laser links between satellites keep the connection alive, even mid-ocean.</li>
+        <li>Starlink puts the base station in orbit; AST keeps it on the ground. Each choice has trade-offs in cost, flexibility and coverage.</li>
+        <li>SpaceX has moved from borrowing T-Mobile's spectrum to owning mid-band spectrum outright, with a low-band deal awaiting FCC approval, making it a potential new national carrier. AST is betting on partnering with existing carriers plus its own L-band.</li>
+      </ul>
+    </section>
+
+    <!-- ============ PART 5 ============ -->
+    <div class="part-head">
+      <span class="pnum">Part Five</span>
+      <h2>Reference</h2>
+      <p>The technical terms used throughout, in one place.</p>
+    </div>
+
+    <section class="s" id="glossary">
+      <h3>Glossary</h3>
+      <dl class="glossary">
+        <dt>Access link</dt><dd>The radio link between a satellite (or tower) and your phone.</dd>
+        <dt>Backhaul link</dt><dd>The connection from a tower or satellite back to the core network: fiber for towers, a radio beam to a ground station for satellites.</dd>
+        <dt>Band</dt><dd>A defined range of frequencies, such as "AWS" or "Band 70."</dd>
+        <dt>Base station</dt><dd>The electronics that turn radio signals into data and manage which phones can transmit, and when.</dd>
+        <dt>Beamforming</dt><dd>Steering a radio signal into a narrow beam by coordinating many small antennas, rather than moving a dish.</dd>
+        <dt>Bent pipe</dt><dd>A satellite that relays signals without decoding them, like a mirror in the sky.</dd>
+        <dt>Buildout obligation</dt><dd>A license condition requiring the holder to actually deploy the spectrum by a deadline.</dd>
+        <dt>Carrier aggregation</dt><dd>Combining several frequency bands into one faster connection.</dd>
+        <dt>Downlink / uplink</dt><dd>Network-to-phone and phone-to-network directions.</dd>
+        <dt>Frequency reuse</dt><dd>Using the same frequencies in non-neighboring cells to multiply capacity.</dd>
+        <dt>Geostationary orbit</dt><dd>An orbit about 36,000 km up, where a satellite stays fixed over one spot.</dd>
+        <dt>Ground station / gateway</dt><dd>A site with large dishes that connects satellites to the internet.</dd>
+        <dt>Handover</dt><dd>Passing a phone's connection from one cell or satellite to the next.</dd>
+        <dt>Ka / Ku band</dt><dd>High-frequency satellite bands (roughly 12–40 GHz) used for backhaul and satellite home internet.</dd>
+        <dt>Laser link</dt><dd>A direct optical connection between two satellites.</dd>
+        <dt>LEO (low Earth orbit)</dt><dd>Orbits a few hundred to about 2,000 km up, where Starlink and AST operate.</dd>
+        <dt>MNO</dt><dd>Mobile network operator, such as AT&amp;T, Verizon or T-Mobile.</dd>
+        <dt>MSS</dt><dd>Mobile satellite service, spectrum reserved for satellite-to-device use.</dd>
+        <dt>NTN (non-terrestrial networks)</dt><dd>The part of the mobile standards that lets phones and networks work with satellites as well as towers.</dd>
+        <dt>Paired / unpaired spectrum</dt><dd>A pair is two blocks, one for each direction; an unpaired block is a single chunk used one way, or both ways by taking turns.</dd>
+        <dt>Unlicensed spectrum</dt><dd>Bands anyone may use under shared rules, such as Wi-Fi and Bluetooth.</dd>
+      </dl>
+    </section>
+
+    <div class="footer">
+      Written October 2026. Spectrum deals and FCC approvals move quickly; details are current as of October 9, 2026.
+    </div>
+
+  </main>
+</div>
+
+<footer class="site-footer">
+  <p>&copy; 2026 Premrajka LLC. All rights reserved.</p>
+  <p>Contact: <a href="mailto:ankit@premrajka.com">ankit@premrajka.com</a></p>
+  <p><a href="../terms.html">Terms &amp; Conditions</a> · <a href="../terms.html#privacy">Privacy Policy</a></p>
+</footer>
+
+<script>
+/* Interactive figures. Ported from the original report; logic unchanged,
+   except injected <strong> tags now use the .anim-strong class instead of inline styles. */
+const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const PHASE_STYLE = {
+  Prompt:['var(--bg-accent)','var(--text-accent)'],
+  Thinking:['var(--bg-warning)','var(--text-warning)'],
+  Response:['var(--bg-success)','var(--text-success)'],
+  Stuck:['var(--bg-danger)','var(--text-danger)']
+};
+
+(function roundTrip(){
+  const $ = id => document.getElementById(id);
+  const PH=[88,292],SA=[280,70],DI=[400,312],IN=[490,322],CL=[595,322];
+  const T='#1D9E75',PU='#7F77DD',G='#888780',CO='#D85A30';
+  const S=[
+    {m:[PH,SA],c:T,l:'q-lnA',d:1400,p:'Prompt',t:'You hit send. Your phone transmits the prompt on a normal cellular band, exactly as it would to a ground tower.'},
+    {v:SA,c1:T,c2:PU,d:1000,p:'Prompt',t:'The satellite catches the weak signal with its large antenna and switches it to its backhaul band (some systems first pass it to another satellite by laser; more on that in Part Three).'},
+    {m:[SA,DI],c:PU,l:'q-lnB',d:1400,p:'Prompt',t:"Backhaul: the satellite beams it down to the operator's ground station. This hop is invisible to you."},
+    {m:[DI,IN],c:G,l:'q-lnG1',d:700,p:'Prompt',t:"The ground station hands it to the carrier's core network and onto the internet."},
+    {m:[IN,CL],c:G,l:'q-lnG2',d:700,p:'Prompt',t:"It travels over fiber to Anthropic's servers, just like any other app request."},
+    {h:true,d:2200,p:'Thinking',t:'Claude reads the prompt and generates a response. This step usually takes far longer than the whole trip through space, which is only tens of milliseconds.'},
+    {m:[CL,IN],c:CO,l:'q-lnG2',d:700,p:'Response',t:'The response leaves the data center as a stream of small chunks, so words can appear before the full answer is done.'},
+    {m:[IN,DI],c:CO,l:'q-lnG1',d:700,p:'Response',t:'The internet routes it to a ground station that can reach your satellite.'},
+    {m:[DI,SA],c:PU,l:'q-lnB',d:1400,p:'Response',t:'Backhaul: the dish beams it up to the satellite on its high-capacity satellite band.'},
+    {v:SA,c1:PU,c2:T,d:1000,p:'Response',t:'The satellite converts it back to the cellular band your phone understands.'},
+    {m:[SA,PH],c:T,l:'q-lnA',d:1400,p:'Response',t:'Access link: the satellite beams it down to your phone, and the answer appears in the Claude app.'}
+  ];
+  const lines=['q-lnA','q-lnB','q-lnG1','q-lnG2'];
+  const pk=$('q-pk'),ring=$('q-ring'),hl=$('q-hl'),cap=$('q-cap'),phase=$('q-phase'),stepn=$('q-stepn'),playBtn=$('q-play');
+  let i=0,el=0,playing=!reduceMotion,last=performance.now();
+  playBtn.textContent=playing?'Pause':'Play';
+  function draw(){
+    const s=S[i],f=Math.min(el/s.d,1);
+    lines.forEach(id=>$(id).setAttribute('opacity','0.35'));
+    ring.setAttribute('opacity','0');hl.setAttribute('opacity','0');
+    cap.textContent=s.t;phase.textContent=s.p;stepn.textContent='Step '+(i+1)+' of '+S.length;
+    phase.style.background=PHASE_STYLE[s.p][0];phase.style.color=PHASE_STYLE[s.p][1];
+    if(s.m){const[A,B]=s.m;pk.setAttribute('cx',A[0]+(B[0]-A[0])*f);pk.setAttribute('cy',A[1]+(B[1]-A[1])*f);pk.setAttribute('fill',s.c);pk.setAttribute('opacity','1');$(s.l).setAttribute('opacity','1');}
+    else if(s.v){pk.setAttribute('cx',s.v[0]);pk.setAttribute('cy',s.v[1]);pk.setAttribute('fill',f<0.5?s.c1:s.c2);pk.setAttribute('opacity','1');ring.setAttribute('opacity',String(Math.max(0,1-Math.abs(f-0.5)*1.6)));ring.setAttribute('r',String(22+f*10));}
+    else if(s.h){pk.setAttribute('opacity','0');hl.setAttribute('opacity',String(0.4+0.6*Math.abs(Math.sin(f*Math.PI*3))));}
+  }
+  function frame(now){
+    const dt=now-last;last=now;
+    if(playing){el+=dt;if(el>=S[i].d+250){el=0;i=(i+1)%S.length;}}
+    draw();requestAnimationFrame(frame);
+  }
+  $('q-next').addEventListener('click',()=>{i=(i+1)%S.length;el=0;});
+  $('q-prev').addEventListener('click',()=>{i=(i-1+S.length)%S.length;el=0;});
+  playBtn.addEventListener('click',()=>{playing=!playing;playBtn.textContent=playing?'Pause':'Play';});
+  requestAnimationFrame(frame);
+})();
+
+(function laserLinks(){
+  const $ = id => document.getElementById(id);
+  const NS='http://www.w3.org/2000/svg',CX=340,CY=1060,RO=900,thP=-0.27,thG=0.27,SP=0.12,N=13,W=0.012,EDGE=0.39;
+  const pt=(R,th)=>[CX+R*Math.sin(th),CY-R*Math.cos(th)];
+  const PH=[137,288],GS=[543,306],BX=[543,370];
+  const satsG=$('l-sats'),lzG=$('l-lasers');
+  const satEls=[],lzEls=[];
+  for(let i=0;i<N;i++){
+    const g=document.createElementNS(NS,'g');g.setAttribute('class','c-gray');
+    g.innerHTML='<rect x="-17" y="-3" width="10" height="6" rx="1" stroke-width="0.5"/><rect x="7" y="-3" width="10" height="6" rx="1" stroke-width="0.5"/><rect x="-7" y="-5" width="14" height="10" rx="2" stroke-width="0.5"/>';
+    satsG.appendChild(g);satEls.push(g);
+    const l=document.createElementNS(NS,'line');l.setAttribute('stroke','#EF9F27');l.setAttribute('stroke-width','1');l.setAttribute('stroke-dasharray','4 4');l.setAttribute('opacity','0');
+    lzG.appendChild(l);lzEls.push(l);
+  }
+  let time=0,playing=!reduceMotion,laser=true,last=performance.now();
+  const playBtn=$('l-play'),lzBtn=$('l-laser');
+  playBtn.textContent=playing?'Pause':'Play';
+  function th(i){let t=-0.78+SP*i+W*time;const span=SP*N;t=((t+0.78)%span+span)%span-0.78;return t;}
+  function satPos(i){return pt(RO,th(i));}
+  function nearest(target){let b=0,bd=9;for(let i=0;i<N;i++){const d=Math.abs(th(i)-target);if(d<bd){bd=d;b=i;}}return b;}
+  function neighbor(cur,dir){let b=cur,bd=9;const want=th(cur)+dir*SP;for(let i=0;i<N;i++){if(i===cur)continue;const d=Math.abs(th(i)-want);if(d<bd){bd=d;b=i;}}return b;}
+  function pos(k){if(k==='P')return PH;if(k==='G')return GS;if(k==='B')return BX;return satPos(k);}
+  const COL={a:'#1D9E75',l:'#EF9F27',b:'#7F77DD',g:'#D85A30'};
+
+  // Serving (phone) and gateway (ground station) satellites. Each is locked
+  // while a packet is travelling on its link, so a handover can't happen mid-hop.
+  let srv=nearest(thP),gw=nearest(thG),lockS=false,lockG=false,cur=null,step=null,el=0;
+
+  function setStep(o){step=o;el=0;lockS=!!o.lockS;lockG=!!o.lockG;}
+  function startPrompt(){
+    srv=nearest(thP);
+    setStep({kind:'up',a:'P',b:srv,k:'a',d:1100,p:'Prompt',lockS:true,t:'Your phone sends the prompt to the satellite currently overhead. Next time, it may be a different one: they never stop moving.'});
+  }
+  function towardGround(){
+    if(!laser){setStep({kind:'stall',at:cur,d:2600,p:'Stuck',t:'No ground station is in view of this satellite, and without laser links it has no way to pass the data on. In a bent-pipe design, mid-ocean coverage simply fails.'});return;}
+    const g=nearest(thG);
+    if(cur===g){gw=cur;setStep({kind:'down',a:cur,b:'G',k:'b',d:900,p:'Prompt',lockG:true,t:'The satellite above the distant ground station sends it down on the backhaul link.'});return;}
+    const nx=neighbor(cur,Math.sign(th(g)-th(cur)));
+    setStep({kind:'hop',a:cur,b:nx,k:'l',d:520,p:'Prompt',t:'Laser links: each satellite passes the data to its neighbor at the speed of light, hopping across the ocean until it reaches one that can see a ground station.'});
+  }
+  function towardPhone(){
+    const s=nearest(thP);
+    if(cur===s){srv=cur;setStep({kind:'adown',a:cur,b:'P',k:'a',d:1100,p:'Response',lockS:true,t:'Down the access link to your phone. The answer appears.'});return;}
+    const nx=neighbor(cur,Math.sign(th(s)-th(cur)));
+    setStep({kind:'rhop',a:cur,b:nx,k:'l',d:520,p:'Response',t:'Laser hops back across the constellation toward whichever satellite is serving your phone right now.'});
+  }
+  function advance(){
+    switch(step.kind){
+      case 'up': cur=step.b; towardGround(); break;
+      case 'hop': cur=step.b; towardGround(); break;
+      case 'down': setStep({kind:'net',a:'G',b:'B',k:'g',d:600,p:'Prompt',t:'From the ground station it goes over the internet to Claude.'}); break;
+      case 'net': setStep({kind:'think',d:1800,p:'Thinking',t:'Claude generates the response. Meanwhile the satellites keep moving, so the return path may use different satellites.'}); break;
+      case 'think': setStep({kind:'net2',a:'B',b:'G',k:'g',d:600,p:'Response',t:'The response streams back to a ground station.'}); break;
+      case 'net2': gw=nearest(thG); setStep({kind:'bup',a:'G',b:gw,k:'b',d:900,p:'Response',lockG:true,t:'Backhaul up to whichever satellite is above the ground station right now.'}); break;
+      case 'bup': cur=step.b; towardPhone(); break;
+      case 'rhop': cur=step.b; towardPhone(); break;
+      default: startPrompt();
+    }
+  }
+  startPrompt();
+
+  const pk=$('l-pk'),act=$('l-act'),hl=$('l-hl'),cap=$('l-cap'),ph=$('l-phase');
+  const fade=t=>Math.max(0,Math.min(1,(EDGE-Math.abs(t))/0.025));
+  function render(){
+    if(!lockS)srv=nearest(thP);
+    if(!lockG)gw=nearest(thG);
+    const vis=[];
+    for(let i=0;i<N;i++){const t=th(i),p=satPos(i);satEls[i].setAttribute('transform','translate('+p[0]+','+p[1]+')');satEls[i].setAttribute('opacity',String(fade(t)));if(Math.abs(t)<EDGE)vis.push(i);}
+    vis.sort((x,y)=>th(x)-th(y));
+    lzEls.forEach(l=>l.setAttribute('opacity','0'));
+    if(laser)for(let k=0;k<vis.length-1;k++){const a=satPos(vis[k]),b=satPos(vis[k+1]);const l=lzEls[k];l.setAttribute('x1',a[0]);l.setAttribute('y1',a[1]);l.setAttribute('x2',b[0]);l.setAttribute('y2',b[1]);l.setAttribute('opacity',String(0.35*Math.min(fade(th(vis[k])),fade(th(vis[k+1])))));}
+    const sp=satPos(srv),gp=satPos(gw);
+    const cov=$('l-cov');cov.setAttribute('x1',PH[0]);cov.setAttribute('y1',PH[1]);cov.setAttribute('x2',sp[0]);cov.setAttribute('y2',sp[1]);
+    const r1=$('l-srvRing');r1.setAttribute('cx',sp[0]);r1.setAttribute('cy',sp[1]);
+    const r2=$('l-gwRing');r2.setAttribute('cx',gp[0]);r2.setAttribute('cy',gp[1]);
+    const st=step,f=Math.min(el/st.d,1);
+    cap.textContent=st.t;ph.textContent=st.p;ph.style.background=PHASE_STYLE[st.p][0];ph.style.color=PHASE_STYLE[st.p][1];
+    act.setAttribute('opacity','0');hl.setAttribute('opacity','0');
+    if(st.kind==='think'){pk.setAttribute('opacity','0');hl.setAttribute('opacity',String(0.4+0.6*Math.abs(Math.sin(f*Math.PI*3))));}
+    else if(st.kind==='stall'){const p=satPos(st.at);pk.setAttribute('cx',p[0]);pk.setAttribute('cy',p[1]);pk.setAttribute('fill','#E24B4A');pk.setAttribute('opacity',String(0.3+0.7*Math.abs(Math.sin(f*Math.PI*4))));}
+    else{const A=pos(st.a),B=pos(st.b);pk.setAttribute('cx',A[0]+(B[0]-A[0])*f);pk.setAttribute('cy',A[1]+(B[1]-A[1])*f);pk.setAttribute('fill',COL[st.k]);pk.setAttribute('opacity','1');
+      act.setAttribute('x1',A[0]);act.setAttribute('y1',A[1]);act.setAttribute('x2',B[0]);act.setAttribute('y2',B[1]);act.setAttribute('stroke',COL[st.k]);act.setAttribute('opacity','0.9');}
+  }
+  function frame(now){const dt=now-last;last=now;if(playing){time+=dt/1000;el+=dt;if(el>=step.d+200)advance();}render();requestAnimationFrame(frame);}
+  lzBtn.addEventListener('click',()=>{laser=!laser;lzBtn.textContent=laser?'Turn laser links off':'Turn laser links on';startPrompt();});
+  playBtn.addEventListener('click',()=>{playing=!playing;playBtn.textContent=playing?'Pause':'Play';});
+  requestAnimationFrame(frame);
+})();
+
+(function spectrumMap(){
+ const NS='http://www.w3.org/2000/svg';
+ const ROWS=['AT&T','Verizon','T-Mobile','SpaceX','AST SpaceMobile','Unlicensed / shared'];
+ const FILL={lic:'#378ADD',sat:'#7F77DD',pend:'#7F77DD',shr:'#EF9F27',unl:'#1D9E75'};
+ const B=[
+ [0,617,698,'lic','600 MHz (ex-EchoStar)','AT&T bought EchoStar\'s 600 MHz licenses; low-band coverage.'],
+ [0,704,716,'lic','700 MHz lower B/C (uplink)','Band 12/17. Low-band coverage.'],[0,734,746,'lic','700 MHz lower B/C (downlink)','Band 12/17. Low-band coverage.'],
+ [0,758,768,'lic','FirstNet, Band 14','Public-safety network AT&T runs for first responders.'],[0,788,798,'lic','FirstNet, Band 14','Public-safety network AT&T runs for first responders.'],
+ [0,824,849,'lic','850 MHz cellular (uplink)','Band 5. The original 1980s cellular band.'],[0,869,894,'lic','850 MHz cellular (downlink)','Band 5. AST also uses partner low-band like this.'],
+ [0,1850,1915,'lic','PCS (uplink)','Band 2/25. Shared among carriers by market.'],[0,1930,1995,'lic','PCS (downlink)','Band 2/25. Shared among carriers by market.'],
+ [0,1710,1780,'lic','AWS-1/AWS-3 (uplink)','Band 66. Core 4G/5G capacity band.'],[0,2110,2180,'lic','AWS-1/AWS-3 (downlink)','Band 66. Core 4G/5G capacity band.'],
+ [0,2305,2315,'lic','WCS (uplink)','Band 30.'],[0,2350,2360,'lic','WCS (downlink)','Band 30.'],
+ [0,3450,3550,'lic','3.45 GHz','5G mid-band, n77. AT&T also bought EchoStar\'s 3.45 GHz holdings.'],[0,3700,3980,'lic','C-band (portions)','5G mid-band, n77. Split among carriers.'],
+ [1,746,756,'lic','700 MHz upper C (downlink)','Band 13. Verizon\'s main LTE coverage layer.'],[1,777,787,'lic','700 MHz upper C (uplink)','Band 13.'],
+ [1,824,849,'lic','850 MHz cellular (uplink)','Band 5.'],[1,869,894,'lic','850 MHz cellular (downlink)','Band 5.'],
+ [1,1850,1915,'lic','PCS (uplink)','Band 2.'],[1,1930,1995,'lic','PCS (downlink)','Band 2.'],
+ [1,1710,1780,'lic','AWS (uplink)','Band 66.'],[1,2110,2180,'lic','AWS (downlink)','Band 66.'],
+ [1,3550,3650,'shr','CBRS priority licenses','Shared band. Verizon holds many priority licenses.'],[1,3700,3980,'lic','C-band (portions)','Verizon\'s largest 5G mid-band holding.'],
+ [2,617,652,'lic','600 MHz (downlink)','Band 71. T-Mobile\'s low-band 5G coverage layer.'],[2,663,698,'lic','600 MHz (uplink)','Band 71.'],
+ [2,698,704,'lic','700 MHz A (uplink)','Band 12.'],[2,728,734,'lic','700 MHz A (downlink)','Band 12.'],
+ [2,1850,1915,'lic','PCS (uplink)','Band 2/25.'],[2,1930,1995,'lic','PCS (downlink)','Band 2/25.'],
+ [2,1710,1780,'lic','AWS (uplink)','Band 66.'],[2,2110,2180,'lic','AWS (downlink)','Band 66.'],
+ [2,2496,2690,'lic','2.5 GHz','n41. T-Mobile\'s main 5G capacity band.'],[2,3700,3980,'lic','C-band (portions)','Smaller holdings.'],
+ [3,817,824,'pend','800 MHz (from Grain, pending)','Low-band for indoor reach. Announced Oct 8, 2026; needs FCC approval.'],[3,862,869,'pend','800 MHz (from Grain, pending)','Low-band for indoor reach. Announced Oct 8, 2026; needs FCC approval.'],
+ [3,1695,1710,'sat','Unpaired AWS-3 (uplink)','From EchoStar. Uplink half of 3GPP Band 70.'],
+ [3,1915,1920,'sat','H-block (lower)','From EchoStar. Sits right above PCS.'],[3,1995,2000,'sat','H-block (upper)','From EchoStar. Joins AWS-4 lower into one 25 MHz run.'],
+ [3,2000,2020,'sat','AWS-4 lower','From EchoStar. Downlink in Band 70; uplink in satellite (MSS) mode.'],[3,2180,2200,'sat','AWS-4 upper','From EchoStar. Directly above carriers\' AWS downlink.'],
+ [4,1525,1559,'sat','L-band MSS (Ligado)','AST has rights to up to 40 MHz within this range; coordinated with Inmarsat.'],[4,1626.5,1660.5,'sat','L-band MSS (Ligado)','AST has rights to up to 40 MHz within this range; coordinated with Inmarsat.'],
+ [4,1670,1675,'sat','1670–1675 MHz','Extra 5 MHz from Ligado.'],
+ [4,824,894,'sat','Partner low-band (e.g., 850 MHz)','AST mostly beams AT&T and Verizon spectrum, not its own.'],
+ [5,902,928,'unl','900 MHz ISM','Unlicensed: IoT, RFID, cordless gear.'],[5,2400,2483.5,'unl','2.4 GHz ISM','Wi-Fi and Bluetooth.'],
+ [5,3550,3700,'shr','CBRS general access','Shared: anyone can use unclaimed channels via a database.'],
+ [5,5150,5925,'unl','5 GHz Wi-Fi','Unlicensed (U-NII bands).'],[5,5925,7125,'unl','6 GHz Wi-Fi','Wi-Fi 6E / 7.']
+ ];
+ const info=document.getElementById('m-info');
+ function build(svgId,rows,xOf,fmin,fmax,ticks){
+  const sv=document.getElementById(svgId),L=130,R=660,top=8,rh=24,gap=8;
+  const H=top+rows.length*(rh+gap)+26;sv.setAttribute('viewBox','0 0 680 '+H);
+  const mk=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);sv.appendChild(e);return e;};
+  rows.forEach((r,ri)=>{const y=top+ri*(rh+gap);
+   mk('rect',{x:L,y:y,width:R-L,height:rh,rx:3,fill:'var(--color-background-secondary)'});
+   const t=mk('text',{x:L-8,y:y+rh/2,'text-anchor':'end','dominant-baseline':'central',class:'ts'});t.textContent=ROWS[r];});
+  ticks.forEach(([f,lab])=>{const x=xOf(f);const yb=top+rows.length*(rh+gap);
+   mk('line',{x1:x,y1:top-2,x2:x,y2:yb-4,stroke:'var(--color-border-tertiary)','stroke-width':0.5});
+   const t=mk('text',{x:x,y:yb+10,'text-anchor':'middle',class:'ts'});t.textContent=lab;});
+  B.forEach(b=>{const ri=rows.indexOf(b[0]);if(ri<0)return;if(b[2]<fmin||b[1]>fmax)return;
+   const lo=Math.max(b[1],fmin),hi=Math.min(b[2],fmax);const x1=xOf(lo),x2=xOf(hi);const y=top+ri*(rh+gap)+3;
+   const pend=b[3]==='pend';
+   const r=mk('rect',{x:x1,y:y,width:Math.max(2.5,x2-x1),height:rh-6,rx:2,fill:FILL[b[3]],opacity:pend?0.4:0.9,stroke:pend?'#534AB7':'none','stroke-dasharray':pend?'3 2':'none',style:'cursor:pointer'});
+   const tt=document.createElementNS(NS,'title');tt.textContent=b[4];r.appendChild(tt);
+   r.addEventListener('click',()=>{info.innerHTML='<strong class="anim-strong">'+ROWS[b[0]]+' · '+b[4]+'</strong> &nbsp;'+b[1]+'–'+b[2]+' MHz<br>'+b[5];});
+   r.addEventListener('mouseenter',()=>r.setAttribute('opacity','1'));r.addEventListener('mouseleave',()=>r.setAttribute('opacity',pend?'0.4':'0.9'));
+  });
+ }
+ const lmin=Math.log(600),lmax=Math.log(7200);
+ build('m-ov',[0,1,2,3,4,5],f=>130+(Math.log(f)-lmin)/(lmax-lmin)*530,600,7200,[[600,'600M'],[800,'800M'],[1000,'1G'],[1500,'1.5G'],[2000,'2G'],[3000,'3G'],[4000,'4G'],[5000,'5G'],[7000,'7G']]);
+ build('m-zm',[0,1,2,3,4],f=>130+(f-1500)/750*530,1500,2250,[[1500,'1.50'],[1600,'1.60'],[1700,'1.70'],[1800,'1.80'],[1900,'1.90'],[2000,'2.00'],[2100,'2.10'],[2200,'2.20 GHz']]);
+})();
+
+(function towerBrains(){
+ const $=id=>document.getElementById(id);
+ const S={ph:[39,272],sat:[165,120],gw:[140,280],core:[250,288]};
+ const A={ph:[379,272],sat:[505,108],gw:[480,280],bs:[518,288],core:[616,288]};
+ const NS='http://www.w3.org/2000/svg',lg=$('t-links');
+ function ln(a,b){const l=document.createElementNS(NS,'line');l.setAttribute('x1',a[0]);l.setAttribute('y1',a[1]);l.setAttribute('x2',b[0]);l.setAttribute('y2',b[1]);l.setAttribute('stroke','var(--color-border-secondary)');l.setAttribute('stroke-width','1');l.setAttribute('stroke-dasharray','4 4');lg.appendChild(l);}
+ ln(S.ph,S.sat);ln(S.sat,[140,274]);ln([155,288],S.core);ln(A.ph,A.sat);ln(A.sat,[480,274]);ln([495,288],A.bs);ln([606,288],A.core);
+ const STEPS=[
+  {s:{m:[S.ph,S.sat],w:1},a:{m:[A.ph,A.sat],w:1},d:1500,cs:'Your phone sends a raw radio signal up on a cellular band.',ca:'Your phone sends a raw radio signal up on a cellular band.'},
+  {s:{at:S.sat,conv:1,hl:'t-sHL'},a:{at:A.sat,w:1,hl:'t-aHL'},d:1500,cs:'The base station on board decodes the signal into data packets, right in orbit.',ca:'The giant array catches and focuses the signal, but doesn\'t decode it.'},
+  {s:{m:[S.sat,S.gw],w:0},a:{m:[A.sat,A.gw],w:1},d:1500,cs:'Decoded packets go down the backhaul (or across laser links first).',ca:'The raw signal is relayed down to the gateway, shifted onto its backhaul band.'},
+  {s:{m:[S.gw,S.core],w:0},a:{m:[A.gw,A.bs],w:1},d:1200,cs:'The gateway just forwards packets to the carrier core.',ca:'The gateway hands the raw signal to a base station on the ground.'},
+  {s:{at:S.core,w:0},a:{at:A.bs,conv:1,hl:'t-gHL'},d:1500,cs:'Done: packets are in the core network.',ca:'The ground base station decodes the signal into data packets.'},
+  {s:{at:S.core,w:0},a:{m:[A.bs,A.core],w:0},d:1200,cs:'Done: packets are in the core network.',ca:'Packets go to the carrier core (AT&T, Verizon and other partners).'}
+ ];
+ let i=0,el=0,playing=!reduceMotion,last=performance.now();
+ const pl=$('t-pl');pl.textContent=playing?'Pause':'Play';
+ function place(gid,wid,bid,act,f){const g=$(gid);let x,y,wave;
+  if(act.m){x=act.m[0][0]+(act.m[1][0]-act.m[0][0])*f;y=act.m[0][1]+(act.m[1][1]-act.m[0][1])*f;wave=act.w;}
+  else{x=act.at[0];y=act.at[1];wave=act.conv?(f<0.5):act.w;}
+  g.setAttribute('transform','translate('+x+','+y+')');
+  $(wid).setAttribute('opacity',wave?'1':'0');$(bid).setAttribute('opacity',wave?'0':'1');
+  if(act.hl)$(act.hl).setAttribute('opacity',String(Math.max(0,1-Math.abs(f-0.5)*1.6)));}
+ function draw(){const st=STEPS[i],f=Math.min(el/st.d,1);
+  ['t-sHL','t-aHL','t-gHL'].forEach(h=>$(h).setAttribute('opacity','0'));
+  place('t-pS','t-pSw','t-pSb',st.s,f);place('t-pA','t-pAw','t-pAb',st.a,f);
+  $('t-capS').innerHTML='<strong class="anim-strong">Starlink:</strong> '+st.cs;
+  $('t-capA').innerHTML='<strong class="anim-strong">AST:</strong> '+st.ca;
+  $('t-stp').textContent='Step '+(i+1)+' of '+STEPS.length;}
+ function frame(now){const dt=now-last;last=now;if(playing){el+=dt;if(el>=STEPS[i].d+300){el=0;i=(i+1)%STEPS.length;}}draw();requestAnimationFrame(frame);}
+ $('t-nx').addEventListener('click',()=>{i=(i+1)%STEPS.length;el=0;});
+ $('t-pv').addEventListener('click',()=>{i=(i-1+STEPS.length)%STEPS.length;el=0;});
+ pl.addEventListener('click',()=>{playing=!playing;pl.textContent=playing?'Pause':'Play';});
+ requestAnimationFrame(frame);
+})();
+</script>
+
+<script>
+  const links = document.querySelectorAll('.rail a');
+  const sections = document.querySelectorAll('section.s');
+  const obs = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const id = e.target.getAttribute('id');
+        links.forEach(l=>l.classList.remove('active'));
+        const link = document.querySelector(`.rail a[href="#${id}"]`);
+        if(link){
+          link.classList.add('active');
+          // Only keep the active link in view when the contents are a sticky sidebar (wide screens).
+          // On narrow screens they sit at the top of the page, and scrolling them into view would pull the reader back up.
+          const rail = document.querySelector('.rail');
+          if(getComputedStyle(rail).position === 'sticky'){
+            if(link === links[0]){
+              rail.scrollTo({top:0, behavior:'smooth'});
+            } else {
+              const prev = link.previousElementSibling;
+              const scrollTarget = (prev && prev.classList.contains('rail-part')) ? prev : link;
+              scrollTarget.scrollIntoView({block:'nearest', behavior:'smooth'});
+            }
+          }
+        }
+      }
+    });
+  },{rootMargin:'-15% 0px -75% 0px'});
+  sections.forEach(s=>obs.observe(s));
+</script>
+
+</body>
+</html>
