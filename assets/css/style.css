@@ -529,8 +529,6 @@ pre code { background: none; border: none; padding: 0; font-size: inherit; }
 .ar-f5 { grid-area: f5; } .ar-up { grid-area: up; } .ar-act { grid-area: act; } .ar-tl { grid-area: tl; }
 .ar-diagram figcaption { margin-top: .8rem; font-size: .8rem; color: var(--ink-3); font-style: italic; text-align: center; }
 
-.sources { font-size: .9rem; color: var(--ink-2); padding-left: 1.2rem; }
-.sources li { margin-bottom: .35rem; }
 /* ---------------------------------------------------
    Interactive figures (animated SVG explainers, e.g. posts/spectrum-satellites.html)
    The figure palette is scoped to .anim so it doesn't leak into the rest of the site;
