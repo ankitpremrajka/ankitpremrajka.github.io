@@ -55,15 +55,16 @@
     <div class="rail-part">2 · Satellites meet phones</div>
     <a href="#s4">How a satellite talks to a phone</a>
     <a href="#s5">Reaching space</a>
+    <a href="#indoors">Why indoors is hard</a>
 
     <div class="rail-part">3 · Constellations in motion</div>
     <a href="#s7">Laser links</a>
-    <a href="#s8">Where the tower brains live</a>
 
     <div class="rail-part">4 · Rules and the race</div>
     <a href="#share">Sharing a band</a>
     <a href="#s9">SpaceX and AST</a>
     <a href="#today">Your phone today</a>
+    <a href="#ahead">What still has to go right</a>
     <a href="#s10">Key takeaways</a>
 
     <div class="rail-part">5 · Reference</div>
@@ -82,10 +83,10 @@
     <section class="s" id="s1">
       <h3>What spectrum is</h3>
       <p>Every wireless device, from your phone to your car key fob, communicates by sending radio waves at particular frequencies. The full range of usable radio frequencies is called the <strong>spectrum</strong>.</p>
+      <p>Two signals on the same frequency, in the same place, at the same time, collide and garble each other. That's called <strong>interference</strong>, and avoiding it is the whole point of managing spectrum: deciding who gets which frequencies, where, and how loudly they can transmit.</p>
       <div class="analogy">
-        <p>Picture a highway. Each frequency band is a set of lanes. Two signals in the same lane, in the same place, at the same time, collide and garble each other.</p>
+        <p>Picture a highway. Each frequency band is a set of lanes. Two cars can't occupy the same spot in the same lane, and two signals can't share the same frequency in the same place. Managing spectrum means deciding who drives in which lanes, and where.</p>
       </div>
-      <p>That collision is called <strong>interference</strong>, and avoiding it is the whole point of managing spectrum: deciding who gets which lanes, where, and how loudly they can transmit.</p>
 
       <h4>Everyday examples: Wi-Fi and Bluetooth</h4>
       <p>Wi-Fi and Bluetooth use <strong>unlicensed</strong> bands, mainly 2.4 GHz, plus 5 GHz and 6 GHz for Wi-Fi. Nobody owns these lanes. Anyone can use them, as long as their equipment is certified and stays at low power. That's why your neighbor's router can slow down yours: you're all sharing the same lanes, and the low power limits keep the crowding local.</p>
@@ -160,7 +161,7 @@
       <h4>What "managing" spectrum looks like on the ground</h4>
       <p>Three techniques do most of the work:</p>
       <ul>
-        <li><strong>Frequency reuse.</strong> A carrier might own only 20 MHz in a band, but must serve millions of people. So it divides the map into cells and reuses the same frequencies again and again, just never in neighboring cells, where they would interfere. Each cell gets the full 20 MHz, so more, smaller cells mean more total capacity. That's why cities have so many towers.</li>
+        <li><strong>Frequency reuse.</strong> A carrier might own only 20 MHz in a band, but must serve millions of people. The trick is that radio signals fade with distance. Each tower covers a small area, called a <strong>cell</strong>, and shares its 20 MHz among the phones inside it. A tower a few miles away is too far off to collide with it, so it can use the very same 20 MHz for its own phones, the way lane 3 on a highway in one city has nothing to do with lane 3 in another. Neighboring cells, whose edges overlap, are the tricky part. Early networks gave neighbors different slices of the band; today's 4G and 5G networks let neighbors share the same frequencies and manage the overlap instead, by aiming antennas away from each other, using no more power than needed, and coordinating who transmits when at the edges. Smaller cells mean fewer people sharing each cell's 20 MHz, which is why cities have so many towers.</li>
         <li><strong>Carrier aggregation.</strong> Your phone connects on several bands at the same time and combines them into one faster connection. Picture your data driving down three roads at once and meeting at the destination: speed roughly adds up across the bands. It also lets carriers mix strengths, for example sending uploads over low-band, which reaches the tower more reliably, while downloads arrive over wide mid-band channels. It only works when both the phone and the network support that particular combination of bands, and only where you're in range of all of them.</li>
         <li><strong>Meeting buildout obligations.</strong> Carriers must actually deploy the spectrum on the FCC's timeline, or risk losing it.</li>
       </ul>
@@ -188,7 +189,7 @@
     <div class="part-head">
       <span class="pnum">Part Two</span>
       <h2>Satellites meet phones</h2>
-      <p>Part One covered spectrum on the ground. This part follows it into orbit: how a satellite reaches the phone already in your pocket.</p>
+      <p>Everything in Part One assumed a tower: a mast a few miles away, wired to the network by fiber, using low-band for reach and mid-band for capacity. Now swap that tower for a satellite hundreds of kilometres overhead. Your phone stays the same, and so do the frequencies it speaks. What changes is everything in between, and this part follows a signal through it.</p>
     </div>
 
     <section class="s" id="s4">
@@ -196,7 +197,7 @@
       <p>Until recently, satellite service meant a special phone or a dish. <strong>Direct-to-phone</strong> service (also called direct-to-device or direct-to-cell) connects a satellite straight to the phone already in your pocket.</p>
 
       <h4>Do you need a dish?</h4>
-      <p>No. The satellite transmits on ordinary cellular frequencies your phone already supports, so to your phone it looks like a normal cell tower, just a very distant one. Dishes still exist, but only at a handful of ground stations the satellite operator runs, not with users.</p>
+      <p>No. The satellite transmits on the same cellular bands from Part One, frequencies your phone already supports, so to your phone it looks like a normal cell tower, just a very distant one. Dishes still exist, but only at a handful of ground stations the satellite operator runs, not with users.</p>
 
       <h4>Two links, two jobs</h4>
       <p>Every direct-to-phone satellite runs two separate radio links at once:</p>
@@ -269,37 +270,40 @@
     </section>
 
     <section class="s" id="s5">
-      <p class="bridge">The animation makes it look easy. But a phone's signal only reaches a few miles on the ground, so how does it reach a satellite at all?</p>
+      <p class="bridge">In the animation, the satellite behaves like a very tall cell tower. The catch is distance, and it doesn't hurt both directions equally.</p>
       <h3>How a weak phone signal reaches space</h3>
-      <p>Satellites orbit hundreds of miles up, yet cellular signals only reach a few miles on the ground. The answer is that on the ground, the limit usually isn't the frequency itself. It's everything in the way.</p>
-
-      <h4>What limits range on the ground</h4>
+      <p>Satellites orbit hundreds of kilometres up, yet cellular signals only reach a few miles on the ground. On the ground, the limit usually isn't the frequency itself. It's everything in the way:</p>
       <ul>
         <li><strong>The horizon.</strong> A tower can only "see" so far before the Earth curves away.</li>
         <li><strong>Obstacles.</strong> Ground signals travel sideways through buildings, trees and hills, losing strength at each one.</li>
         <li><strong>Deliberate design.</strong> Carriers keep cells small on purpose so they can reuse frequencies (see <a href="#s3">frequency reuse</a>).</li>
-        <li><strong>The phone's weak transmitter.</strong> Your phone sends a fraction of a watt, and that signal often decides how far the connection can stretch.</li>
       </ul>
       <p>A satellite is straight overhead, with a clear line of sight through mostly empty space. At these frequencies, the air absorbs almost nothing. The signal simply spreads out and gets weaker with distance.</p>
 
-      <h4>Your phone already does this</h4>
-      <p>GPS satellites orbit about 20,000 km up and broadcast at around 1.5 GHz, close to cellular frequencies. Your phone receives them with a tiny built-in antenna. The signal is extremely faint, but it works because GPS sends very little data.</p>
-
       <h4>Paying the distance penalty</h4>
-      <p>Signal strength drops with the square of distance. A satellite 550 km away versus a tower 5 km away is about 110 times farther, which means roughly 10,000 times weaker. Operators make up the gap in four ways:</p>
+      <p>Signal strength drops with the square of distance. A satellite 550 km away versus a tower 5 km away is about 110 times farther, which makes the signal roughly 10,000 times weaker, in both directions.</p>
+
+      <h4>Listening is easy; talking back is hard</h4>
+      <p>That penalty hits the two directions very differently:</p>
       <ul>
-        <li><strong>Huge antennas on the satellite.</strong> A large antenna focuses transmitted power into a tight beam and catches more of the phone's faint signal, like a bigger ear. This is why AST builds enormous antenna arrays.</li>
-        <li><strong>Narrow, steerable beams</strong> that aim energy at small patches of ground, each acting like a cell. Shaping these beams electronically is called <strong>beamforming</strong>.</li>
-        <li><strong>More transmit power</strong> on the satellite than any phone could manage.</li>
+        <li><strong>Downlink (satellite to phone): manageable.</strong> Here the satellite is the transmitter, and it can be built for the job, with solar panels for power and large antennas to focus that power into tight beams. Your phone only has to listen, and it already does that every day: GPS satellites, about 20,000 km up, reach it with signals far fainter than any cell tower's.</li>
+        <li><strong>Uplink (phone to satellite): the hard part.</strong> Now your phone is the transmitter, with a fraction of a watt and a small antenna built into its case. Neither can grow without a bigger phone and a flat battery. A signal that a tower 5 km away hears comfortably arrives at the satellite 10,000 times weaker.</li>
+      </ul>
+      <p>So most of the engineering goes into hearing the phone. Operators close the gap in four ways:</p>
+      <ul>
+        <li><strong>Huge antennas on the satellite.</strong> A large antenna catches more of the phone's faint signal, like a bigger ear, and focuses the satellite's own transmissions into a tight beam. This is why AST builds enormous antenna arrays.</li>
+        <li><strong>Narrow, steerable beams</strong> that each cover a small patch of ground, acting like a cell. Shaping these beams electronically is called <strong>beamforming</strong>.</li>
+        <li><strong>More transmit power</strong> on the satellite than any phone could manage, which keeps the downlink comfortable.</li>
         <li><strong>Slower, sturdier signals when needed.</strong> This is why early service was texting-only and why speeds per user are still modest.</li>
       </ul>
-      <p>The phone-to-satellite direction, the uplink, is the hardest, because you can't make the phone's antenna or battery bigger. Everything depends on the satellite's antenna.</p>
+    </section>
 
-      <h4>Indoors is still hard</h4>
-      <p>Walls weaken every signal, and the higher the frequency, the more they take: a concrete wall cuts an 800 MHz signal about sevenfold, but a 3.5 GHz signal about eightyfold. A tower can absorb that loss because it's close, which is how mid-band reaches you indoors. A satellite can't: the distance has already used up almost all of its spare signal. That's why today's satellite service works best outdoors with a clear view of the sky, and why SpaceX and AST want low-band (see <a href="#s9">the spectrum race</a>). It improves the odds near windows, in cars and in lighter buildings, though no one has yet published proof that it works deep indoors from space.</p>
-
-      <h4>Moving fast</h4>
-      <p>Low-orbit satellites move at roughly 7.5 km per second. That motion shifts the signal's frequency slightly and adds small delays, and the network must keep handing your phone from one satellite to the next, a <strong>handover</strong>. The network corrects for these effects so the phone doesn't have to. Newer mobile standards (called "non-terrestrial networks") build that support directly into phones and networks.</p>
+    <section class="s" id="indoors">
+      <p class="bridge">That weak uplink is also why satellite service mostly stops at your front door.</p>
+      <h3>Why indoors is still hard</h3>
+      <p>Walls weaken every signal, and the higher the frequency, the more they take: a concrete wall cuts an 800 MHz signal about sevenfold, but a 3.5 GHz signal about eightyfold. That's the "Indoors?" column from the layer table in <a href="#s3">Part One</a>.</p>
+      <p>A tower can absorb that loss because it's close: even after a wall, it has signal to spare, which is how mid-band reaches you inside. A satellite has nothing to spare. The distance has already used up almost all of it, especially on the uplink, so a single wall can be enough to cut your phone off. That's why today's satellite service works best outdoors with a clear view of the sky.</p>
+      <p>It's also why SpaceX and AST want low-band spectrum (see <a href="#s9">the spectrum race</a>). Lower frequencies lose less to walls, which improves the odds near windows, in cars and in lighter buildings. No one has yet published proof that it works deep indoors from space. For now, think of satellite service as coverage for when you're outside and out of range, not a replacement for the tower down the street.</p>
     </section>
 
     <!-- ============ PART 3 ============ -->
@@ -311,11 +315,18 @@
 
     <section class="s" id="s7">
       <h3>Satellites never stand still: why laser links matter</h3>
-      <p>Satellites in <strong>low Earth orbit</strong>, where Starlink and AST operate, circle the planet about every 95 minutes. Any one satellite is overhead for only a few minutes. That's why these networks need thousands of satellites, and why the handovers mentioned in <a href="#s5">Reaching space</a> happen every few minutes.</p>
+      <p>Satellites in <strong>low Earth orbit</strong>, where Starlink and AST operate, race around the planet at roughly 7.5 km per second, circling it about every 95 minutes. Any one satellite is overhead for only a few minutes, so your phone is constantly handed from one satellite to the next, a <strong>handover</strong>. That's why these networks need hundreds to thousands of satellites. The speed also shifts the signal's frequency slightly and adds small delays; the network corrects for these so your phone doesn't have to, and newer mobile standards (called "non-terrestrial networks") build that support directly into phones and networks.</p>
       <p>The only satellites that stay fixed over one spot are <strong>geostationary</strong> satellites, about 36,000 km up. At that height they circle at the same speed the Earth turns. But they're roughly 65 times farther away than low-orbit satellites, which makes the signal far too weak for useful phone data.</p>
 
-      <h4>The ground-station problem</h4>
-      <p>A moving constellation creates a second problem: the satellite above you might not have a ground station in view. Mid-ocean, in polar regions or in remote areas, there may be none within reach. The fix is <strong>laser links</strong> between satellites, which let each satellite pass data to its neighbor until it reaches one that can see a ground station.</p>
+      <h4>Where there's no ground station nearby</h4>
+      <p>Every satellite has to hand your data to a ground station eventually. Over populated land that's easy: operators build ground stations where their customers are, so the satellite overhead can usually see one. The trouble is the places people most want satellite coverage, such as mid-ocean, polar regions and remote wilderness. There may be no ground station within a thousand kilometres, and often nowhere to build one.</p>
+
+      <h4>Two ways to build the satellite</h4>
+      <p>What happens next depends on how the satellite is designed:</p>
+      <ul>
+        <li><strong>A bent pipe</strong> is a relay. It catches your signal and bounces it straight down to a ground station without reading it, like a mirror in the sky. The satellite stays simpler, but it has to see you and a ground station at the same moment. AST's satellites work mostly this way: the electronics that decode the signal, the <strong>base station</strong> a tower would have, sit on the ground and plug into partner carriers' networks.</li>
+        <li><strong>A processing satellite</strong> carries the base station on board, so it can read your data in orbit. That lets it pass the data to other satellites over <strong>laser links</strong>, hopping across the constellation until one can see a ground station. Starlink works this way; SpaceX describes its satellites as cell towers in space.</li>
+      </ul>
       <p>In the animation below, you are mid-ocean. The teal ring marks the satellite serving your phone; watch it jump as satellites drift past. The purple ring marks the satellite that can see the ground station. Turn the laser links off to see what happens without them.</p>
       <figure class="anim" id="fig-laser-links">
         <svg class="svg-clip" viewBox="0 0 680 430" role="img" aria-labelledby="l-svgt l-svgd">
@@ -364,67 +375,7 @@
         <li><strong>Fewer ground stations needed.</strong> Traffic can reach the internet through a handful of well-placed gateways.</li>
         <li><strong>Speed over long distances.</strong> Light travels faster through vacuum than through fiber, so routing across satellites can sometimes beat undersea cables.</li>
       </ul>
-      <p>Starlink's newer satellites carry laser links, which is part of why it can serve ships and planes far from land. A <strong>bent-pipe</strong> system, one that relays each signal straight down to a nearby gateway, depends much more on having ground stations close to its users.</p>
-    </section>
-
-    <section class="s" id="s8">
-      <p class="bridge">Laser links depend on what a satellite can do with a signal once it has it. That's where Starlink and AST diverge most.</p>
-      <h3>Where the "tower brains" live: Starlink vs AST</h3>
-      <p>Every cell tower has a <strong>base station</strong>: the electronics that turn raw radio waves into data and decide which phone gets to talk when. The two leading satellite companies put that base station in different places:</p>
-      <ul>
-        <li><strong>Starlink</strong> puts the base station on the satellite. SpaceX describes its satellites as cell towers in space.</li>
-        <li><strong>AST SpaceMobile</strong> keeps the satellite mostly as a giant relay and beam-shaper. Much of the base-station work happens on the ground, where it plugs into partner carriers' networks. This is the bent-pipe approach from the previous section.</li>
-      </ul>
-      <figure class="anim" id="fig-tower-brains">
-        <svg viewBox="0 0 680 360" role="img" aria-labelledby="t-svgt t-svgd">
-          <title id="t-svgt">Starlink vs AST: where the base station lives</title>
-          <desc id="t-svgd">Left: the Starlink satellite contains the base station and converts radio waves to data packets in orbit. Right: the AST satellite is a large relay array; a base station on the ground does the conversion.</desc>
-          <line x1="340" y1="10" x2="340" y2="345" stroke="var(--color-border-tertiary)" stroke-width="0.5"/>
-          <text class="th" x="165" y="22" text-anchor="middle">Starlink</text>
-          <text class="ts" x="165" y="40" text-anchor="middle">Base station in orbit</text>
-          <text class="th" x="505" y="22" text-anchor="middle">AST SpaceMobile</text>
-          <text class="ts" x="505" y="40" text-anchor="middle">Base station on the ground</text>
-          <g id="t-links"></g>
-          <g class="c-gray"><rect x="92" y="94" width="26" height="14" rx="2" stroke-width="0.5"/><rect x="212" y="94" width="26" height="14" rx="2" stroke-width="0.5"/></g>
-          <g class="c-coral"><rect x="120" y="82" width="90" height="38" rx="5" stroke-width="0.5"/><text class="ts" x="165" y="101" text-anchor="middle" dominant-baseline="central">Base station</text></g>
-          <rect id="t-sHL" x="114" y="76" width="102" height="50" rx="8" fill="none" stroke="#EF9F27" stroke-width="2" opacity="0"/>
-          <g class="c-gray"><rect x="435" y="94" width="140" height="14" rx="2" stroke-width="0.5"/></g>
-          <text class="ts" x="505" y="132" text-anchor="middle">Relay + beamformer</text>
-          <rect id="t-aHL" x="429" y="88" width="152" height="26" rx="6" fill="none" stroke="#7F77DD" stroke-width="2" opacity="0"/>
-          <g class="c-gray"><rect x="21" y="268" width="18" height="32" rx="4" stroke-width="0.5"/><rect x="361" y="268" width="18" height="32" rx="4" stroke-width="0.5"/></g>
-          <text class="ts" x="30" y="320" text-anchor="middle">Phone</text><text class="ts" x="370" y="320" text-anchor="middle">Phone</text>
-          <path d="M125 274 Q140 296 155 274" fill="none" stroke="var(--t)" stroke-width="2"/><line x1="140" y1="286" x2="140" y2="300" stroke="var(--t)" stroke-width="2"/>
-          <path d="M465 274 Q480 296 495 274" fill="none" stroke="var(--t)" stroke-width="2"/><line x1="480" y1="286" x2="480" y2="300" stroke="var(--t)" stroke-width="2"/>
-          <text class="ts" x="140" y="320" text-anchor="middle">Gateway</text><text class="ts" x="480" y="320" text-anchor="middle">Gateway</text>
-          <g class="c-gray"><rect x="250" y="270" width="70" height="36" rx="5" stroke-width="0.5"/><text class="ts" x="285" y="288" text-anchor="middle" dominant-baseline="central">Core</text></g>
-          <g class="c-coral"><rect x="518" y="270" width="88" height="36" rx="5" stroke-width="0.5"/><text class="ts" x="562" y="288" text-anchor="middle" dominant-baseline="central">Base station</text></g>
-          <rect id="t-gHL" x="512" y="264" width="100" height="48" rx="8" fill="none" stroke="#EF9F27" stroke-width="2" opacity="0"/>
-          <g class="c-gray"><rect x="616" y="270" width="54" height="36" rx="5" stroke-width="0.5"/><text class="ts" x="643" y="288" text-anchor="middle" dominant-baseline="central">Core</text></g>
-          <g id="t-pS"><path id="t-pSw" d="M-12 0 Q-9 -7 -6 0 T0 0 T6 0 T12 0" fill="none" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/><rect id="t-pSb" x="-7" y="-7" width="14" height="14" rx="3" fill="#D85A30" opacity="0"/></g>
-          <g id="t-pA"><path id="t-pAw" d="M-12 0 Q-9 -7 -6 0 T0 0 T6 0 T12 0" fill="none" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/><rect id="t-pAb" x="-7" y="-7" width="14" height="14" rx="3" fill="#D85A30" opacity="0"/></g>
-        </svg>
-        <div class="anim-legend">
-          <span><svg viewBox="0 0 22 10" aria-hidden="true"><path d="M1 5 Q4 -1 7 5 T13 5 T19 5" fill="none" stroke="#1D9E75" stroke-width="2"/></svg>Raw radio signal</span>
-          <span><i class="sw-packet"></i>Decoded data packets</span>
-        </div>
-        <div class="split-caps">
-          <p id="t-capS"></p>
-          <p id="t-capA"></p>
-        </div>
-        <div class="controls">
-          <span id="t-stp" class="stepn"></span><span class="spacer"></span>
-          <button id="t-pv" aria-label="Previous step">&#8249;</button><button id="t-pl">Pause</button><button id="t-nx" aria-label="Next step">&#8250;</button>
-        </div>
-        <figcaption>Figure 4. The same uplink through both designs. The coral component does the decoding: on the satellite for Starlink, on the ground for AST.</figcaption>
-      </figure>
-      <div class="table-scroll">
-      <table>
-        <tr><th></th><th>Starlink <span class="sub">brains in orbit</span></th><th>AST <span class="sub">brains on the ground</span></th></tr>
-        <tr><td><strong>Strength</strong></td><td>Data is ready to route as soon as it reaches the satellite, so it can hop by laser to any gateway, even mid-ocean.</td><td>Satellites stay simpler; intelligence lives where it's easy to upgrade and connects directly to carrier networks.</td></tr>
-        <tr><td><strong>Cost</strong></td><td>Each satellite needs more power and processing; upgrading means launching new satellites.</td><td>Sending raw signals down needs lots of backhaul capacity, and the satellite must see a gateway and you at the same time.</td></tr>
-        <tr><td><strong>Business model</strong></td><td>Increasingly a carrier in its own right (see <a href="#s9">the spectrum race</a>).</td><td>A partner to existing carriers such as AT&amp;T and Verizon.</td></tr>
-      </table>
-      </div>
+      <p>Starlink's newer satellites carry laser links, which is part of why it can serve ships and planes far from land. AST's bent-pipe design depends on ground stations near its users, which suits its plan of working through carriers over land. The trade-off runs the other way on cost: a processing satellite needs more power and computing, and upgrading it means launching new ones, while AST can upgrade the electronics on the ground.</p>
     </section>
 
     <!-- ============ PART 4 ============ -->
@@ -436,7 +387,7 @@
 
     <section class="s" id="share">
       <h3>Can a satellite and a tower share a band?</h3>
-      <p>Satellites that talk to phones often use the same frequencies carriers already use on the ground, and that creates a problem towers never had. A tower's signal covers a few miles. One satellite beam covers an area that would hold dozens of towers. If the beam transmits on a frequency a carrier is using anywhere underneath it, it can drown out every one of those towers.</p>
+      <p>Remember <a href="#s3">frequency reuse</a> from Part One: a carrier can use the same 20 MHz again and again because each tower's signal fades within a few miles, and neighboring towers coordinate at the edges. A satellite breaks that arrangement. Its beam covers an area that would hold dozens of cells, so if it transmits on a frequency the carriers are reusing below it, it collides with all of those towers at once.</p>
       <p>The FCC's answer, adopted in March 2024, rests on three rules:</p>
       <ul>
         <li><strong>The carriers must agree.</strong> A satellite company can use a carrier's band only by renting it from whoever holds it across an entire region, such as the whole continental US. A beam can't stop at a license border, so a patchwork won't do.</li>
@@ -475,6 +426,16 @@
       <p><strong>Grain Management.</strong> The 800 MHz licenses belonged to T-Mobile until Grain bought them in August 2026. They add the low-band coverage layer SpaceX was missing: 800 MHz penetrates walls far better than 2 GHz, and most phones already support it. SpaceX is targeting 2027 for its next-generation direct-to-cell satellites, and says the combination makes it the first operator to deploy both satellite and ground-based spectrum.</p>
       <p>Put together, once the 800 MHz deal clears the FCC, SpaceX will hold the same kind of low-band plus mid-band mix that AT&amp;T, Verizon and T-Mobile hold, delivered from satellites and potentially from ground equipment too. That's why it's increasingly discussed as a potential fourth national carrier, while AST positions itself as a partner to the existing three.</p>
 
+      <h4>Where that leaves them</h4>
+      <p>Mapped onto the layers from <a href="#s3">Part One</a>, here's what each company now has to work with:</p>
+      <div class="table-scroll">
+      <table>
+        <tr><th></th><th>Low-band <span class="sub">reach and indoors</span></th><th>Higher bands <span class="sub">capacity</span></th></tr>
+        <tr><td><strong>SpaceX</strong></td><td>800 MHz from Grain, once the FCC approves</td><td>Its own 65 MHz around 1.7–2.2 GHz, from EchoStar <span class="sub">previously borrowed T-Mobile's</span></td></tr>
+        <tr><td><strong>AST</strong></td><td>Borrowed from AT&amp;T and Verizon, such as 850 MHz</td><td>Its own satellite-only L-band, around 1.5–1.7 GHz, from Ligado</td></tr>
+      </table>
+      </div>
+
       <h4>Do these bands overlap with the carriers' bands?</h4>
       <p>No. AST's new band sits in a range set aside for satellites, apart from the carriers' bands; you can see the gap in the zoomed map in <a href="#fig-spectrum-map">Figure 1</a>. SpaceX's bands don't overlap the carriers' either, but they sit right up against them with no gap. Signals leak slightly past their edges, which is exactly what the FCC's "no spilling over" rule (see <a href="#share">sharing a band</a>) is there to police.</p>
     </section>
@@ -489,6 +450,18 @@
       </ul>
     </section>
 
+    <section class="s" id="ahead">
+      <p class="bridge">Owning the airwaves is only the start. A few big problems still stand between these networks and everyday use.</p>
+      <h3>What still has to go right</h3>
+      <ul>
+        <li><strong>Enough satellites, fast enough.</strong> Continuous coverage needs a satellite overhead at all times, which means hundreds to thousands of them. Low-orbit satellites last only about five years before they fall back and burn up, so the fleet has to be replaced constantly. That makes this a launch business as much as a phone business: SpaceX builds its own rockets, while AST depends on other companies' and saw its schedule slip to 2027 after a rocket setback.</li>
+        <li><strong>Capacity.</strong> One beam is shared by everyone beneath it, across an area that would hold dozens of cells. Satellites can fill the gaps where towers don't reach, but they can't carry a city's traffic.</li>
+        <li><strong>Crowded orbits.</strong> More satellites mean more chances of collision, and every collision scatters debris that can hit others, a chain reaction known as <strong>Kessler syndrome</strong>. Starlink satellites already swerve constantly: SpaceX reported more than 200,000 dodging maneuvers in the six months to May 2026 alone. Low orbits help: dead satellites fall back within a few years instead of staying up for centuries.</li>
+        <li><strong>The night sky.</strong> Big, reflective satellites streak across telescope images. AST's test satellite, with its huge antenna array, became one of the brightest objects in the night sky, and astronomers have raised the same concern about its newer ones.</li>
+        <li><strong>Every country is different.</strong> Each country licenses its own airwaves, so a service built on US spectrum deals doesn't automatically work abroad. Operators need new partners and approvals country by country.</li>
+      </ul>
+    </section>
+
     <section class="s" id="s10">
       <p class="bridge">Here's everything above, in six lines.</p>
       <h3>Key takeaways</h3>
@@ -497,7 +470,7 @@
         <li>Lower frequencies reach farther and get indoors. Higher frequencies carry more data. Carriers combine low-band for coverage with mid-band for capacity.</li>
         <li>Direct-to-phone satellites act like very tall cell towers. They talk to your phone on cellular frequencies (the access link) and to ground stations on satellite frequencies (the backhaul link). No dish is needed on your end.</li>
         <li>Low-orbit satellites are always moving. Constant handovers and laser links between satellites keep the connection alive, even mid-ocean.</li>
-        <li>Starlink puts the base station in orbit; AST keeps it on the ground. Each choice has trade-offs in cost, flexibility and coverage.</li>
+        <li>The hard part is the phone talking back: its faint uplink has to reach orbit, which is why satellite service works best outdoors and why everyone wants low-band.</li>
         <li>SpaceX has moved from borrowing T-Mobile's spectrum to owning mid-band spectrum outright, with a low-band deal awaiting FCC approval, making it a potential new national carrier. AST is betting on partnering with existing carriers plus its own L-band.</li>
       </ul>
     </section>
@@ -521,7 +494,7 @@
         <dt>Buildout obligation</dt><dd>A license condition requiring the holder to actually deploy the spectrum by a deadline.</dd>
         <dt>Carrier aggregation</dt><dd>Combining several frequency bands into one faster connection.</dd>
         <dt>Downlink / uplink</dt><dd>Network-to-phone and phone-to-network directions.</dd>
-        <dt>Frequency reuse</dt><dd>Using the same frequencies in non-neighboring cells to multiply capacity.</dd>
+        <dt>Frequency reuse</dt><dd>Using the same frequencies again and again in different cells, so a small band can serve a whole country.</dd>
         <dt>Geostationary orbit</dt><dd>An orbit about 36,000 km up, where a satellite stays fixed over one spot.</dd>
         <dt>Ground station / gateway</dt><dd>A site with large dishes that connects satellites to the internet.</dd>
         <dt>Handover</dt><dd>Passing a phone's connection from one cell or satellite to the next.</dd>
@@ -748,42 +721,6 @@ const PHASE_STYLE = {
  const lmin=Math.log(600),lmax=Math.log(7200);
  build('m-ov',[0,1,2,3,4,5],f=>130+(Math.log(f)-lmin)/(lmax-lmin)*530,600,7200,[[600,'600M'],[800,'800M'],[1000,'1G'],[1500,'1.5G'],[2000,'2G'],[3000,'3G'],[4000,'4G'],[5000,'5G'],[7000,'7G']]);
  build('m-zm',[0,1,2,3,4],f=>130+(f-1500)/750*530,1500,2250,[[1500,'1.50'],[1600,'1.60'],[1700,'1.70'],[1800,'1.80'],[1900,'1.90'],[2000,'2.00'],[2100,'2.10'],[2200,'2.20 GHz']]);
-})();
-
-(function towerBrains(){
- const $=id=>document.getElementById(id);
- const S={ph:[39,272],sat:[165,120],gw:[140,280],core:[250,288]};
- const A={ph:[379,272],sat:[505,108],gw:[480,280],bs:[518,288],core:[616,288]};
- const NS='http://www.w3.org/2000/svg',lg=$('t-links');
- function ln(a,b){const l=document.createElementNS(NS,'line');l.setAttribute('x1',a[0]);l.setAttribute('y1',a[1]);l.setAttribute('x2',b[0]);l.setAttribute('y2',b[1]);l.setAttribute('stroke','var(--color-border-secondary)');l.setAttribute('stroke-width','1');l.setAttribute('stroke-dasharray','4 4');lg.appendChild(l);}
- ln(S.ph,S.sat);ln(S.sat,[140,274]);ln([155,288],S.core);ln(A.ph,A.sat);ln(A.sat,[480,274]);ln([495,288],A.bs);ln([606,288],A.core);
- const STEPS=[
-  {s:{m:[S.ph,S.sat],w:1},a:{m:[A.ph,A.sat],w:1},d:1500,cs:'Your phone sends a raw radio signal up on a cellular band.',ca:'Your phone sends a raw radio signal up on a cellular band.'},
-  {s:{at:S.sat,conv:1,hl:'t-sHL'},a:{at:A.sat,w:1,hl:'t-aHL'},d:1500,cs:'The base station on board decodes the signal into data packets, right in orbit.',ca:'The giant array catches and focuses the signal, but doesn\'t decode it.'},
-  {s:{m:[S.sat,S.gw],w:0},a:{m:[A.sat,A.gw],w:1},d:1500,cs:'Decoded packets go down the backhaul (or across laser links first).',ca:'The raw signal is relayed down to the gateway, shifted onto its backhaul band.'},
-  {s:{m:[S.gw,S.core],w:0},a:{m:[A.gw,A.bs],w:1},d:1200,cs:'The gateway just forwards packets to the carrier core.',ca:'The gateway hands the raw signal to a base station on the ground.'},
-  {s:{at:S.core,w:0},a:{at:A.bs,conv:1,hl:'t-gHL'},d:1500,cs:'Done: packets are in the core network.',ca:'The ground base station decodes the signal into data packets.'},
-  {s:{at:S.core,w:0},a:{m:[A.bs,A.core],w:0},d:1200,cs:'Done: packets are in the core network.',ca:'Packets go to the carrier core (AT&T, Verizon and other partners).'}
- ];
- let i=0,el=0,playing=!reduceMotion,last=performance.now();
- const pl=$('t-pl');pl.textContent=playing?'Pause':'Play';
- function place(gid,wid,bid,act,f){const g=$(gid);let x,y,wave;
-  if(act.m){x=act.m[0][0]+(act.m[1][0]-act.m[0][0])*f;y=act.m[0][1]+(act.m[1][1]-act.m[0][1])*f;wave=act.w;}
-  else{x=act.at[0];y=act.at[1];wave=act.conv?(f<0.5):act.w;}
-  g.setAttribute('transform','translate('+x+','+y+')');
-  $(wid).setAttribute('opacity',wave?'1':'0');$(bid).setAttribute('opacity',wave?'0':'1');
-  if(act.hl)$(act.hl).setAttribute('opacity',String(Math.max(0,1-Math.abs(f-0.5)*1.6)));}
- function draw(){const st=STEPS[i],f=Math.min(el/st.d,1);
-  ['t-sHL','t-aHL','t-gHL'].forEach(h=>$(h).setAttribute('opacity','0'));
-  place('t-pS','t-pSw','t-pSb',st.s,f);place('t-pA','t-pAw','t-pAb',st.a,f);
-  $('t-capS').innerHTML='<strong class="anim-strong">Starlink:</strong> '+st.cs;
-  $('t-capA').innerHTML='<strong class="anim-strong">AST:</strong> '+st.ca;
-  $('t-stp').textContent='Step '+(i+1)+' of '+STEPS.length;}
- function frame(now){const dt=now-last;last=now;if(playing){el+=dt;if(el>=STEPS[i].d+300){el=0;i=(i+1)%STEPS.length;}}draw();requestAnimationFrame(frame);}
- $('t-nx').addEventListener('click',()=>{i=(i+1)%STEPS.length;el=0;});
- $('t-pv').addEventListener('click',()=>{i=(i-1+STEPS.length)%STEPS.length;el=0;});
- pl.addEventListener('click',()=>{playing=!playing;pl.textContent=playing?'Pause':'Play';});
- requestAnimationFrame(frame);
 })();
 </script>
 
