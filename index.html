@@ -18,7 +18,7 @@
   <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css?v=2026-10-11">
+  <link rel="stylesheet" href="assets/css/style.css?v=2026-10-12">
 </head>
 <body>
 
@@ -76,29 +76,30 @@
 
     <section class="posts">
       <h2 class="section-title">Posts</h2>
+      <div class="topic-filter" role="group" aria-label="Filter posts by topic" hidden></div>
       <ul class="post-list">
-        <li>
-          <time datetime="2026-10-11">Oct 11, 2026</time>
+        <li data-topics="space-tech">
+          <div class="post-meta"><time datetime="2026-10-11">Oct 11, 2026</time><span class="post-tags"><a href="#space-tech">Space Tech</a></span></div>
           <a class="post-title" href="posts/spectrum-satellites.html">Spectrum, satellites and your phone</a>
           <p class="post-summary">Your phone can already text from space. Here's how that works, and why SpaceX and AST are spending billions on airwaves.</p>
         </li>
-        <li>
-          <time datetime="2026-10-08">Oct 8, 2026</time>
+        <li data-topics="ai robotics">
+          <div class="post-meta"><time datetime="2026-10-08">Oct 8, 2026</time><span class="post-tags"><a href="#ai">AI</a> <a href="#robotics">Robotics</a></span></div>
           <a class="post-title" href="posts/world-models-primer.html">World models, from the ground up</a>
           <p class="post-summary">Every AI company now claims a "world model". Here's what one actually is, and how to tell.</p>
         </li>
-        <li>
-          <time datetime="2026-09-01">Sep 1, 2026</time>
+        <li data-topics="robotics ai">
+          <div class="post-meta"><time datetime="2026-09-01">Sep 1, 2026</time><span class="post-tags"><a href="#robotics">Robotics</a> <a href="#ai">AI</a></span></div>
           <a class="post-title" href="posts/training-robot-policies.html">Learning to walk, one simulated fall at a time</a>
           <p class="post-summary">How reward design and massively parallel simulation teach a robot to walk — then map the concepts onto a real open-source repository.</p>
         </li>
-        <li>
-          <time datetime="2026-08-18">Aug 18, 2026</time>
+        <li data-topics="robotics">
+          <div class="post-meta"><time datetime="2026-08-18">Aug 18, 2026</time><span class="post-tags"><a href="#robotics">Robotics</a></span></div>
           <a class="post-title" href="posts/robot-training-data.html">Where robot training data comes from</a>
           <p class="post-summary">Four ways to get a robot the data it needs, and the quantity-versus-fidelity trade-off behind each one.</p>
         </li>
-        <li>
-          <time datetime="2026-08-14">Aug 14, 2026</time>
+        <li data-topics="robotics ai">
+          <div class="post-meta"><time datetime="2026-08-14">Aug 14, 2026</time><span class="post-tags"><a href="#robotics">Robotics</a> <a href="#ai">AI</a></span></div>
           <a class="post-title" href="posts/robot-world-models.html">Demystifying AI models in robotics</a>
           <p class="post-summary">Untangling two kinds of AI: ones that imagine the world, and ones that act in it.</p>
         </li>
@@ -112,6 +113,39 @@
     <p>Contact: <a href="mailto:ankit@premrajka.com">ankit@premrajka.com</a></p>
     <p><a href="terms.html">Terms &amp; Conditions</a> · <a href="terms.html#privacy">Privacy Policy</a></p>
   </footer>
+
+  <script>
+    // Topic filter: builds a chip for every topic that has at least one post,
+    // and keeps the choice in the URL hash (e.g. #robotics) so it can be shared.
+    (function () {
+      const LABELS = { 'ai': 'AI', 'robotics': 'Robotics', 'startup-finance': 'Startup Finance', 'space-tech': 'Space Tech' };
+      const bar = document.querySelector('.topic-filter');
+      const items = [...document.querySelectorAll('.post-list li[data-topics]')];
+      const topicsOf = li => li.dataset.topics.split(' ');
+      const present = new Set(items.flatMap(topicsOf));
+      const topics = ['all', ...Object.keys(LABELS).filter(t => present.has(t))];
+      bar.innerHTML = topics.map(t => `<button type="button" data-topic="${t}">${t === 'all' ? 'All' : LABELS[t]}</button>`).join('');
+      bar.hidden = false;
+
+      function apply(topic, scroll) {
+        if (!topics.includes(topic)) topic = 'all';
+        items.forEach(li => { li.hidden = topic !== 'all' && !topicsOf(li).includes(topic); });
+        bar.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.topic === topic)));
+        if (scroll) document.querySelector('.posts').scrollIntoView({ block: 'start' });
+      }
+      const fromHash = () => decodeURIComponent(location.hash.slice(1)) || 'all';
+
+      bar.addEventListener('click', e => {
+        const b = e.target.closest('button');
+        if (!b) return;
+        const t = b.dataset.topic;
+        history.replaceState(null, '', t === 'all' ? location.pathname : '#' + t);
+        apply(t, false);
+      });
+      window.addEventListener('hashchange', () => apply(fromHash(), false));
+      apply(fromHash(), location.hash.length > 1);
+    })();
+  </script>
 
 </body>
 </html>
