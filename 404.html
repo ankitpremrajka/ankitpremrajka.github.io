@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page not found · Ankit Premrajka</title>
+  <meta name="robots" content="noindex">
+  <script>
+    // GitHub Pages paths are case-sensitive, so /Current.html is a 404 even though
+    // /current.html exists. All site files are lowercase: retry the lowercase path once.
+    // If that's missing too, this page loads again with an already-lowercase path,
+    // so there's no redirect loop.
+    (function () {
+      var p = location.pathname;
+      if (p !== p.toLowerCase()) location.replace(p.toLowerCase() + location.search + location.hash);
+    })();
+  </script>
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/style.css?v=2026-10-12b">
+</head>
+<body>
+
+  <header class="site-header">
+    <img class="avatar" src="/assets/img/ankit.jpg" alt="Ankit Premrajka">
+    <h1><a href="/">Ankit Premrajka</a></h1>
+  </header>
+
+  <main>
+    <h2 class="section-title">Page not found</h2>
+    <p class="intro">There's nothing at this address. The link may have a typo, or the page may have moved.</p>
+    <p class="intro">Try the <a href="/">homepage</a> for products and posts, or <a href="/current.html">Current</a>, the daily tech briefing on WhatsApp.</p>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2026 Premrajka LLC. All rights reserved.</p>
+    <p>Contact: <a href="mailto:ankit@premrajka.com">ankit@premrajka.com</a></p>
+    <p><a href="/terms.html">Terms &amp; Conditions</a> · <a href="/terms.html#privacy">Privacy Policy</a></p>
+  </footer>
+
+</body>
+</html>

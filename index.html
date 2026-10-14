@@ -133,7 +133,8 @@
         bar.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.topic === topic)));
         if (scroll) document.querySelector('.posts').scrollIntoView({ block: 'start' });
       }
-      const fromHash = () => decodeURIComponent(location.hash.slice(1)) || 'all';
+      // Accept any capitalization and spacing: #Robotics, #space tech, #Space_Tech all work.
+      const fromHash = () => decodeURIComponent(location.hash.slice(1)).trim().toLowerCase().replace(/[\s_]+/g, '-') || 'all';
 
       bar.addEventListener('click', e => {
         const b = e.target.closest('button');
