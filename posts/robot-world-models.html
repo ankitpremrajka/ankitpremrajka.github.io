@@ -39,7 +39,7 @@
   <div class="hero-inner">
     <div class="kicker"><a href="../index.html#robotics">Robotics</a> · <a href="../index.html#ai">AI</a></div>
     <h1>Demystifying <span>AI models in robotics</span></h1>
-    <p class="lede">Two kinds of AI models are converging: one that imagines what the world will look like next, and one that decides what a robot should do next. This guide explains how they work, how they help each other, and why teaching a robot is so much harder than teaching a chatbot.</p>
+    <p class="lede">Two kinds of AI models are converging: one that imagines what the world will look like next, and one that decides what a robot should do next. This guide explains how they work, how they help each other, whether one robot brain can run any body, and why teaching a robot is so much harder than teaching a chatbot.</p>
     <p class="hero-note">No maths, no code. Every concept is explained with an everyday example first. Technical terms appear in <strong>bold</strong> when introduced, and are collected in a glossary at the end. Each section opens with a line connecting it to the one before.</p>
   </div>
 </div>
@@ -51,7 +51,7 @@
     <div class="rail-part">Part 1 · The basics</div>
     <a href="#s1">Two very different jobs</a>
     <a href="#s2">What's inside a robot's brain</a>
-    <a href="#s3">Why thinking too slowly matters</a>
+    <a href="#s10">One brain, many bodies</a>
 
     <div class="rail-part">Part 2 · Working together</div>
     <a href="#s4">Training vs. runtime</a>
@@ -59,9 +59,9 @@
 
     <div class="rail-part">Part 3 · The big debate</div>
     <a href="#s7">Pictures or ideas?</a>
-    <a href="#s8">Two companies, two bets</a>
 
     <div class="rail-part">Part 4 · The real world</div>
+    <a href="#s3">The hard problems</a>
     <a href="#s9">Who's building what</a>
     <a href="#glossary">Glossary</a>
   </nav>
@@ -72,21 +72,23 @@
     <div class="part-head">
       <span class="pnum">Part One</span>
       <h2>The basics</h2>
-      <p>What these models are, and what's actually inside one.</p>
+      <p>What these models are, what's actually inside one, and where the industry is taking them.</p>
     </div>
 
     <section class="s" id="s1">
-      <h3>Two very different jobs that share a name</h3>
-      <p>People often use one label — <strong>VLA</strong>, short for "vision-language-action" — for two things that are actually doing opposite jobs. The difference comes down to a simple question: <em>what does the model produce?</em></p>
+      <h3>Two very different jobs, often confused</h3>
+      <p>People often lump together two kinds of AI model that do different but complementary jobs: a world model and a <strong>VLA</strong>, short for "vision-language-action". The difference comes down to a simple question: <em>what does the model produce?</em></p>
 
       <div class="two">
         <div class="box m">
           <h5>A world model</h5>
           <p>Watches what's happening, and produces <strong>a picture of what happens next</strong>. Give it a video game scene and a button press, and it draws the next frame. It's answering: "if this happens, what will the world look like?"</p>
+          <p><strong>Where it shines:</strong> rehearsing rare or dangerous situations, like an animal running onto the road for a self-driving car, and generating practice footage for robots.</p>
         </div>
         <div class="box">
-          <h5>A VLA (robot policy)</h5>
+          <h5>A VLA (a robot's brain)</h5>
           <p>Looks at the world, and produces <strong>an instruction for the body</strong> — move this joint, close that gripper. It's answering: "given what I see and what I've been asked to do, what should I do next?"</p>
+          <p><strong>Where it shines:</strong> hands-on tasks in messy, real places, like folding laundry, clearing a table or picking items it has never seen before.</p>
         </div>
       </div>
 
@@ -96,9 +98,8 @@
 
       <div class="note"><strong>A word on "policy."</strong> VLA is the trendy, capable-but-heavy way to build a policy — but "policy" itself is the older, more general term: a function that turns a command, plus a sense of the robot's own body and the world around it, into what to do next. A hard-coded controller is a policy. A small network trained for just one task is a policy. A VLA is simply today's best-performing way of building one, by starting from an internet-scale vision-language model instead of from scratch.</div>
 
-      <p>So why does everyone mix them up? Partly because both take an "action" as an input — a button press for the game, a movement command for the robot. Partly because they're built from very similar machinery underneath. But mostly because researchers are now deliberately <em>combining</em> them into single systems that do both jobs at once. There's even a name for these hybrids: <strong>World Action Models</strong>. So the blurring isn't purely a mistake — it's where the field is heading.</p>
+      <p>So why does everyone mix them up? Partly because both take an "action" as an input — a button press for the game, a movement command for the robot. Partly because they're built from very similar machinery underneath. But mostly because researchers are now deliberately <em>combining</em> them into single systems that do both jobs at once. There's even a name for these hybrids: <strong>World Action Models</strong>. So the blurring isn't purely a mistake — it's a direction researchers are actively pursuing.</p>
 
-      <div class="note"><strong>A useful way to sort world models</strong>, proposed by Stanford's Fei-Fei Li: some are <em>renderers</em> (they draw what things look like), some are <em>simulators</em> (they work out how objects respond to being pushed), and some are <em>planners</em> (they reason about sequences of actions). This three-way split comes up repeatedly below.</div>
     </section>
 
     <section class="s" id="s2">
@@ -124,33 +125,48 @@
       </ul>
 
       <p>Crucially, nobody builds this understanding from scratch. Researchers start with an existing AI model that already understands images and language from being trained on the internet, then teach it about robot movement on top. That inherited knowledge is why a robot can be told "pick up the fruit" and reach for a banana it's never seen before.</p>
-
-      <h4>Planning a burst, not a step</h4>
-      <p>Rather than deciding one tiny movement at a time, most robots plan a short <em>sequence</em> — roughly the next second of motion — and carry it out before checking back in. This turns out to be essential, for the reason in the next section.</p>
     </section>
 
-    <section class="s" id="s3">
-      <p class="bridge">Planning a burst rather than a single step, from the section above, is a workaround. Here's the problem it's working around.</p>
-      <h3>The mismatch: slow thinking, fast hands</h3>
-      <p>This is the constraint that shapes robot design more than almost anything else, and it's rarely mentioned in headlines.</p>
-      <p>The "thinking" part of a robot's brain is big and slow. It can form a fresh understanding of a scene maybe <strong>two to five times per second</strong>. But hands doing careful work — anything involving touch, grip, or balance — need updates <strong>ten to fifty times per second</strong> to stay steady. There's a gap, and it's a problem.</p>
+    <section class="s" id="s10">
+      <p class="bridge">That's what's inside one robot's brain. The industry's big ambition is to make that same brain work across many different robots, which is where a newer label comes in.</p>
+      <h3>Robot foundation models: one brain, many bodies</h3>
+      <p>So what the heck is a <strong>robot foundation model</strong>? Mostly, it's a new name for a big VLA. "Foundation model" is the AI industry's term for one large model trained on broad data and then adapted to many jobs; the models behind ChatGPT and Gemini are foundation models for language. A robot foundation model is the same idea for robots: a VLA trained on recordings from many different robots and tasks, so it can be adapted to new ones.</p>
+      <p>The two labels describe the same kind of model from different angles. "VLA" says how it works: vision and language in, actions out. "Robot foundation model" says how broadly it's trained and how widely it's meant to be reused. Physical Intelligence's π0 and Google DeepMind's Gemini Robotics are both. A few companies, like Skild AI, describe their models only as foundation models, but they do the same job.</p>
 
-      <div class="analogy">
-        <p>Imagine trying to catch a ball while only being allowed to glance at it three times a second. Between glances you're moving blind, guessing where it went. That's roughly the position a robot is in when its thinking is slower than its hands need it to be.</p>
+      <h4>Where the industry is heading</h4>
+      <p>The goal is one model, trained once, that can run a robot arm, a humanoid or a four-legged robot, with only a little extra training for each new body. That's how language AI already works, and robotics companies want the same economics. Skild AI calls its model "omni-bodied" and says it can control robots it has never trained on. Google DeepMind says a single Gemini Robotics model drives two different two-armed robots and a humanoid.</p>
+      <p>How far that goes depends on which part of a robot's brain carries over to a new body, and which part doesn't.</p>
+
+      <div class="two">
+        <div class="box m">
+          <h5>What carries over</h5>
+          <p><strong>Understanding the scene and the task.</strong> What a cup is, what "put it in the bin" means, where to look first. This mostly comes from the image-and-language model the robot's brain starts from (see the section above), and it doesn't care what body it's in. The rough shape of a skill carries over too: reach, grip, lift, check.</p>
+        </div>
+        <div class="box">
+          <h5>What doesn't</h5>
+          <p><strong>The body itself.</strong> How many joints, how long the arms, a two-finger gripper or a five-fingered hand, where the cameras sit, how heavy and fast it is. "Lift the cup" means a completely different set of joint movements on each robot, and that translation is the hard part.</p>
+        </div>
       </div>
 
-      <p>The fix most systems now use is a <strong>two-speed design</strong>: a slower part works out the overall plan a few times a second, while a smaller, much faster part handles the split-second adjustments in between. This mirrors how people work — you consciously decide "I'll pick up that mug," but the fine muscle coordination that actually does it runs faster and more automatically, without you thinking through every millimetre.</p>
+      <div class="analogy">
+        <p>Someone who can drive can drive almost any car after a few minutes of finding the mirrors and the pedals: the understanding of driving carries over. A motorbike or a forklift takes real practice, because the controls and the balance are different. Today's robot foundation models are at the "new car" stage for bodies like the ones they trained on, and closer to the "learner" stage for very different ones.</p>
+      </div>
 
-      <p>That faster part is where the term "policy," in its narrow, original sense, actually lives: a small, fast model — sometimes little more than straightforward maths — whose only job is turning the slow part's rough intention into a real stream of joint-by-joint motor commands, tens of times a second. It doesn't understand language or images at all; it just executes.</p>
+      <h4>How a new body gets plugged in</h4>
+      <ul>
+        <li><strong>Train on many bodies at once.</strong> Pool recordings from many robot types (the shared datasets in <a href="#s9">Part Four</a> exist for exactly this), so the model sees lots of variety. Each robot's movements are translated into a common format the model can learn from, and a small body-specific component translates the model's output back into that robot's joints.</li>
+        <li><strong>Post-train on the new robot.</strong> A person remote-controls the new robot through the task a number of times, and the model is fine-tuned on those recordings. This is the "just post-train it" step, and the amount needed is shrinking: DeepMind says its on-device model adapts to a new robot from fewer than 200 examples (see Gemini Robotics 2 in <a href="#s9">Part Four</a>).</li>
+        <li><strong>Learn to adapt on the fly.</strong> Skild says it trains its model to adapt rather than memorise one body, partly by practising in physics simulations, so it can work out what body it's in from how that body responds. It claims this handles damaged limbs, jammed wheels and heavier loads without retraining. Those are the company's own claims, not yet independently tested.</li>
+      </ul>
 
-      <div class="note warn"><strong>A remaining flaw.</strong> In most current systems, the fast part still has to pause and wait while the slow part thinks — creating brief moments where the robot is effectively moving on autopilot with stale information. Closing those gaps is an active area of work.</div>
+      <p>That's why the "one brain" bet is credible: the knowledge is shared, so each new robot needs less data of its own. But plugging in a new body is never free. <a href="#s3">Part Four</a> covers the work that remains.</p>
     </section>
 
     <!-- PART 2 -->
     <div class="part-head">
       <span class="pnum">Part Two</span>
       <h2>Working together</h2>
-      <p>Part One covered how a robot decides what to do, and turns that decision into movement. This part turns to the imagination guiding those decisions — at training time, and at runtime.</p>
+      <p>Part One covered how a robot's brain decides what to do, and how the industry hopes to reuse one brain across many bodies. This part turns to the imagination guiding those decisions — at training time, and at runtime.</p>
     </div>
 
     <section class="s" id="s4">
@@ -198,8 +214,6 @@
       <p>This is the deepest live disagreement in the field, and it's surprisingly easy to grasp.</p>
       <p>Most world models predict what the world will <em>look</em> like — actual images. An alternative approach, championed by Yann LeCun and called <strong>JEPA</strong>, argues this is fundamentally wasteful. Instead of predicting pictures, it predicts a compressed summary of what's happening — the gist rather than the image. (My later primer, <a href="world-models-primer.html#s1">World models, from the ground up</a>, covers both camps and how each is built.)</p>
 
-      <p>This maps onto the three-way split from Part One: predicting pictures is the <strong>renderer</strong> approach; predicting the gist is closer to how a <strong>planner</strong> reasons. (The <strong>simulator</strong> camp — modelling physics directly rather than predicting either pixels or gists — is a third option this particular debate mostly sets aside.)</p>
-
       <h4>An example: a ball rolling behind a box</h4>
       <p>A red ball rolls across a table and disappears behind a box for a moment.</p>
       <div class="two">
@@ -220,35 +234,49 @@
       <p>The claim is that this is exactly what a robot needs. To decide what to do, a robot doesn't need a perfect video of the future — it needs to know "if I push here, the cup tips over and spills." That's a fact about <em>consequences</em>, not appearances. It's also cheaper to work out and less easily confused by irrelevant visual changes like a shadow moving.</p>
 
       <div class="note warn"><strong>The trade-off is real.</strong> Summarising means throwing things away, and sometimes you throw away something that mattered. Was that a hairline crack forming in the glass, or just a reflection? A model trained to ignore fine detail may not notice the difference. Tuning how much to keep is an open research question.</div>
-    </section>
 
-    <section class="s" id="s8">
-      <p class="bridge">That's the abstract argument. Here's what it looks like as two companies, and roughly two billion dollars, betting opposite ways.</p>
-      <h3>Two companies betting opposite ways</h3>
-      <p>The two most prominent startups in this space disagree about precisely the question above — and both have raised enormous sums to prove their side.</p>
-      <table>
-        <tr><th></th><th>World Labs</th><th>AMI Labs</th></tr>
-        <tr><td>Founded by</td><td><strong>Fei-Fei Li</strong>, with a team rooted in computer vision and 3D graphics</td><td><strong>Yann LeCun</strong>, who left Meta in late 2025 after 12 years as its chief AI scientist</td></tr>
-        <tr><td>The bet</td><td>Build genuinely interactive 3D worlds with real physics, so robots have somewhere realistic to practise</td><td>Skip the pictures entirely; learn to predict consequences in the abstract</td></tr>
-        <tr><td>Reasoning</td><td>Robots can't learn from the internet the way chatbots did — what they're starved of is cheap, varied, physically realistic places to practise</td><td>Predicting the world in full visual detail is inherently imprecise, because much of that detail is genuinely unpredictable</td></tr>
-        <tr><td>Which role</td><td>Mostly making up practice material, during training</td><td>Mostly thinking before acting, at runtime</td></tr>
-        <tr><td>Money raised</td><td>Around $1 billion in early 2026</td><td>Just over $1 billion — the largest seed round in European AI history</td></tr>
-        <tr><td>First market</td><td>Gaming, visual effects, robot simulation</td><td>Healthcare first; robotics framed as roughly a five-year research effort</td></tr>
-      </table>
-      <p>Tellingly, Nvidia has invested in <em>both</em> — opposite philosophies, same cheque. Which is a fair signal that this genuinely isn't settled yet.</p>
+      <p>The argument has real money on both sides. Fei-Fei Li's World Labs is building realistic 3D worlds for robots to practise in; Yann LeCun's AMI Labs skips pictures entirely and predicts consequences in the abstract. Each has raised about $1 billion, and Nvidia has invested in both: opposite philosophies, same cheque. (<a href="world-models-primer.html#s11">World models, from the ground up</a> covers both companies in more detail.)</p>
     </section>
 
     <!-- PART 4 -->
     <div class="part-head">
       <span class="pnum">Part Four</span>
       <h2>The real world</h2>
-      <p>Parts One through Three covered the ideas. This part covers who's actually building them.</p>
+      <p>Parts One through Three covered the ideas. This part covers what it takes to make them work on real robots: the hard problems every company faces, and who's building what.</p>
     </div>
 
+    <section class="s" id="s3">
+      <h3>The hard problems every robot has to solve</h3>
+      <p>Whichever model a company bets on, two problems come up for everyone: the robot's thinking is slower than its hands, and every new body needs its own last mile of work.</p>
+
+      <h4>Slow thinking, fast hands</h4>
+      <p>This is the constraint that shapes robot design more than almost anything else, and it's rarely mentioned in headlines.</p>
+      <p>The "thinking" part of a robot's brain is big and slow. It can form a fresh understanding of a scene maybe <strong>two to five times per second</strong>. But hands doing careful work — anything involving touch, grip, or balance — need updates <strong>ten to fifty times per second</strong> to stay steady. There's a gap, and it's a problem.</p>
+
+      <div class="analogy">
+        <p>Imagine trying to catch a ball while only being allowed to glance at it three times a second. Between glances you're moving blind, guessing where it went. That's roughly the position a robot is in when its thinking is slower than its hands need it to be.</p>
+      </div>
+
+      <p>The first workaround is to plan a burst rather than a single step. Instead of deciding one tiny movement at a time, the robot plans roughly the next second of motion, called <strong>action chunking</strong>, and carries it out before checking back in, so it isn't waiting on every thought. The second, which most systems now use, is a <strong>two-speed design</strong>: a slower part works out the overall plan a few times a second, while a smaller, much faster part handles the split-second adjustments in between. This mirrors how people work — you consciously decide "I'll pick up that mug," but the fine muscle coordination that actually does it runs faster and more automatically, without you thinking through every millimetre.</p>
+
+      <p>Engineers often call that faster part the <strong>low-level policy</strong> or <strong>controller</strong>: a small, fast model — sometimes little more than straightforward maths — whose only job is turning the slow part's rough intention into a real stream of joint-by-joint motor commands, tens of times a second. It doesn't understand language or images at all; it just executes.</p>
+
+      <div class="note warn"><strong>A remaining flaw.</strong> In most current systems, the fast part still has to pause and wait while the slow part thinks — creating brief moments where the robot is effectively moving on autopilot with stale information. Closing those gaps is an active area of work.</div>
+
+      <h4>The last mile to a new body</h4>
+      <p>Robot foundation models (<a href="#s10">Part One</a>) make it cheaper to bring up a new robot, but "just post-train it" still undersells the work:</p>
+      <ul>
+        <li><strong>The data still has to come from that body.</strong> Even a few hundred demonstrations means someone operating the new robot by hand, task by task.</li>
+        <li><strong>Hands are the hardest jump.</strong> A simple gripper opens and closes; a five-fingered robot hand can have twenty or more joints to coordinate. Moving a model between two arms is a much smaller step than moving it from a gripper to a hand, or from an arm to a walking humanoid.</li>
+        <li><strong>The model isn't the whole robot.</strong> Cameras, calibration, safety limits and the fast control loop above still have to be built and tuned for each body. A 2026 survey calls this the <strong>embodiment gap</strong>: the work that remains between a model that generalises and one that actually runs on your robot, which a headline success rate doesn't show.</li>
+      </ul>
+    </section>
+
     <section class="s" id="s9">
+      <p class="bridge">Every company below is working around those problems in its own way. Here's who's building what.</p>
       <h3>Who's building what</h3>
 
-      <h4>Robot brains (VLAs)</h4>
+      <h4>Robot brains (VLAs and other robot foundation models)</h4>
       <table>
         <tr><th>Name</th><th>Who</th><th>Worth knowing</th></tr>
         <tr><td><strong>OpenVLA</strong></td><td>Stanford / Berkeley</td><td>Fully open and freely usable — the standard starting point for researchers without a corporate lab behind them.</td></tr>
@@ -256,6 +284,7 @@
         <tr><td><strong>RT-2</strong></td><td>Google DeepMind</td><td>The original work that established treating movement like a language — chopping every possible motion into a numbered menu of slots, and predicting them one at a time the way a chatbot predicts words.</td></tr>
         <tr><td><strong>Gemini Robotics 2</strong></td><td>Google DeepMind</td><td>Released July 2026 as three tiers: Gemini Robotics 2 (the core brain — turns what it sees and hears into movement), ER 2 (the planner — breaks tasks into steps and talks to people, but doesn't simulate physics), and On-Device 2 (a compressed version that runs locally and adapts to a new robot from fewer than 200 examples).</td></tr>
         <tr><td><strong>GR00T</strong></td><td>NVIDIA</td><td>Aimed squarely at humanoids, and tied into NVIDIA's simulation tools.</td></tr>
+        <tr><td><strong>Skild Brain</strong></td><td>Skild AI</td><td>Pitched as "omni-bodied": one model meant to control arms, humanoids and four-legged robots without knowing their exact body in advance. Raised about $1.4 billion in January 2026.</td></tr>
         <tr><td><strong>SmolVLA</strong></td><td>Hugging Face</td><td>Deliberately small, so it runs on affordable hardware.</td></tr>
       </table>
 
@@ -314,6 +343,15 @@
 
           <dt>Action chunking</dt>
           <dd>Planning a short burst of movement — roughly a second — rather than one tiny step at a time.</dd>
+
+          <dt>Robot foundation model</dt>
+          <dd>One large model trained on data from many robots and tasks, meant to be adapted to new robots and jobs with a little extra training rather than built from scratch each time. In practice, usually a VLA described by how broadly it's trained.</dd>
+
+          <dt>Embodiment</dt>
+          <dd>A robot's body: its shape, joints, hands or grippers, sensors and how it moves. "Cross-embodiment" means working across different bodies.</dd>
+
+          <dt>Embodiment gap</dt>
+          <dd>The work that still remains to run a general model on one particular robot: new data, a translation into its joints, and the engineering around the model.</dd>
         </dl>
       </div>
     </section>
