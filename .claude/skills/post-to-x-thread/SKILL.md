@@ -1,6 +1,6 @@
 ---
 name: post-to-x-thread
-description: Turns one long-form post under posts/*.html on premrajka.com into a 7-post X (Twitter) thread that opens and closes on a hook grounded in real, verified news. Use this whenever the user asks to share, promote, spin, summarize or "turn into a thread" a post for X/Twitter, or asks for tweets or social copy about a post. Also use it when the user wants an existing thread revised (new ending, added facts, hashtags, images). It drafts the thread text and its images (re-rendered post figures, Claude Design prompts), but never posts to X or edits site files.
+description: Turns one long-form post under posts/*.html on premrajka.com into an X (Twitter) thread of up to 9 posts that opens and closes on a hook grounded in real, verified news. Use this whenever the user asks to share, promote, spin, summarize or "turn into a thread" a post for X/Twitter, or asks for tweets or social copy about a post. Also use it when the user wants an existing thread revised (new ending, added facts, hashtags, images). It drafts the thread text and its images (re-rendered post figures, Claude Design prompts), but never posts to X or edits site files.
 ---
 
 # Post → X thread
@@ -9,22 +9,22 @@ The user uses X as the media channel for premrajka.com: short threads that pull 
 
 ## The shape (fixed)
 
-Exactly **7 posts**, each **≤280 characters**, always as a **thread** (the user tried a single long post and went back to threads).
+**Up to 9 posts** (aim for 7–9; use the extra room only when the post has that many ideas worth a post each), each **≤280 characters**, always as a **thread** (the user tried a single long post and went back to threads). Below, N is the last post.
 
 | Post | Job |
 |---|---|
 | **1. News hook** | A specific, recent, verified news event tied to the post's topic, with a hard number. Then the question the post answers ("Why would X move Y that much?") and 🧵. Ends with 1–2 hashtags. |
-| **2–5. The explainer** | One idea per post, taken from the long-form post in its order. Plain English, concrete numbers, no jargon the post itself didn't define. Reuse the post's own analogies (e.g. the spectrum "highway and lanes") rather than inventing new ones. |
-| **6. The stakes** | Who's winning and why: the players, the money, the moves, mapped back to the explainer. |
-| **7. News hook, second angle** | Return to the news from a different angle (e.g. post 1 was the company that lost; post 7 is the wider industry fallout). End on a **thought-provoking open question** about what happens next, then the post link, then one niche hashtag. |
+| **2 to N−2. The explainer** | One idea per post, taken from the long-form post in its order. Plain English, concrete numbers, no jargon the post itself didn't define. Reuse the post's own analogies (e.g. the spectrum "highway and lanes") rather than inventing new ones. |
+| **N−1. The stakes** | Who's winning and why: the players, the money, the moves, mapped back to the explainer. |
+| **N. News hook, second angle** | Return to the news from a different angle (e.g. post 1 was the company that lost; the last post is the wider industry fallout). End on a **thought-provoking open question** about what happens next, then the post link, then one niche hashtag. |
 
-**Both the first and the last post must be grounded in real news.** Post 7 is not a summary or a "what's available today" roundup. The user cut that ending as boring. It's the bigger implication of the news, posed as a question.
+**Both the first and the last post must be grounded in real news.** The last post is not a summary or a "what's available today" roundup. The user cut that ending as boring. It's the bigger implication of the news, posed as a question.
 
 ## Process
 
 1. **Confirm the post.** Use the one the user names; if none, ask.
 2. **Read the whole post.** Pull out the 4–5 ideas that carry the argument, plus the concrete numbers that make them land.
-3. **Find the news.** Search for events from roughly the last two weeks tied to the post's subject (deals, launches, rulings, stock moves). Prefer an event with a measurable consequence. Pick a second angle on the same event for post 7.
+3. **Find the news.** Search for events from roughly the last two weeks tied to the post's subject (deals, launches, rulings, stock moves). Prefer an event with a measurable consequence. Pick a second angle on the same event for the last post.
 4. **Verify every number against raw sources, not headlines.** Headlines disagree. For the spectrum thread, outlets quoted 6%, 10%, 14% and 16% for the same move.
    - **Stock moves:** pull daily closes yourself:
      ```bash
@@ -52,7 +52,7 @@ Exactly **7 posts**, each **≤280 characters**, always as a **thread** (the use
 
 ## Images
 
-Aim for images on **two or three of posts 2–6**, usually the post that defines the core idea and the post with the key numbers. Skip post 1, so the hook text leads, and post 7, where the link's preview card already shows.
+Aim for images on **two or three of the middle posts**, usually the post that defines the core idea and the post with the key numbers. Skip post 1, so the hook text leads, and the last post, where the link's preview card already shows.
 
 **Where images come from, in order of preference:**
 
@@ -88,11 +88,12 @@ Cobalt should be the one strong colour in an image. Teal and purple belong only 
 ## Style rules
 
 - **Tickers over hashtags for public companies:** `$ASTS`, `$TMUS`, `$T`, `$VZ`. They link to the stock's feed, and they replace the company name, so they cost no extra characters.
-- **Hashtags only on posts 1 and 7, 1–2 each.** Use one broad audience tag (e.g. #SpaceX, #Starlink, #AI) and one niche industry term (e.g. #DirectToCell). Tags on every post look spammy and hurt reach.
-- **No post numbering by default** ("1/7"); offer it if there's room.
+- **Hashtags only on the first and last posts, 1–2 each.** Use one broad audience tag (e.g. #SpaceX, #Starlink, #AI) and one niche industry term (e.g. #DirectToCell). Tags on every post look spammy and hurt reach.
+- **Tag companies' X accounts** where they're the subject of a post (e.g. `@physical_int`), to earn impressions from their followers. Verify every handle against the company's own website or X profile before using it. A wrong or look-alike handle sends attention to someone else. One tag per company, at its first mention, and never more than about three tags in one post. A handle counts toward the 280 characters like any other text.
+- **No post numbering by default** ("1/9"); offer it if there's room.
 - **Approximate with "~"** for rounded figures (~10,000x, ~$8B). Keep exact figures exact (16%, 65 MHz).
 - **After any edit, re-read the neighbouring sentence for ambiguity.** Adding "Ligado" to post 6 made "these same airwaves" point at the wrong band, so it had to name "that 800 MHz".
-- **Link:** the last post links to `https://premrajka.com/posts/<slug>.html`. X shows the post's preview card, so no image is needed on post 7.
+- **Link:** the last post links to `https://premrajka.com/posts/<slug>.html`. X shows the post's preview card, so no image is needed on the last post.
 
 ## Revisions
 
