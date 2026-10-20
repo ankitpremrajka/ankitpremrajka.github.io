@@ -106,7 +106,7 @@
       <p>The property that matters is <strong>speed</strong>. A simulator can run a walking robot far faster than real time. If learning to walk takes a million attempts, that is decades of real-world falling and a few hours of simulation. Everything in this guide follows from that one fact.</p>
 
       <h4>A simulator is not a learned world model</h4>
-      <p>This distinction is worth settling immediately, because both are casually called "world models." A physics engine contains hand-written equations of motion. A <strong>world model</strong> in the machine-learning sense is a neural network that inferred how things move by watching data. Both predict what happens next; only one is guaranteed to be physically consistent.</p>
+      <p>This distinction is worth settling immediately, because both are casually called "world models." A physics engine contains hand-written equations of motion. A <strong>world model</strong> in the machine-learning sense is a neural network that inferred how things move by watching data. Both predict what happens next; only one is guaranteed to be physically consistent. (<a href="world-models-primer.html#s3">World models, from the ground up</a> makes the same comparison from the world-model side.)</p>
       <div class="table-scroll">
       <table>
         <tr><th></th><th>Physics engine (MuJoCo)</th><th>Learned world model</th></tr>
@@ -462,7 +462,7 @@ env 3:  ────────────────────────
 
     <section class="s" id="s41">
       <h3>The sim-to-real gap</h3>
-      <p>A policy that walks flawlessly in simulation often collapses on real hardware. The reason is simple: <strong>the simulator is wrong.</strong> Not badly wrong, but wrong in a thousand small ways — friction is a little different, motors respond a little slower, sensors are noisy, gears have play, the battery sags under load.</p>
+      <p>A policy that walks flawlessly in simulation often collapses on real hardware. The reason is simple: <strong>the simulator is wrong.</strong> Not badly wrong, but wrong in a thousand small ways — friction is a little different, motors respond a little slower, sensors are noisy, gears have play, the battery sags under load. (<a href="robot-training-data.html#s6">Where robot training data comes from</a> covers the data tricks labs use to close this gap.)</p>
       <p>The trouble is that reinforcement learning is an exceptionally good exploiter. If your simulation has one exact friction coefficient, the policy will happily learn a gait that depends on that precise value, because doing so scores marginally better than a robust one. It has no incentive to be general — only to score.</p>
       <div class="analogy">
         <p>It is like a student who memorises the exact wording of every past exam question. Perfect marks on practice papers, and completely lost the moment the real exam rephrases anything.</p>

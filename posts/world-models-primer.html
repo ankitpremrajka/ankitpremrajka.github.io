@@ -121,7 +121,7 @@
     <section class="s" id="s3">
       <p class="bridge">A video generator is, in effect, a world model without the actions. A physics engine is the opposite case: all hand-written rules, nothing learned.</p>
       <h3>How world models differ from game physics engines</h3>
-      <p>Game engines like Unity rely on a classical <strong>physics engine</strong> (Unity's 3D physics runs on NVIDIA PhysX). It's worth being precise about what that is:</p>
+      <p>Game engines like Unity rely on a classical <strong>physics engine</strong> (Unity's 3D physics runs on NVIDIA PhysX). It's worth being precise about what that is (<a href="training-robot-policies.html#s11">Learning to walk</a> shows one at work):</p>
       <ul>
         <li>It stores an <strong>explicit list of objects</strong> with known positions, masses, and shapes.</li>
         <li>It advances them using <strong>hand-written equations</strong> of motion and collision rules.</li>
@@ -158,7 +158,7 @@
 
       <h4>The two ideas</h4>
       <ul>
-        <li><strong>Autoregressive</strong> generation answers <em>"how do you build a long sequence?"</em> One piece at a time, each piece conditioned only on what came before, never revising what's already been produced. This is how a large language model writes text, token by token.</li>
+        <li><strong>Autoregressive</strong> generation answers <em>"how do you build a long sequence?"</em> One piece at a time, each piece conditioned only on what came before, never revising what's already been produced. This is how a large language model writes text, token by token, though <a href="diffusion-language-models.html">diffusion language models</a> are starting to change that.</li>
         <li><strong>Diffusion</strong> answers <em>"how do you build one complex sample?"</em> Start from pure random noise and refine all of it in parallel over many small cleanup steps, from coarse to fine, until a sharp image emerges.</li>
       </ul>
       <div class="analogy">
@@ -247,7 +247,7 @@
         <li><strong>Egocentric human video.</strong> Head-mounted camera footage of people cooking, assembling, and walking. Head and hand motion can be estimated from the footage and treated as actions. In Cosmos 3's action data, egocentric motion is the largest component at about 41,300 hours (67%).</li>
         <li><strong>Video games.</strong> The classic action-labeled source, since every controller input can be recorded alongside every frame. The first Genie was trained on internet footage of 2D platformer games.</li>
         <li><strong>Driving logs.</strong> Camera feeds paired with exact steering, braking, and speed. This is why self-driving companies (Waymo, Wayve, Tesla) hold a structural data advantage, and why Odyssey's founders came from that world.</li>
-        <li><strong>Robot data.</strong> The scarcest and most valuable. In Cosmos 3, robotics contributes only about 5,400 hours (9%), aggregated from open-source datasets.</li>
+        <li><strong>Robot data.</strong> The scarcest and most valuable. In Cosmos 3, robotics contributes only about 5,400 hours (9%), aggregated from open-source datasets. (Robotics has its own version of this pyramid, covered in <a href="robot-training-data.html#s1">Where robot training data comes from</a>.)</li>
         <li><strong>Purpose-captured data.</strong> Footage collected specifically for training. Odyssey, for example, built its own 360-degree camera backpack rig early on to film real places.</li>
         <li><strong>Synthetic data from physics engines.</strong> Perfectly labeled ground truth, at the cost of looking like a simulator.</li>
       </ul>

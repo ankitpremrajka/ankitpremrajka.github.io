@@ -239,9 +239,9 @@
       <div class="note">The headset used for this kind of capture is usually a literal VR headset, just run without the VR rendering — repurposed as a cheap bundle of exactly the right sensors: cameras positioned roughly where a robot's eyes would be, motion tracking for the head, and sometimes gaze and hand-position estimates. Research-grade versions exist too, built specifically for this rather than adapted from consumer gear.</div>
 
       <h4>Industrialising it</h4>
-      <p>Capture like that doesn't stay a research setup — it scales into an actual company. The clearest example of this category run as an actual operation rather than a research convenience is <strong>Shift</strong>, built by the German embodied-AI lab <strong>MicroAGI</strong>. Cleaners wear camera headsets inside customers' homes, and the resulting footage is licensed to labs training household robots. Operators record everyday household and professional tasks for pay across fifteen countries, with a viral free-cleaning offer in New York serving as both marketing and collection funnel. Several robotics labs are already buying data through the platform.</p>
+      <p>Capture like that doesn't stay a research setup — it scales into an actual company. The clearest example of this category run as an actual operation rather than a research convenience is <strong>Shift</strong>, built by the German embodied-AI lab <strong>MicroAGI</strong>. Cleaners wear camera headsets inside customers' homes, and the resulting footage is licensed to labs training household robots. Operators record everyday household and professional tasks for pay in New York and parts of Europe, with a viral free-cleaning offer in New York serving as both marketing and collection funnel. Several robotics labs are already buying data through the platform.</p>
 
-      <div class="note"><strong>Why it matters as a pattern.</strong> Shift is this category industrialised — no robot on site, no teleoperation rig, just paid people wearing head cameras through work they were doing anyway. It's real-world evidence that the cost argument for human video holds up as a business, not just as a research shortcut. The arithmetic behind it: collecting the same volume via two-armed teleoperation costs more, and takes three to five times as long.</div>
+      <div class="note"><strong>Why it matters as a pattern.</strong> Shift is this category industrialised — no robot on site, no teleoperation rig, just paid people wearing head cameras through work they were doing anyway. It's real-world evidence that the cost argument for human video holds up as a business, not just as a research shortcut.</div>
       <p>Figure has since pushed the same idea further with <strong>Index</strong>, an app that pays people to film their own everyday tasks by the minute, and can send a paid contributor to do a customer's chores on camera. By October 2026 it reported 28.5 million uploaded videos from 111 countries, and $35 million paid to contributors.</p>
 
       <h4>What still breaks</h4>
@@ -271,7 +271,7 @@
         <div class="ar">↓</div>
         <div>Thousands of simulated versions — new object positions, lighting, clutter</div>
       </div>
-      <p>One such collection runs 365 household tasks across 2,500 kitchen scenes with over 2,000 hours of interaction data, mixing real and generated demonstrations. The shift is from "manually collect every recording" to "collect a small seed, then generate variations." The open question is whether those variations preserve the physical details that actually matter — contact, stability, friction, deformation, failure modes — or are simply a thousand visually different copies of the same physics mistake.</p>
+      <p>One such collection runs 365 household tasks across 2,500 kitchen scenes with over 2,200 hours of interaction data, about a quarter of it from human demonstrations and the rest generated. The shift is from "manually collect every recording" to "collect a small seed, then generate variations." The open question is whether those variations preserve the physical details that actually matter — contact, stability, friction, deformation, failure modes — or are simply a thousand visually different copies of the same physics mistake.</p>
 
       <h4>Trick two — scan reality, then simulate it</h4>
       <div class="flow">
@@ -291,7 +291,7 @@
       <h4>What goes wrong</h4>
       <ul>
         <li><strong>Contact and squishiness.</strong> Rigid blocks on rigid tables simulate well. Cloth, cable, liquid, and the moment a gripper's fingers actually start applying pressure do not.</li>
-        <li><strong>Generated video can lie about physics.</strong> A video-generating model will happily render an object floating or a hand passing through a table — visually seamless, physically impossible. A policy trained on it learns the mistake as fact.</li>
+        <li><strong>Generated video can lie about physics.</strong> A video-generating model will happily render an object floating or a hand passing through a table — visually seamless, physically impossible. A policy trained on it learns the mistake as fact. (How labs try to measure this is covered in <a href="world-models-primer.html#s7">World models, from the ground up</a>.)</li>
         <li><strong>Even the newest models struggle here.</strong> The first successful transfer of a world-action model trained purely in simulation to real manipulation reached 35% average success on lifting, drawer-opening and pick-and-place tasks — a genuine first, and a long way from reliable.</li>
       </ul>
     </section>
@@ -299,7 +299,7 @@
     <section class="s" id="s7">
       <p class="bridge">Simulation fakes the world; this technique fakes the label instead — starting from video that's completely real, just never meant to teach a robot anything.</p>
       <h3>Inventing the missing label</h3>
-      <p>Human video, from two parts ago, was at least captured on purpose — someone strapped on a headset specifically to generate training data. There's a far larger pool that wasn't: home movies, cooking videos, sports footage, security-camera feeds — an internet's worth of people using their hands, none of it recorded with a robot in mind, and none of it carrying any record of what movements were made. The fix isn't to recover the real action — it's to invent a substitute and let the model define it. The technique is called a <strong>latent action model</strong>; "latent" just means learned but never directly labelled.</p>
+      <p>Human video, from two parts ago, was at least captured on purpose — someone strapped on a headset specifically to generate training data. There's a far larger pool that wasn't: home movies, cooking videos, sports footage, security-camera feeds — an internet's worth of people using their hands, none of it recorded with a robot in mind, and none of it carrying any record of what movements were made. The fix isn't to recover the real action — it's to invent a substitute and let the model define it. The technique is called a <strong>latent action model</strong>; "latent" just means learned but never directly labelled. (<a href="robot-world-models.html#s6">Demystifying AI models in robotics</a> gives a shorter introduction to the same idea.)</p>
 
       <h4>The trick</h4>
       <div class="flow">
