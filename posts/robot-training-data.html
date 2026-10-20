@@ -133,7 +133,7 @@
         <div>Package into a standard dataset format</div>
       </div>
 
-      <div class="note warn"><strong>The bottleneck is people, not money.</strong> A new operator produces only 8–12 usable recordings per hour, rising to 25–40 after two or three weeks of practice — and 10–30% of what they produce gets rejected in review anyway. Doubling your dataset means doubling operators, rigs and floor space. There is no equivalent of "scrape more of the internet."</div>
+      <div class="note warn"><strong>The bottleneck is people, not money.</strong> Throughput depends heavily on the task: published figures run from under 10 usable recordings an hour for delicate, dexterous work to a few dozen for simple pick-and-place — and a share of what's collected still gets thrown out in review. Doubling your dataset means doubling operators, rigs and floor space. There is no equivalent of "scrape more of the internet."</div>
 
       <h4>What goes wrong</h4>
       <ul>
@@ -242,6 +242,7 @@
       <p>Capture like that doesn't stay a research setup — it scales into an actual company. The clearest example of this category run as an actual operation rather than a research convenience is <strong>Shift</strong>, built by the German embodied-AI lab <strong>MicroAGI</strong>. Cleaners wear camera headsets inside customers' homes, and the resulting footage is licensed to labs training household robots. Operators record everyday household and professional tasks for pay across fifteen countries, with a viral free-cleaning offer in New York serving as both marketing and collection funnel. Several robotics labs are already buying data through the platform.</p>
 
       <div class="note"><strong>Why it matters as a pattern.</strong> Shift is this category industrialised — no robot on site, no teleoperation rig, just paid people wearing head cameras through work they were doing anyway. It's real-world evidence that the cost argument for human video holds up as a business, not just as a research shortcut. The arithmetic behind it: collecting the same volume via two-armed teleoperation costs more, and takes three to five times as long.</div>
+      <p>Figure has since pushed the same idea further with <strong>Index</strong>, an app that pays people to film their own everyday tasks by the minute, and can send a paid contributor to do a customer's chores on camera. By October 2026 it reported 28.5 million uploaded videos from 111 countries, and $35 million paid to contributors.</p>
 
       <h4>What still breaks</h4>
       <ul>
@@ -291,7 +292,7 @@
       <ul>
         <li><strong>Contact and squishiness.</strong> Rigid blocks on rigid tables simulate well. Cloth, cable, liquid, and the moment a gripper's fingers actually start applying pressure do not.</li>
         <li><strong>Generated video can lie about physics.</strong> A video-generating model will happily render an object floating or a hand passing through a table — visually seamless, physically impossible. A policy trained on it learns the mistake as fact.</li>
-        <li><strong>Even the newest models struggle here.</strong> The first successful transfer of a world-action model trained purely in simulation to real manipulation reached 35% average success across four tasks — a genuine first, and a long way from reliable.</li>
+        <li><strong>Even the newest models struggle here.</strong> The first successful transfer of a world-action model trained purely in simulation to real manipulation reached 35% average success on lifting, drawer-opening and pick-and-place tasks — a genuine first, and a long way from reliable.</li>
       </ul>
     </section>
 
@@ -445,7 +446,7 @@
         <tr>
           <td><strong>Figure AI</strong></td>
           <td>Human video at scale, plus deployment</td>
-          <td>A dedicated in-house lab for capturing first-person human footage, anchored by a property-portfolio partnership giving access to enormous, varied real spaces</td>
+          <td>A dedicated in-house lab for capturing first-person human footage, anchored by a property-portfolio partnership giving access to enormous, varied real spaces — and, since 2026, Index, an app paying people worldwide to film everyday tasks</td>
           <td>Trained navigation behaviour transferred directly from 100% human video, with no robot demonstrations at all</td>
         </tr>
         <tr>
