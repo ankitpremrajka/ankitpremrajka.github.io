@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://premrajka.com/</loc>
-    <lastmod>2026-10-11</lastmod>
+    <lastmod>2026-10-20</lastmod>
   </url>
   <url>
     <loc>https://premrajka.com/posts/robot-world-models.html</loc>
@@ -31,5 +31,9 @@
   <url>
     <loc>https://premrajka.com/posts/spectrum-satellites.html</loc>
     <lastmod>2026-10-11</lastmod>
+  </url>
+  <url>
+    <loc>https://premrajka.com/posts/diffusion-language-models.html</loc>
+    <lastmod>2026-10-20</lastmod>
   </url>
 </urlset>
