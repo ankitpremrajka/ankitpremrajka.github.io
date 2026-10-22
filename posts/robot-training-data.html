@@ -243,11 +243,13 @@
 
       <div class="note"><strong>Why it matters as a pattern.</strong> Shift is this category industrialised — no robot on site, no teleoperation rig, just paid people wearing head cameras through work they were doing anyway. It's real-world evidence that the cost argument for human video holds up as a business, not just as a research shortcut.</div>
       <p>Figure has since pushed the same idea further with <strong>Index</strong>, an app that pays people to film their own everyday tasks by the minute, and can send a paid contributor to do a customer's chores on camera. By October 2026 it reported 28.5 million uploaded videos from 111 countries, and $35 million paid to contributors.</p>
+      <p><strong>Encord</strong> runs it as a data business for other people's robots. It started out selling software for labelling images and video, and moved into producing training data once its customers began teaching robots manipulation end to end. It now collects in three ways: workers in factories around the world wear cameras on the job; trained operators at its warehouse in San Leandro, California, record specific skills such as pouring coffee or plugging in cables; and the same team drives leader-follower robot arms. Its argument is the one this whole guide makes: physical data can't be scraped, so someone has to manufacture it.</p>
+      <p>Encord is also adding a sense the camera lacks. Most of the muscles that move your fingers sit in your forearm, and their electrical activity can be read through the skin at the wrist, a technique called <strong>electromyography (EMG)</strong>. In October 2026 it released <strong>EMG-1</strong>, the largest open dataset pairing wrist EMG with synchronised first-person video: 307 hours of real work recorded with wristbands on both wrists alongside head and wrist cameras, depth and motion sensors, plus a 10-hour lab set with motion capture to check accuracy against. The muscle signal keeps flowing when a hand disappears behind an object, which is exactly when cameras lose track of the fingers. In Encord's lab tests, a model combining the two, built by its wristband partner Wearable Devices, placed fingertips about a quarter more accurately than cameras alone, and held up best during the moments the cameras lost sight of the hand.</p>
 
       <h4>What still breaks</h4>
       <ul>
         <li><strong>The camera won't hold still.</strong> A human head moves constantly. Separating "the scene changed" from "I turned my head" is a genuine modelling problem, and it gets worse the more natural the footage.</li>
-        <li><strong>No sense of force.</strong> Video shows you geometry, never how hard someone squeezed.</li>
+        <li><strong>No sense of force.</strong> Video shows you geometry, never how hard someone squeezed. Muscle signals like EMG-1's are an early attempt to fill that gap, but EMG doesn't measure force directly; whether it can reliably show when a grip starts and how hard it squeezes is still being studied.</li>
         <li><strong>Privacy is an operating cost.</strong> Recording inside real homes raises exactly the issues you'd expect, and consent and access controls become as much a part of the product as the sensors.</li>
       </ul>
     </section>
@@ -496,6 +498,8 @@
         <dd>Small mistakes push the robot into situations it never saw in training, where its next guess is worse, causing further drift.</dd>
         <dt>Embodiment gap</dt>
         <dd>The mismatch between a human body and a robot body that stops human demonstrations from being directly executable.</dd>
+        <dt>EMG (electromyography)</dt>
+        <dd>Reading the electrical activity of muscles through the skin. A wristband can pick up the forearm muscles that move the fingers, even when the hand is out of the camera's view.</dd>
         <dt>Latent action model</dt>
         <dd>A technique that invents a code for "what changed between two frames," used as a stand-in action label when no real one exists.</dd>
         <dt>Sim-to-real gap</dt>
