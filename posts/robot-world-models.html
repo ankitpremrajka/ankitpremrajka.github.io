@@ -99,6 +99,7 @@
       <div class="note"><strong>A word on "policy."</strong> VLA is the trendy, capable-but-heavy way to build a policy — but "policy" itself is the older, more general term: a function that turns a command, plus a sense of the robot's own body and the world around it, into what to do next. A hard-coded controller is a policy. A small network trained for just one task is a policy. A VLA is simply today's best-performing way of building one, by starting from an internet-scale vision-language model instead of from scratch.</div>
 
       <p>So why does everyone mix them up? Partly because both take an "action" as an input — a button press for the game, a movement command for the robot. Partly because they're built from very similar machinery underneath. But mostly because researchers are now deliberately <em>combining</em> them into single systems that do both jobs at once. There's even a name for these hybrids: <strong>World Action Models</strong>. So the blurring isn't purely a mistake — it's a direction researchers are actively pursuing.</p>
+      <p>And they're approaching it from opposite ends. World model builders are teaching their models to act: NVIDIA's Cosmos 3 and Odyssey's Odyssey-3 both output robot actions alongside video. VLA builders are teaching theirs to imagine: some now practise predicting the next few camera frames before choosing a move, on the bet that a robot that can picture what happens next will pick better moves. Back in the video game, the engine is learning to play and the player is learning to picture the next screen. In October 2026 <strong>Dream Labs</strong>, founded by the former NVIDIA researchers who coined the term, launched Dream-1 as a World Action Model anyone can use, built from the world-model end.</p>
 
     </section>
 
@@ -134,7 +135,7 @@
       <p>The two labels describe the same kind of model from different angles. "VLA" says how it works: vision and language in, actions out. "Robot foundation model" says how broadly it's trained and how widely it's meant to be reused. Physical Intelligence's π0 and Google DeepMind's Gemini Robotics are both. A few companies, like Skild AI, describe their models only as foundation models, but they do the same job.</p>
 
       <h4>Where the industry is heading</h4>
-      <p>The goal is one model, trained once, that can run a robot arm, a humanoid or a four-legged robot, with only a little extra training for each new body. That's how language AI already works, and robotics companies want the same economics. Skild AI calls its model "omni-bodied" and says it can control robots it has never trained on. Google DeepMind says a single Gemini Robotics model drives two different two-armed robots and a humanoid.</p>
+      <p>The goal is one model, trained once, that can run a robot arm, a humanoid or a four-legged robot, with only a little extra training for each new body. That's how language AI already works, and robotics companies want the same economics. Skild AI calls its model "omni-bodied" and says it can control robots it has never trained on. Google DeepMind says a single Gemini Robotics model drives two different two-armed robots and a humanoid. Dream Labs says its Dream-1 model can run two-armed robots it has never seen without extra training.</p>
       <p>How far that goes depends on which part of a robot's brain carries over to a new body, and which part doesn't.</p>
 
       <div class="two">
@@ -285,6 +286,7 @@
         <tr><td><strong>Gemini Robotics 2</strong></td><td>Google DeepMind</td><td>Released July 2026 as three tiers: Gemini Robotics 2 (the core brain — turns what it sees and hears into movement), ER 2 (the planner — breaks tasks into steps and talks to people, but doesn't simulate physics), and On-Device 2 (a compressed version that runs locally and adapts to a new robot from fewer than 200 examples).</td></tr>
         <tr><td><strong>GR00T</strong></td><td>NVIDIA</td><td>Aimed squarely at humanoids, and tied into NVIDIA's simulation tools.</td></tr>
         <tr><td><strong>Skild Brain</strong></td><td>Skild AI</td><td>Pitched as "omni-bodied": one model meant to control arms, humanoids and four-legged robots without knowing their exact body in advance. Raised about $1.4 billion in January 2026.</td></tr>
+        <tr><td><strong>Dream-1</strong></td><td>Dream Labs</td><td>A World Action Model: predicts what the world will do and what the robot should do, together. Launched October 2026 with a public API; two-armed robots with simple grippers only, for now.</td></tr>
         <tr><td><strong>SmolVLA</strong></td><td>Hugging Face</td><td>Deliberately small, so it runs on affordable hardware.</td></tr>
       </table>
 
