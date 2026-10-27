@@ -266,30 +266,28 @@
       <h3>Practising in a fake world</h3>
       <p>Instead of a human or robot producing data in the real world, a computer program that pretends to be the real world produces it. You describe a table, a cup and an arm, and it calculates thousands of times per second what would happen if the arm moved this way or that. Free and instant — but fake, because the program has to <em>guess</em> how friction works and how objects bounce. That gap has a name: the <strong>sim-to-real gap</strong>.</p>
 
-      <h4>Trick one — start real, then multiply</h4>
+      <h4>Building the world</h4>
+      <p>Every simulator starts from a description: the robot's body (its joints, motors and sensors), the scene around it, and ranges for the physics nobody can pin down exactly, such as friction, object mass and how hard a random push can be. In MuJoCo, for example, that description is an XML file. It can come from three places:</p>
+      <ul>
+        <li><strong>Written by hand.</strong> An engineer models the robot and a few objects. Precise, but slow to scale beyond a handful of scenes.</li>
+        <li><strong>Generated.</strong> Software assembles scenes from parts. One collection spans 365 household tasks across 2,500 generated kitchen scenes.</li>
+        <li><strong>Scanned from reality.</strong> Film a real room and software builds a realistic 3D copy of it, a <strong>digital twin</strong>. The enabling technique is <strong>3D Gaussian splatting</strong> — representing a scanned scene as millions of fuzzy coloured blobs that render photorealistically and fast — so high-fidelity environments can come straight from camera captures instead of an artist's hand. That's the thesis behind World Labs' acquisition of the simulation company SceniX: an engine that turns one physical task into many controllable, reusable worlds.</li>
+      </ul>
+
+      <h4>Two ways to train inside it</h4>
+      <p>Once the world exists, a robot can learn in it in one of two ways, and either works in any of the worlds above.</p>
+      <p><strong>Copy: multiply a few demonstrations.</strong></p>
       <div class="flow">
         <div>Collect ten real demonstrations of a task</div>
         <div class="ar">↓</div>
         <div>An automatic variation engine reworks them</div>
         <div class="ar">↓</div>
         <div>Thousands of simulated versions — new object positions, lighting, clutter</div>
+        <div class="ar">↓</div>
+        <div>The robot learns by imitating them</div>
       </div>
-      <p>One such collection runs 365 household tasks across 2,500 kitchen scenes with over 2,200 hours of interaction data, about a quarter of it from human demonstrations and the rest generated. The shift is from "manually collect every recording" to "collect a small seed, then generate variations." The open question is whether those variations preserve the physical details that actually matter — contact, stability, friction, deformation, failure modes — or are simply a thousand visually different copies of the same physics mistake.</p>
-
-      <h4>Trick two — scan reality, then simulate it</h4>
-      <div class="flow">
-        <div>Scan an actual room with a camera</div>
-        <div class="ar">↓</div>
-        <div>Software builds a realistic 3D copy — a <strong>digital twin</strong></div>
-        <div class="ar">↓</div>
-        <div>Run thousands of practice attempts inside the copy, safely and instantly</div>
-        <div class="ar">↓</div>
-        <div>Deploy the improved policy back into the real room</div>
-      </div>
-      <p>The enabling technique is <strong>3D Gaussian splatting</strong> — representing a scanned scene as millions of fuzzy coloured blobs that render photorealistically and fast. It means high-fidelity environments can be built directly from camera captures rather than hand-modelled by an artist, which is the thesis behind World Labs' acquisition of the simulation company SceniX: an engine that turns one physical task into many controllable, reusable worlds.</p>
-
-      <h4>Trick three — skip demonstrations, learn by doing</h4>
-      <p>Both tricks above still start from recorded demonstrations and multiply them. A third approach skips demonstrations entirely: let the robot practice directly inside the simulator through trial and error, guided by a reward signal — the same reinforcement learning idea from Part Two, but far easier here, because a simulator can compute an exact reward on demand instead of guessing at one. A simple, concrete version: give the robot nothing but a high-level command like "walk forward," and let it learn the actual walking policy itself through repeated simulated attempts. <a href="training-robot-policies.html">A companion piece</a> walks through exactly this case.</p>
+      <p>The kitchen collection above works this way: over 2,200 hours of interaction data, about a quarter of it from human demonstrations and the rest generated. The shift is from "manually collect every recording" to "collect a small seed, then generate variations." The open question is whether those variations preserve the physical details that actually matter — contact, stability, friction, deformation, failure modes — or are simply a thousand visually different copies of the same physics mistake.</p>
+      <p><strong>Practise: learn by doing.</strong> Skip demonstrations entirely and let the robot practise directly inside the simulator through trial and error, guided by a reward signal — the same reinforcement learning idea from Part Two, but far easier here, because a simulator can compute an exact reward on demand instead of guessing at one. A simple, concrete version: give the robot nothing but a high-level command like "walk forward," and let it learn the actual walking policy itself through repeated simulated attempts. <a href="training-robot-policies.html">A companion piece</a> walks through exactly this case.</p>
 
       <h4>What goes wrong</h4>
       <ul>

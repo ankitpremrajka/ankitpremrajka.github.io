@@ -49,6 +49,7 @@
     <div class="rail-title">Contents</div>
 
     <div class="rail-part">1 · Foundations</div>
+    <a href="#s10">Why learn in simulation</a>
     <a href="#s11">What a simulator is</a>
     <a href="#s12">What a policy is</a>
     <a href="#s13">The three-layer stack</a>
@@ -96,10 +97,21 @@
     <div class="part-head">
       <span class="pnum">Part One</span>
       <h2>Foundations</h2>
-      <p>Four ideas that everything else is built on.</p>
+      <p>Why robots now learn to move in simulation, then four ideas that everything else is built on.</p>
     </div>
 
+    <section class="s" id="s10">
+      <h3>Why learn in simulation</h3>
+      <p>Robots aren't programmed to walk any more. They learn, by falling over, millions of times, inside a simulator. In October 2026 NVIDIA's CEO shared the GTC Berlin stage with a troop of $399 <strong>Microduck</strong> robots from Pollen Robotics and Hugging Face, which walked, stumbled and recovered on cue. The open-source code Pollen published for training them is the case study in Part 6 of this post.</p>
+      <p>In <a href="robot-training-data.html#s1">Where robot training data comes from</a>, simulation sits at the bottom of the data pyramid: unlimited and free, every action recorded exactly, but not real. A simulator can be <a href="robot-training-data.html#s6">used in two ways</a>: to multiply a few human demonstrations for a robot to copy, or to let the robot practise on its own, by trial and error, guided by a score. This post is about the second, which is called <strong>reinforcement learning</strong>.</p>
+      <div class="analogy">
+        <p>Human video teaches a robot by showing it what people do. Simulation teaches it by letting it practise, safely and at enormous speed, until it works out how to do it itself.</p>
+      </div>
+      <p>Walking is the standard first example, because every moment of it can be scored: is the robot upright, at the right speed, actually stepping? Part 1 sets out the basic pieces. Part 2 covers how a training task is defined, Part 3 how learning happens, Part 4 why a policy that walks in simulation can still fall in reality, Part 5 how to run experiments, and Part 6 maps all of it onto Microduck's code.</p>
+    </section>
+
     <section class="s" id="s11">
+      <p class="bridge">Everything starts with the world the robot practises in.</p>
       <h3>What a simulator actually is</h3>
       <p>A <strong>physics engine</strong> does one narrow thing: given a description of bodies, joints, and forces, it computes where everything will be a few milliseconds later. It knows nothing about robots, learning, or goals. Those are layers built on top.</p>
       <p><strong>MuJoCo</strong> — "Multi-Joint dynamics with Contact" — is the standard choice in robot learning research. It was built for robotics, biomechanics and animation, aiming for both physical accuracy and computational efficiency, with particular attention to contact dynamics. DeepMind acquired it in 2021 and open-sourced it in 2022.</p>
