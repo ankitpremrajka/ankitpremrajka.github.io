@@ -18,7 +18,7 @@
 <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/style.css?v=2026-10-20">
+<link rel="stylesheet" href="../assets/css/style.css?v=2026-10-27">
 </head>
 <body class="article">
 
@@ -67,6 +67,7 @@
 
     <div class="rail-part">Part 5 · The real world</div>
     <a href="#s10">The four, side by side</a>
+    <a href="#s12">Getting data ready for training</a>
     <a href="#s11">Who's betting on what</a>
     <a href="#glossary">Glossary</a>
   </nav>
@@ -375,7 +376,7 @@
     <div class="part-head">
       <span class="pnum">Part Five</span>
       <h2>The real world</h2>
-      <p>Parts Two through Four covered where the data comes from, tier by tier. This part compares all four sources directly, and shows how the leading labs are actually placing their bets.</p>
+      <p>Parts Two through Four covered where the data comes from, tier by tier. This part compares all four sources directly, looks at what it takes to make each one ready to train on, and shows how the leading labs are actually placing their bets.</p>
     </div>
 
     <section class="s" id="s10">
@@ -432,8 +433,36 @@
       <p>Read across any row and the same pattern holds: fidelity and scale trade against each other, tier by tier. Every technique in this guide is an attempt to buy back scale without giving up too much fidelity.</p>
     </section>
 
+    <section class="s" id="s12">
+      <p class="bridge">That table compares what each source costs to collect. Every source then pays a second cost before a model can learn from it: getting the data ready to train on.</p>
+      <h3>Getting data ready for training</h3>
+      <p>Raw recordings aren't training data. Whatever the source, they go through roughly the same three phases, and the middle one is what the industry calls <strong>annotation</strong>.</p>
+      <div class="flow">
+        <div><strong>Prepare</strong><span class="tag">machines</span><span class="side">Line every stream up on one clock (cameras, depth, motion sensors, joint readings), drop clips with dropouts or bad timing, blur faces or check licences.</span></div>
+        <div class="ar">↓</div>
+        <div><strong>Annotate</strong><span class="tag">models draft, people judge</span><span class="side">Cut recordings into tasks and steps, describe each step in words, label the physical detail (hand or robot pose, objects, the moment of contact), and mark whether it worked.</span></div>
+        <div class="ar">↓</div>
+        <div><strong>Convert</strong><span class="tag">machines</span><span class="side">Turn those labels into actions a robot can learn from, then package everything in a standard dataset format.</span></div>
+      </div>
+      <p>Preparing and converting are engineering: mostly automatic, and much the same whatever the source. Annotating is where the judgement lives. Models now draft most of the physical labels, such as hand poses and object positions, and people do what machines still get wrong: deciding where a task starts and stops, writing the instruction a robot would actually be given, and checking the edge cases. Timing runs through all three phases, because a label attached to the wrong instant is worse than no label at all.</p>
+
+      <h4>How much annotation each source needs</h4>
+      <div class="table-scroll">
+      <table class="label-grid">
+        <tr><th></th><th>Teleop</th><th>Deployment</th><th>Human video</th><th>Widely available video</th><th>Simulation</th></tr>
+        <tr><td>Actions</td><td><i class="dot full"></i></td><td><i class="dot full"></i></td><td><i class="dot half"></i><span class="n">from hand motion</span></td><td><i class="dot none"></i><span class="n">invented codes</span></td><td><i class="dot full"></i></td></tr>
+        <tr><td>Physical detail<small>pose, objects, contact</small></td><td><i class="dot half"></i><span class="n">objects need labels</span></td><td><i class="dot half"></i><span class="n">objects need labels</span></td><td><i class="dot half"></i><span class="n">estimated; contact hardest</span></td><td><i class="dot none"></i><span class="n">one camera only</span></td><td><i class="dot full"></i></td></tr>
+        <tr><td>Steps and descriptions</td><td><i class="dot half"></i><span class="n">task scripted</span></td><td><i class="dot half"></i><span class="n">task commanded</span></td><td><i class="dot half"></i><span class="n">task known</span></td><td><i class="dot none"></i></td><td><i class="dot full"></i></td></tr>
+        <tr><td>Did it work?</td><td><i class="dot half"></i><span class="n">mostly successes</span></td><td><i class="dot none"></i><span class="n">the big gap</span></td><td><i class="dot half"></i><span class="n">sometimes</span></td><td><i class="dot none"></i></td><td><i class="dot full"></i></td></tr>
+      </table>
+      </div>
+      <p class="grid-legend"><span><i class="dot full"></i> recorded with the data</span><span><i class="dot half"></i> partly recorded, the rest worked out afterwards</span><span><i class="dot none"></i> added afterwards, by people or models</span></p>
+      <p>Among real sources, the pattern follows the pyramid: the higher the tier, the more labels arrive free at the moment of recording, and the lower the tier, the more have to be manufactured afterwards. Teleoperation gets the hardest label, the action, for nothing; human video has to work it out from hand motion; widely available video has to invent it. Simulation is the outlier. Every label is free and exact because the world itself was made up, so its cost is realism, not labelling.</p>
+      <p>That's why annotation has become a business in its own right. Encord, which began as labelling software, estimates that densely annotated task data is worth about 100 times as much as low-quality footage, at about 20 times the cost to produce. The value is in the labels, not the pixels.</p>
+    </section>
+
     <section class="s" id="s11">
-      <p class="bridge">That's the abstract trade-off. Here's how five real companies are actually weighting it.</p>
+      <p class="bridge">Those are the costs on paper. Here's how five real companies are actually weighting them.</p>
       <h3>Who's betting on what</h3>
       <p>No two labs weight these four the same way, and the differences track their business models more than their research taste.</p>
 
@@ -512,6 +541,8 @@
         <dd>A human taking over mid-task. Valuable because it marks the exact moment the policy failed.</dd>
         <dt>Co-training</dt>
         <dd>Training on several data sources at once rather than one after another, so each keeps informing the others.</dd>
+        <dt>Annotation</dt>
+        <dd>Adding labels to recorded data: where each task starts and stops, what is happening in words, where hands and objects are, and whether it worked. Models draft much of it; people check and correct.</dd>
       </dl>
     </section>
 

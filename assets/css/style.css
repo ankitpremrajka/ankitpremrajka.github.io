@@ -897,3 +897,23 @@ tr:last-child td { border-bottom: none; }
   }
   .layout main { padding: 2.2rem 6vw; }
 }
+
+/* Label grid: which training labels each data source gets for free (robot training data post) */
+.label-grid th { text-align: center; }
+.label-grid td { text-align: center; vertical-align: middle; }
+.label-grid td:first-child { text-align: left; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; color: var(--ink); }
+.label-grid td:first-child small { display: block; font-weight: 400; font-size: .74rem; color: var(--ink-3); }
+.label-grid .n { display: block; margin-top: .3rem; font-size: .72rem; line-height: 1.25; color: var(--ink-3); }
+.dot { display: inline-block; width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--cobalt); box-sizing: border-box; vertical-align: -2px; }
+.dot.full { background: var(--cobalt); }
+.dot.half { background: linear-gradient(90deg, var(--cobalt) 50%, transparent 50%); }
+.grid-legend { display: flex; flex-wrap: wrap; gap: .4rem 1.4rem; margin: -.4rem 0 1.4rem; font-size: .8rem; color: var(--ink-3); }
+.grid-legend .dot { margin-right: .35rem; }
+@media (max-width: 560px) {
+  .label-grid .n { display: none; }
+  .label-grid th, .label-grid td { padding-left: .3rem; padding-right: .3rem; }
+  .label-grid th { font-size: .53rem; letter-spacing: 0; padding-left: .15rem; padding-right: .15rem; }
+  .label-grid td { padding-left: .15rem; padding-right: .15rem; }
+  .label-grid td:first-child { font-size: .8rem; padding-left: 0; }
+  .label-grid td:first-child small { display: none; }
+}
