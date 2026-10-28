@@ -945,7 +945,6 @@ tr:last-child td { border-bottom: none; }
 .ca-intro h1 { margin: 0 0 .25rem; font-size: 2em; font-weight: 700; letter-spacing: -.02em; line-height: 1.25; }
 .ca-intro .ca-lede { margin: 1em 0; }
 .ca-page .cta-button { font-size: .9rem; padding: .65rem 1rem; }
-.ca-page .cta-button.whatsapp { background: #1F8F4E; border-color: #1F8F4E; }
 .ca-page .cta-button .icon { fill: currentColor; }
 .ca-content { display: flex; flex-direction: column; gap: 1.5rem; margin: 2.5rem 0 3rem; }
 .ca-searchbar { margin-top: 1rem; }
@@ -1190,4 +1189,12 @@ tr:last-child td { border-bottom: none; }
 .current-chat { background: #f0f2f4; }
 @media (prefers-color-scheme: dark) {
   .current-chat { background: #22282d; }
+}
+
+/* Shared signup presentation on the landing page and archive. */
+.ca-outro { padding: 28px 26px; }
+.ca-page .cta-sub { font-size: .82rem; }
+.ca-page .qr-link { font-size: .82rem; }
+@media (max-width: 640px) {
+  .ca-outro { padding: 22px; }
 }
