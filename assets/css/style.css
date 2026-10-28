@@ -1109,28 +1109,3 @@ tr:last-child td { border-bottom: none; }
   html:has(.ca-page) { scroll-behavior: auto; }
   .ca-current { transition: none; }
 }
-
-/* Current landing page: show the real conversation before the details. */
-.current-page main { max-width: 1120px; }
-.current-opening { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 440px); gap: 3rem; align-items: start; margin-bottom: 3rem; }
-.current-promise { font-family: var(--font-heading, 'Bricolage Grotesque', sans-serif); font-size: clamp(1.6rem, 3vw, 2.25rem); line-height: 1.2; font-weight: 600; margin: 1.4rem 0 1rem; }
-.current-topic-menu { font-size: .85rem; color: var(--ink-2); }
-.current-example { margin: 0; min-width: 0; }
-.current-example figcaption { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 1.1rem; line-height: 1.4; margin-bottom: .8rem; }
-.current-example-image { display: block; border-radius: 12px; overflow: hidden; border: 1px solid var(--rule); }
-.current-example-image img { display: block; width: 100%; height: auto; }
-.current-example-image:focus-visible { outline: 3px solid var(--ink); outline-offset: 4px; }
-.current-example .current-example-note { font-size: .8rem; line-height: 1.5; color: var(--ink-2); margin: .7rem 0; }
-.current-archive-link { font-size: .9rem; }
-@media (max-width: 760px) {
-  .current-opening { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; margin-bottom: 2rem; }
-  .current-example { width: 100%; max-width: 518px; justify-self: center; }
-  .current-intro .cta-lead { margin-top: 1rem; }
-  .current-intro .cta-sub { margin-bottom: .8rem; }
-  .current-intro .qr-link { margin: 0; }
-}
-
-@media (max-width: 760px) {
-  .current-intro .qr-block, .current-intro .qr-hint { display: none; }
-  .current-intro .qr-link { display: block; }
-}
