@@ -22,7 +22,7 @@
   <link rel="icon" type="image/png" href="assets/img/current-favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css?v=2026-10-27-archive4">
+  <link rel="stylesheet" href="assets/css/style.css?v=2026-10-27-archive7">
 </head>
 <body class="ca-page">
   <header class="site-header">
@@ -246,6 +246,7 @@
     var days = new Date(Date.UTC(y, mo, 0)).getUTCDate();
     for (var i = 0; i < lead; i++) grid.appendChild(el("span"));
     var tip = el("div", { class: "ca-day-tip", "aria-live": "polite" }, ["Tap a day to jump to it."]);
+    var previewMedia = matchMedia("(min-width: 641px) and (hover: hover) and (pointer: fine)");
     for (var d = 1; d <= days; d++) {
       var iso = state.month + "-" + String(d).padStart(2, "0");
       var list = (byDay[iso] || []).slice().sort(function (a, b) { return ORDER[a.topic] - ORDER[b.topic]; });
@@ -256,10 +257,11 @@
       vis.forEach(function (c) { if (!topicsSeen[c.topic]) { topicsSeen[c.topic] = 1; dots.appendChild(el("span", { class: "ca-dot", style: "--dot: var(--t-" + c.topic + ")" })); } });
       var names = vis.map(function (c) { return c.spotlight; });
       var a = el("a", { class: "ca-d" + (vis.length ? "" : " ca-off") + (iso === latest ? " ca-latest" : ""), href: "#" + iso,
-        title: names.join(" · "), "aria-label": dayName(iso) + ": " + (names.join(", ") || "no Currents in the chosen topics") },
+        "aria-label": dayName(iso) + ": " + (names.join(", ") || "no Currents in the chosen topics") },
         [el("span", { text: String(d) }), dots]);
       (function (iso, vis) {
         var show = function () {
+          if (!previewMedia.matches) return;
           tip.textContent = "";
           tip.appendChild(el("b", { text: dayName(iso) }));
           if (!vis.length) { tip.appendChild(document.createTextNode(": nothing in the chosen topics")); return; }
@@ -270,8 +272,9 @@
           tip.appendChild(ul);
         };
         var hide = function () { tip.textContent = "Tap a day to jump to it."; };
-        a.addEventListener("mouseenter", show); a.addEventListener("focus", show);
-        a.addEventListener("mouseleave", hide); a.addEventListener("blur", hide);
+        a.addEventListener("pointerenter", function (event) { if (event.pointerType === "mouse") show(); });
+        a.addEventListener("focus", show);
+        a.addEventListener("pointerleave", hide); a.addEventListener("blur", hide);
       })(iso, vis);
       grid.appendChild(a);
     }

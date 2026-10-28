@@ -943,7 +943,7 @@ tr:last-child td { border-bottom: none; }
 .ca-main { padding-top: 2.6rem; }
 .ca-intro { margin-bottom: 2.4rem; }
 .ca-intro h1 { margin: 0 0 .25rem; font-size: 2em; font-weight: 700; letter-spacing: -.02em; line-height: 1.25; }
-.ca-intro .ca-lede { margin: 0 0 1.4rem; color: var(--ink-2); max-width: 59ch; font-size: 1.06rem; }
+.ca-intro .ca-lede { margin: 1em 0; }
 .ca-page .cta-button { font-size: .9rem; padding: .65rem 1rem; }
 .ca-page .cta-button.whatsapp { background: #1F8F4E; border-color: #1F8F4E; }
 .ca-page .cta-button .icon { fill: currentColor; }
@@ -1072,7 +1072,7 @@ tr:last-child td { border-bottom: none; }
 .ca-current { border-radius: 5px; padding: 22px 24px; gap: 12px; overflow-wrap: anywhere; }
 .ca-current h4 { font-size: 24px; letter-spacing: -.025em; text-wrap: pretty; }
 .ca-current p { font-size: 16px; line-height: 1.65; }
-.ca-current .ca-why { color: var(--ink-2); }
+.ca-current .ca-why { color: var(--ink); }
 .ca-c-foot { gap: 14px; padding-top: 12px; margin-top: 4px; flex-direction: column; align-items: flex-start; }
 .ca-sources { font-size: 12px; line-height: 1.6; }
 .ca-sources a { text-underline-offset: 3px; }
@@ -1101,6 +1101,9 @@ tr:last-child td { border-bottom: none; }
   .ca-page header.site-header { gap: .6rem; }
   .ca-page header.site-header h1 { font-size: 1.15rem; }
   .ca-page header.site-header .avatar { width: 42px; height: 42px; }
+}
+@media (max-width: 640px), (hover: none), (pointer: coarse) {
+  .ca-day-tip { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   html:has(.ca-page) { scroll-behavior: auto; }
