@@ -22,9 +22,9 @@
   <link rel="icon" type="image/png" href="assets/img/current-favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css?v=2026-10-27">
+  <link rel="stylesheet" href="assets/css/style.css?v=2026-10-28">
 </head>
-<body>
+<body class="current-page">
 
   <header class="site-header">
     <img class="avatar" src="assets/img/ankit.jpg" alt="Ankit Premrajka">
@@ -43,6 +43,8 @@
     <a class="back-link" href="index.html">&larr; Back to home</a>
 
     <article class="post">
+      <div class="current-opening">
+      <div class="current-intro">
       <header>
         <div class="product-title-row">
           <img class="product-logo" src="assets/img/current-logo.png" alt="Current logo">
@@ -65,6 +67,9 @@
       </div>
       <p class="cta-sub">It opens WhatsApp with HELLO ready to send to +1 (650) 549-9456. Available in the US, Canada, and India. Msg &amp; data rates may apply.</p>
       <p class="qr-link"><a href="assets/img/current-whatsapp-qr.png">Show the QR code</a> to help someone nearby sign up.</p>
+
+      </div>
+      </div>
 
       <h2>Why Current</h2>
       <p>Staying current shouldn't mean another app, another feed, or another inbox to keep up with.</p>
@@ -97,6 +102,39 @@
           </div>
         </div>
       </div>
+
+      <figure class="current-example" aria-labelledby="current-example-label">
+        <figcaption><h2 id="current-example-label">What it looks like</h2></figcaption>
+        <div class="current-chat" aria-label="A real Current conversation">
+        <div class="msg-preview">
+          <p class="current-speaker">Current</p>
+          <p><strong>Your daily 🚀 Space Tech 🚀 Current</strong></p>
+          <p>Spotlight: <strong><em>Reflect Orbital</em></strong></p>
+          <p>💡 A US startup that plans to launch thousands of satellites, each carrying a large mirror to bounce sunlight down to Earth at night. The mirrors would light a few miles of ground on demand, like an aimable moon.</p>
+          <p>Why it matters: 📰 This month Reflect Orbital lit a California desert with ground lights to simulate its mirror beam. In August, four groups asked the FCC to reconsider approving a first test satellite, citing harm to sleep and wildlife.</p>
+          <p>Got questions? Just reply and let us know.</p>
+          <p class="msg-footer">Reply STOP to unsubscribe.</p>
+        </div>
+        <div class="current-qa-grid">
+          <div class="current-qa">
+            <p class="current-question"><span class="current-speaker">Reader</span>What is the main purpose behind reflecting sunlight down to earth at night?</p>
+            <div class="msg-preview current-answer">
+              <p class="current-speaker">Current</p>
+              <p>Reflect Orbital wants to bounce sunlight to Earth at night to offer "sunlight on demand" — mainly to help nighttime search-and-rescue teams, and also to light crops, streets, and solar panels.</p>
+            </div>
+          </div>
+          <div class="current-qa">
+            <p class="current-question"><span class="current-speaker">Reader</span>Ah so solar panels can continue to produce electricity at night with this tech?</p>
+            <div class="msg-preview current-answer">
+              <p class="current-speaker">Current</p>
+              <p>Yes, that's Reflect Orbital's plan: aim its space mirrors at solar farms so panels keep generating electricity after dark, boosting output during evening demand peaks. But even the company concedes one satellite's light wouldn't produce much power.</p>
+            </div>
+          </div>
+        </div>
+        </div>
+        <p class="current-example-note">Real messages, transcribed from WhatsApp. Reflect Orbital’s satellite system is a proposal.</p>
+        <p>Read more Currents in the <a href="current-archive.html">Archive</a>.</p>
+      </figure>
 
       <h2>How it works</h2>
       <div class="flow">
@@ -141,19 +179,6 @@
         </div>
       </div>
 
-      <h2>What it looks like</h2>
-      <p class="kicker">Example message</p>
-      <div class="msg-preview">
-        <p>Your daily ✨ AI ✨ Current</p>
-        <p><strong>Spotlight: Meta Muse</strong></p>
-        <p>💡 An AI agent is software that can take actions on your behalf — clicking, typing and reading screens. Meta Muse is Meta's version that works across your apps to organize files and fill forms.</p>
-        <p><strong>Why it matters:</strong> 📰 Meta shipped a Mac app for Muse, letting it reach into files, Messages, and Calendar on your desktop. That means one agent can now handle tasks across both your phone and computer with a single ask.</p>
-        <p>Got questions? Just reply and let us know.</p>
-        <p class="msg-footer">Reply STOP to unsubscribe.</p>
-      </div>
-      <p class="msg-caption">Illustrative example — not an actual sent message.</p>
-      <p><a href="current-archive.html">See every Current we've sent in the archive &rarr;</a></p>
-
       <p class="cta-lead">Tap <strong>WhatsApp</strong> to get started<span class="qr-hint"> — or scan the QR code with your phone</span>.</p>
       <div class="cta-row">
         <a class="cta-button whatsapp" href="https://wa.me/16505499456?text=HELLO" target="_blank" rel="noopener noreferrer">
@@ -167,7 +192,7 @@
       <p class="cta-sub">It opens WhatsApp with HELLO ready to send to +1 (650) 549-9456. Available in the US, Canada, and India. Msg &amp; data rates may apply.</p>
 
       <h2>Good to know</h2>
-      <p>Current is free to join. Updates arrive every morning — up to 1 msg/day per topic you're subscribed to, plus replies while you're getting set up, changing topics, or asking questions. Q&amp;A answers up to 3 questions a day about that day's updates. Currents and replies are in English. Add or drop topics anytime by replying in plain words; no commands to remember. Msg &amp; data rates may apply. Reply STOP at any time to cancel, HELP for assistance. See our <a href="terms.html">Terms &amp; Conditions</a> and <a href="terms.html#privacy">Privacy Policy</a>.</p>
+      <p>Current is free to join. Updates arrive every morning — up to 1 msg/day per topic you're subscribed to, plus replies while you're getting set up, changing topics, or asking questions. Standard subscribers can get up to five questions answered daily. Swipe to reply on a Current received within the past week to ask about it. Currents and replies are in English. Add or drop topics anytime by replying in plain words; no commands to remember. Msg &amp; data rates may apply. Reply STOP at any time to cancel, HELP for assistance. See our <a href="terms.html">Terms &amp; Conditions</a> and <a href="terms.html#privacy">Privacy Policy</a>.</p>
     </article>
   </main>
 
