@@ -1134,10 +1134,3 @@ tr:last-child td { border-bottom: none; }
   .current-intro .qr-block, .current-intro .qr-hint { display: none; }
   .current-intro .qr-link { display: block; }
 }
-
-@media (max-width: 760px) {
-  .current-page main { padding-top: 1.5rem; }
-  .current-page .back-link { margin-bottom: 1.25rem; }
-  .current-intro .current-promise { margin-top: 1rem; }
-  .current-intro > p:not([class]) { line-height: 1.55; }
-}
