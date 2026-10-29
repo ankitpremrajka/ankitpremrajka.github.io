@@ -26,7 +26,7 @@ Conventions for any coding agent working on premrajka.com. This is the canonical
 - **Sitemap:** when a page is added or its content changes, add it to `sitemap.xml` or update its `<lastmod>`.
 - **Terms must match the product:** anything the Current pages promise (question limits, delivery times, countries, how to stop) must agree with the messaging-program section of `terms.html`. When the Terms change, update their effective date.
 - **Product name:** the product is "Current". "A Premrajka LLC product" identifies the company; Premrajka LLC also appears in footers and the Terms.
-- **Archive data:** source URLs in `current-archive/data/*.json` must be clean article links, with no gift, share or tracking parameters (`unlocked_article_code`, `view_token`, `accessToken`, `st`, `reflink`, `smid`, `utm_*`). The month count in `index.json` must match the month file.
+- **Archive data:** never modify `current-archive/data/*.json`. Copy the files in exactly as provided, byte for byte. Query strings on source URLs (NYT `unlocked_article_code`, Bloomberg `accessToken`, WSJ `st`, The Verge `view_token`) are deliberate gift/share codes that let readers open paywalled articles free, so don't strip them.
 
 ## Writing posts
 
