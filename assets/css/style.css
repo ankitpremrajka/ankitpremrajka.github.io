@@ -923,12 +923,12 @@ tr:last-child td { border-bottom: none; }
 .ca-page {
   --display: 'Bricolage Grotesque', system-ui, sans-serif;
   --mono: 'IBM Plex Mono', monospace;
-  --t-ai: #2F5DD1; --t-robotics: #2E8A6E; --t-gossip: #C98A16;
-  --t-vc: #A8503C; --t-space: #7A4FB8; --hilite: #FBF1D9;
+  --t-ai: #2F5DD1; --t-robotics: #39734F; --t-gossip: #C98A16;
+  --t-vc: #A8503C; --t-space: #1C2620; --hilite: #FBF1D9;
 }
 @media (prefers-color-scheme: dark) {
-  .ca-page { --t-ai: #5B8CFF; --t-robotics: #4FBF9A; --t-gossip: #E0A73B;
-    --t-vc: #D08668; --t-space: #A98BE8; --hilite: #3A3220; }
+  .ca-page { --t-ai: #5B8CFF; --t-robotics: #8BBB99; --t-gossip: #E0A73B;
+    --t-vc: #D08668; --t-space: #E9EDE9; --hilite: #3A3220; }
 }
 .ca-page :focus-visible { outline: 2px solid var(--cobalt); outline-offset: 4px; }
 .ca-page[data-theme="light"] {
@@ -936,8 +936,8 @@ tr:last-child td { border-bottom: none; }
   --paper: #EFF1EC; --paper-2: #E4E8E0; --card: #FFFFFF;
   --ink: #1C2620; --ink-2: #41504A; --ink-3: #6E7C75; --rule: #CBD2C7;
   --cobalt: #2F5DD1; --mustard: #C98A16; --clay: #A8503C; --x-icon: #000000;
-  --t-ai: #2F5DD1; --t-robotics: #2E8A6E; --t-gossip: #C98A16;
-  --t-vc: #A8503C; --t-space: #7A4FB8; --hilite: #FBF1D9;
+  --t-ai: #2F5DD1; --t-robotics: #39734F; --t-gossip: #C98A16;
+  --t-vc: #A8503C; --t-space: #1C2620; --hilite: #FBF1D9;
 }
 .ca-page [hidden] { display: none !important; }
 .ca-main { padding-top: 2.6rem; }
@@ -954,13 +954,6 @@ tr:last-child td { border-bottom: none; }
 .ca-panel .ca-left { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
 .ca-label { font: 500 11px var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); margin: 0 0 7px; display: block; }
 .ca-label .ca-hint { text-transform: none; letter-spacing: 0; font-family: var(--display); font-size: 12px; color: var(--ink-3); }
-.ca-months { display: flex; flex-direction: column; gap: 4px; }
-.ca-year-row { display: flex; align-items: baseline; gap: 4px; flex-wrap: wrap; }
-.ca-year-row .ca-yr { font: 600 13px var(--mono); color: var(--ink-3); width: 3.4em; flex: none; }
-.ca-month-btn { font: 500 15px var(--display); background: none; border: 1px solid transparent; padding: 2px 8px; border-radius: 7px; color: var(--ink); cursor: pointer; }
-.ca-month-btn:hover:not(:disabled) { border-color: var(--rule); background: var(--card); }
-.ca-month-btn[aria-current="true"] { background: var(--ink); color: var(--paper); }
-.ca-month-btn:disabled { color: var(--ink-3); opacity: 0.45; cursor: default; }
 .ca-chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .ca-chip { font: 500 14px var(--display); background: var(--card); border: 1px solid var(--rule); color: var(--ink);
   padding: 5px 12px 5px 8px; border-radius: 999px; cursor: pointer; display: inline-flex; align-items: center; gap: 7px; }
@@ -1045,9 +1038,6 @@ tr:last-child td { border-bottom: none; }
 .ca-linkish { font: inherit; color: var(--cobalt); background: none; border: 0; padding: 0; text-decoration: underline; cursor: pointer; }
 .ca-more { align-self: center; }
 
-.ca-to-top { position: fixed; z-index: 5; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(18px + env(safe-area-inset-bottom, 0px));
-  font: 600 14px var(--display); background: var(--ink); color: var(--paper); border: 0; border-radius: 999px; padding: 10px 16px;
-  box-shadow: 0 4px 14px rgb(0 0 0 / 0.18); cursor: pointer; }
 
 .ca-outro { background: var(--paper-2); border: 1px solid var(--rule); border-radius: 14px; padding: 22px; display: flex; flex-direction: column; gap: 12px; }
 .ca-outro h2 { margin: 0; font-size: 24px; }
@@ -1082,8 +1072,6 @@ tr:last-child td { border-bottom: none; }
 .ca-outro { position: relative; padding: 28px 145px 28px 26px; border-radius: 6px; }
 .ca-outro h2 { font-size: 25px; letter-spacing: -.025em; }
 .ca-outro p { font-size: 15px; }
-.ca-qr { position: absolute; right: 24px; top: 50%; transform: translateY(-50%); width: 96px; height: 96px; padding: 4px; background: white; border: 1px solid var(--rule); border-radius: 4px; }
-.ca-to-top { border-radius: 6px; font-size: 13px; }
 @media (max-width: 640px) {
   .ca-main { padding-top: 2rem; }
   .ca-panel { grid-template-columns: minmax(0, 1fr); padding: 18px; gap: 22px; }
@@ -1094,7 +1082,6 @@ tr:last-child td { border-bottom: none; }
   .ca-current h4 { font-size: 22px; }
   .ca-current p { font-size: 15px; }
   .ca-outro { padding: 22px; }
-  .ca-qr { display: none; }
   .ca-actions { flex-wrap: wrap; }
   .ca-day-head { font-size: 10px; gap: 6px; }
   .ca-page header.site-header { gap: .6rem; }
@@ -1109,86 +1096,36 @@ tr:last-child td { border-bottom: none; }
   .ca-current { transition: none; }
 }
 
-/* Current landing page: show the real conversation before the details. */
-.current-page main { max-width: 1120px; }
-.current-opening { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 440px); gap: 3rem; align-items: start; margin-bottom: 2rem; }
-.current-promise { font-family: var(--font-heading, 'Bricolage Grotesque', sans-serif); font-size: clamp(1.6rem, 3vw, 2.25rem); line-height: 1.2; font-weight: 600; margin: 1.4rem 0 1rem; }
-.current-topic-menu { font-size: .85rem; color: var(--ink-2); }
-.current-example { margin: 0; min-width: 0; }
-.current-example figcaption { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 1.1rem; line-height: 1.4; margin-bottom: .8rem; }
-.current-example .current-example-note { font-size: .8rem; line-height: 1.5; color: var(--ink-2); margin: .7rem 0; }
-.current-archive-link { font-size: .9rem; }
-@media (max-width: 760px) {
-  .current-opening { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; margin-bottom: 2rem; }
-  .current-example { width: 100%; max-width: 518px; justify-self: center; }
-  .current-intro .cta-lead { margin-top: 1rem; }
-  .current-intro .cta-sub { margin-bottom: .8rem; }
-  .current-intro .qr-link { margin: 0; }
-}
-
-@media (max-width: 760px) {
-  .current-intro .qr-block, .current-intro .qr-hint { display: none; }
-  .current-intro .qr-link { display: block; }
-}
-
-@media (max-width: 760px) {
-  .current-page main { padding-top: 1.5rem; }
-  .current-page .back-link { margin-bottom: 1.25rem; }
-  .current-intro .current-promise { margin-top: 1rem; }
-  .current-intro > p:not([class]) { line-height: 1.55; }
-}
-
-/* Keep the real exchange in the site's original message-card language. */
-.current-example .msg-preview { max-width: none; }
-.current-followups { border-top: 1px solid var(--rule); padding-top: 1.5rem; margin-bottom: 3rem; }
-.current-followups h2 { margin: 0 0 1.2rem; font-size: 1.2rem; }
-.current-qa-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; }
-.current-question { margin: 0 0 1rem; padding-left: 1rem; border-left: 2px solid var(--cobalt); font-size: .95rem; color: var(--ink); }
-.current-speaker { display: block; font-family: 'IBM Plex Mono', monospace; font-size: .65rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); margin-bottom: .4rem; }
-.current-answer { max-width: none; }
-.current-example-note, .current-followups .current-example-note { font-size: .8rem; line-height: 1.5; color: var(--ink-2); margin: .7rem 0; }
-.current-followups .current-archive-link { margin: .7rem 0 0; }
-@media (max-width: 760px) {
-  .current-qa-grid { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
-  .current-followups { margin-bottom: 2rem; }
-}
-
-/* A single conversation window, from the daily Current to the last reply. */
-.current-opening { grid-template-columns: minmax(0, 1fr) minmax(0, 500px); }
-.current-chat { padding: 1rem; background: var(--paper-2); border: 1px solid var(--rule); border-radius: 16px; }
-.current-chat .msg-preview { max-width: 94%; padding: .9rem 1rem; font-size: .88rem; line-height: 1.55; border-radius: 12px 12px 12px 3px; box-shadow: none; margin: 0; }
-.current-chat .current-qa-grid { display: block; }
-.current-chat .current-qa { margin-top: 1rem; }
-.current-chat .current-question { max-width: 88%; margin: 0 0 .65rem auto; padding: .8rem 1rem; background: var(--card); border: 1px solid var(--rule); border-right: 3px solid var(--cobalt); border-radius: 12px 12px 3px 12px; font-size: .88rem; line-height: 1.55; }
-.current-chat .current-speaker { font-size: .6rem; margin-bottom: .35rem; }
-@media (max-width: 760px) {
-  .current-opening { grid-template-columns: minmax(0, 1fr); }
-  .current-chat { padding: .75rem; }
-  .current-chat .msg-preview { max-width: 96%; }
-  .current-chat .current-question { max-width: 92%; }
-}
-
-/* Original introduction, followed by benefits and the real conversation. */
-.current-page main { max-width: var(--max-width); }
-.current-opening { display: block; margin-bottom: 2rem; }
-.current-page .current-example { width: 100%; max-width: none; margin: 2.5rem 0; }
-
+/* Current landing page: intro, then a real WhatsApp conversation under "What it looks like". */
+.current-intro { margin-bottom: 2rem; }
+.current-page .current-example { width: 100%; margin: 2.5rem 0; min-width: 0; }
+.current-example figcaption { font: inherit; margin-bottom: .8rem; }
 .current-example figcaption h2 { margin: 0 0 1rem; }
- .current-example figcaption { font: inherit; }
+.current-example .current-example-note { font-size: .8rem; line-height: 1.5; color: var(--ink-2); margin: .7rem 0; }
 
-/* Subtle green highlights distinguish the two sides of the conversation. */
-.current-chat { --chat-accent: #39734f; }
-.current-chat .current-question { background: color-mix(in srgb, var(--chat-accent) 20%, var(--card)); border-color: color-mix(in srgb, var(--chat-accent) 45%, var(--rule)); border-right-color: var(--chat-accent); }
-.current-chat .current-question .current-speaker,
-.current-chat .current-answer .current-speaker { color: var(--chat-accent); font-weight: 500; }
+/* One conversation window: Current's messages on the left, the reader's questions on the right in a soft green. */
+.current-chat { --chat-accent: #39734f; padding: 1rem; background: var(--paper-2); border: 1px solid var(--rule); border-radius: 16px; }
+.current-chat .msg-preview { max-width: 94%; padding: .9rem 1rem; font-size: .88rem; line-height: 1.55; border-radius: 12px 12px 12px 3px; box-shadow: none; margin: 0; }
+.current-chat .current-qa { margin-top: 1rem; }
+.current-chat .current-question { max-width: 88%; margin: 0 0 .65rem auto; padding: .8rem 1rem; font-size: .88rem; line-height: 1.55; color: var(--ink);
+  background: color-mix(in srgb, var(--chat-accent) 20%, var(--card)); border: 1px solid color-mix(in srgb, var(--chat-accent) 45%, var(--rule));
+  border-right: 3px solid var(--chat-accent); border-radius: 12px 12px 3px 12px; }
+.current-chat .current-speaker { display: block; font-family: 'IBM Plex Mono', monospace; font-size: .6rem; font-weight: 500; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--chat-accent); margin-bottom: .35rem; }
 @media (prefers-color-scheme: dark) {
   .current-chat { --chat-accent: #8bbb99; }
 }
-
-/* Cool neutral chat backdrop complements the muted editorial palette. */
-.current-chat { background: #f0f2f4; }
-@media (prefers-color-scheme: dark) {
-  .current-chat { background: #22282d; }
+@media (max-width: 760px) {
+  .current-page main { padding-top: 1.5rem; }
+  .current-page .back-link { margin-bottom: 1.25rem; }
+  .current-intro > p:not([class]) { line-height: 1.55; }
+  .current-intro .cta-lead { margin-top: 1rem; }
+  .current-intro .cta-sub { margin-bottom: .8rem; }
+  .current-intro .qr-block, .current-intro .qr-hint { display: none; }
+  .current-intro .qr-link { display: block; margin: 0; }
+  .current-chat { padding: .75rem; }
+  .current-chat .msg-preview { max-width: 96%; }
+  .current-chat .current-question { max-width: 92%; }
 }
 
 /* Shared signup presentation on the landing page and archive. */

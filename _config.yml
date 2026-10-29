@@ -1,0 +1,5 @@
+# GitHub Pages builds this site with Jekyll. Keep repository notes for people and agents off the public site.
+exclude:
+  - README.md
+  - AGENTS.md
+  - CLAUDE.md
