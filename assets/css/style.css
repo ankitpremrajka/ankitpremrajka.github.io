@@ -229,6 +229,18 @@ p.intro {
   color: var(--ink-2);
 }
 
+/* The title link stretches over the whole card, so the card stays one big click target
+   while secondary links inside it (e.g. the archive) remain separately clickable. */
+.product-card { position: relative; }
+.product-card-link { color: inherit; text-decoration: none; }
+.product-card-link::after { content: ""; position: absolute; inset: 0; }
+.product-card-link:focus-visible { outline: none; }
+.product-card:focus-within { outline: 2px solid var(--cobalt); outline-offset: 2px; }
+.product-card .product-card-extra { position: relative; z-index: 1; margin-top: 0.6rem; font-size: 0.85rem; color: var(--ink-3); }
+/* Only the archive link itself sits above the card link; the rest of its line still opens Current. */
+.product-card .product-card-extra { pointer-events: none; }
+.product-card .product-card-extra a { pointer-events: auto; }
+
 ul.post-list {
   list-style: none;
   margin: 0;
