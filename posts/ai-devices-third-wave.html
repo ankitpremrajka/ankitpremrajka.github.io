@@ -18,7 +18,7 @@
 <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/style.css?v=2026-11-03">
+<link rel="stylesheet" href="../assets/css/style.css?v=2026-11-05">
 </head>
 <body class="article">
 
@@ -40,7 +40,7 @@
     <div class="kicker"><a href="../index.html#ai">AI</a></div>
     <h1>The third wave <span>of AI devices</span></h1>
     <p class="lede">Smart speakers taught us to talk to computers. AI pins taught us what not to build. Now that agents can take on whole tasks, a crop of rings, glasses, headsets and boxes is being built so you can hand one over at any moment, wherever you are.</p>
-    <p class="hero-note">Current as of November 4, 2026. Several products described here haven't shipped; specifications and claims are the companies' own. Technical terms are collected in a glossary at the end.</p>
+    <p class="hero-note">Current as of November 5, 2026. Several products described here haven't shipped; specifications and claims are the companies' own. Technical terms are collected in a glossary at the end.</p>
   </div>
 </div>
 
@@ -93,8 +93,12 @@
       <h3>Why AI devices are back</h3>
       <p>On November 3 a two-person Y Combinator startup called Cyclon announced it is building "an AI phone to replace your iPhone." The launch post drew more than 700,000 views.</p>
       <p>It is the latest in a run of launches that would have been hard to imagine eighteen months ago, when the Humane AI Pin had just been switched off. In the past four weeks alone there has been a $3,499 box whose only job is to run your AI agents at home, a $99 ring that summons whichever agent you use, and glasses that turn silently mouthed words into text.</p>
-      <p>The obvious reaction is skepticism. We have been here before, and every earlier wave was also about handing something to an assistant: Alexa set a timer, the AI Pin answered a question. What has changed is the size of the job. Agents can now take on long-running tasks that are closer to goals than commands: find a table for Friday and tell everyone, chase the overdue invoice, plan the trip. As they have become more capable, people have become more comfortable handing over the whole job rather than one step of it. <strong>That is the thread through this piece: the third wave is about making sure there is always a way to hand over a task, at any moment of the day, wherever you are, with as little friction as possible.</strong> Figure 1 shows one hand-off from start to finish.</p>
+      <p>The obvious reaction is skepticism. We have been here before, and every earlier wave was also about handing something to an assistant: Alexa set a timer, the AI Pin answered a question. What has changed is the size of the job. Agents can now take on long-running tasks that are closer to goals than commands: find a table for Friday and tell everyone, chase the overdue invoice, plan the trip. As they have become more capable, people have become more comfortable handing over the whole job rather than one step of it. <strong>That is the thread through this piece: the third wave is about making sure there is always a way to hand over a task, at any moment of the day, wherever you are, with as little friction as possible.</strong> Increasingly the hand-off runs the other way too: the agent spots something that needs doing and asks you for a yes. Figure 1 shows a hand-off both ways, from start to finish.</p>
       <figure class="anim adv-ho" id="fig-handoff">
+        <div class="ho-mode" role="group" aria-label="Choose who starts the hand-off">
+          <button data-m="ask" class="on" aria-pressed="true">You ask</button>
+          <button data-m="offer" aria-pressed="false">It offers</button>
+        </div>
         <div class="ho-strip"><span class="ho-strip-l" id="hoSayL">Ready</span><span class="ho-strip-t" id="hoSay">A table for four on Friday, plus invitations for three friends.</span></div>
         <div class="ho-stage">
           <svg class="ho-wires" aria-hidden="true"></svg>
@@ -127,7 +131,7 @@
           <button id="hoReset">Start over</button>
           <span class="spacer"></span><span class="stepn" id="hoN">Step 0 of 6</span>
         </div>
-        <figcaption>Figure 1. The hand-off. The ring captures the request and delivers the result; the agent does everything in between, across your own accounts. The work takes minutes, and you spend seconds on it.</figcaption>
+        <figcaption>Figure 1. The hand-off, both ways. You can hand the agent a task, or it can offer you one. Either way the ring captures and confirms, and the agent does everything in between, across your own accounts. The work takes minutes, and you spend seconds on it.</figcaption>
       </figure>
 
     </section>
@@ -136,7 +140,7 @@
     <div class="part-head">
       <span class="pnum">Part Two</span>
       <h2>Three waves</h2>
-      <p>Part One claimed this wave is different. To see why, start with the two that came before it. Figure 2 shows all three at a glance; the sections after it explain what each one learned.</p>
+      <p>Part One claimed this wave is different. To see why, this part looks back at the history of AI devices since the smartphone: the two waves that came before this one, and what each learned. Figure 2 shows all three at a glance. From Part Three on, the post turns to the present and where it is heading.</p>
     </div>
 
     <figure class="anim adv-wv" id="fig-waves">
@@ -213,7 +217,7 @@
       <p>Voice is the obvious input for AI, and it fails in exactly the places people spend their days: open offices, trains, cafés. So one group is trying to keep the speed of speech without the sound. Subvocal's glasses use radio waves to read your mouth as you silently form words; Dydema's headset reads brain signals and binds a chosen thought to a command. The big companies are making the same bet. In January Apple paid a reported close to $2 billion for Q.ai, which reads silent speech from the skin of your face. Meta is coming at the same problem from a different angle: instead of silent speech, the wristband that ships with its display glasses reads the muscle signals in your wrist, so a pinch or a letter traced with your finger stands in for a spoken command.</p>
 
       <h4>2. A remote control for your agents</h4>
-      <p>The largest group assumes the agent already exists and builds the button that summons it, as in Figure 1. Natura's $99 ring sends what you say to whichever agent you choose. Aina's Dune puts three agent keys on your desk, Vexo's bracelet listens for context and taps your wrist when something needs you, and antimattr pairs a ring with earphones built to hear only your voice. These devices are less about capturing your life than about directing work.</p>
+      <p>The largest group assumes the agent already exists and builds the button that summons it, as in Figure 1. Natura's $99 ring sends what you say to whichever agent you choose. Aina's Dune puts three agent keys on your desk, and on November 5 Aina followed it with a $399 ring whose small screen suggests your next action, from booking a car to sending a running-late email, for a flick of approval. Vexo's bracelet listens for context and taps your wrist when something needs you, and antimattr pairs a ring with earphones built to hear only your voice. These devices are less about capturing your life than about directing work.</p>
 
       <h4>3. Capture and memory</h4>
       <p>The descendants of Bee, Plaud and Limitless still remember for you, and the competition has moved to form factor, audio quality and what the software does with the transcript. Pocket snaps onto your phone and lets other agents read your conversations. Sandbar's ring records only while you press it. Nirva's pendant is the clearest case of capture recast as self-knowledge: it tracks your mood, your energy and the people you spend time with.</p>
@@ -326,7 +330,7 @@
     <section class="s" id="s13">
       <p class="bridge">The platform decides what a device is allowed to do. Trust decides what users will let it do.</p>
       <h3>Trust and privacy</h3>
-      <p>This wave asks for more trust than any consumer technology before it, and it asks in two places. The device decides when you are heard. The agent decides what it can touch. Devices differ a lot on the first. On the second there is little choice: an agent that takes on whole tasks has to read your accounts and act in your name, so the real question is how safely it does both. Figure 6 takes each in turn.</p>
+      <p>This wave asks for more trust than any consumer technology before it, and it asks in two places. The device decides when you are heard. The agent decides what it can touch. Devices differ a lot on the first. On the second there is little choice: an agent that takes on whole tasks has to know your context and act in your name, so the real question is how safely it does both. Figure 6 takes each in turn.</p>
       <figure class="anim adv-tr" id="fig-trust">
         <div class="tr-ladders" id="trLadders"></div>
         <div class="tr-panel" id="trPanel" aria-live="polite"></div>
@@ -397,6 +401,7 @@
       <p>The near-term answer is companion. Almost every device in this piece, from Natura's ring to Ghost's box, assumes your phone stays in your pocket, and leans on it for connectivity, display and identity. That is the lesson of Wave 2 applied correctly.</p>
       <p>The long-term answer depends on what the giants do. Three moves are worth watching. <strong>Apple</strong> bought Q.ai, which points to silent input for AirPods and future glasses, and to Apple absorbing the best ideas of this wave into products people already own. <strong>OpenAI</strong> is starting in the home with a screenless speaker, with a phone reportedly further out, which is the clearest sign that an AI company believes it needs its own hardware to avoid living on someone else's platform. <strong>Meta</strong> is assembling the most complete stack of anyone: display glasses, an EMG wristband, the Limitless team and a personal agent in Muse that it plans to bring to those glasses.</p>
       <p>If any of them makes the agent the primary interface, so that you mostly ask and confirm rather than open and tap, the phone becomes a screen you consult rather than a place you live. Cyclon is betting that shift happens soon enough for a startup to ride it. The more likely path is slower: the phone stays, the apps fade into the background, and the interface moves out onto the body and into the room.</p>
+      <p>There is a step beyond that. Agents are starting to be proactive: instead of waiting to be asked, they notice what you are likely to need and offer to do it. Aina's ring suggests a car before your 9 a.m. commute, and Vexo's bracelet promises to act before you ask. If that works, the arc runs from open-and-tap, to ask-and-confirm, to suggest-and-approve, and the device shrinks toward a yes-or-no button on your finger. Every yes and no is also feedback. As agents learn more about you, and get better from those answers, some suggestions will stop needing a yes at all: the agent will simply book the car, the way you would let a long-time assistant handle it without asking. That is when the trust questions in Figure 6 matter most. Done badly, proactivity is just notifications again, the problem the phone already has. The agents that win will be the ones that interrupt least and are right most often.</p>
     </section>
 
     <section class="s" id="s16">
@@ -427,6 +432,7 @@
         <dt>NPU</dt><dd>Neural processing unit: a chip, or part of one, designed to run AI models efficiently on a device.</dd>
         <dt>On-device AI</dt><dd>AI processing that happens on the gadget itself, which improves speed and privacy but is limited by power and memory.</dd>
         <dt>Open-weight model</dt><dd>A model whose trained parameters are published, so anyone can run it on their own hardware.</dd>
+        <dt>Proactive agent</dt><dd>An agent that suggests or starts tasks on its own, based on context such as your calendar, location and habits, rather than waiting to be asked.</dd>
         <dt>Silent speech</dt><dd>Communicating with a computer by mouthing words or forming them internally without making sound.</dd>
         <dt>Wedge</dt><dd>The first, narrow job a product does well enough to earn a place in someone's life, before it expands.</dd>
       </dl>
@@ -456,9 +462,9 @@
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const NS = 'http://www.w3.org/2000/svg';
 
-  const STEPS = [
-    { say:['Ready','A table for four on Friday, plus invitations for three friends.'], agent:'Idle', att:0, work:0,
-      cap:'Press Play, or step through it.' },
+  const ASK = [
+    { say:['Ready','You want dinner with Sam, Priya and Leo on Friday.'], agent:'Idle', att:0, work:0,
+      cap:'You’d like to get dinner with three friends on Friday, and nothing is booked yet. Press Play, or step through it.' },
     { say:['You say','“Book a table for four on Friday at seven, near the office, and invite Sam, Priya and Leo.”'], ring:'press', agent:'Idle', att:4, work:0,
       cap:'You hold the button and say it. Four seconds, and your phone never leaves your pocket.' },
     { path:['ring','agent'], wire:['ring'], agent:'Understanding the request', att:4, work:5,
@@ -470,10 +476,29 @@
     { path:['agent','mail','agent'], wire:['mail'], app:{mail:'3 invitations sent'}, agent:'Sending invitations', att:4, work:105,
       cap:'It emails the three invitations from your account, with the time and the address.' },
     { path:['agent','ring'], wire:['ring'], ring:'tap', agent:'Done', att:6, work:105,
-      say:['In your ear','“Booked for four, Friday at 7:15. Invitations sent.”'],
+      say:['In your ear','“Booked for four, Friday at 7:15. Invitations sent.”'], out:true,
       cap:'A tap on your finger and one line in your headphones. Six seconds of your attention for nearly two minutes of work. That is the whole job of a third-wave device.' }
   ];
-  const N = STEPS.length - 1;
+  const OFFER = [
+    { say:['On alert','Friday’s table for four at 7:15, booked earlier this week.'], agent:'Keeping watch', att:0, work:0,
+      cap:'The booking from earlier in the week is in place. You don’t ask for anything, but your agent keeps watch over it. Press Play, or step through it.' },
+    { path:['agent','mail','agent'], wire:['mail'], app:{mail:'Friday cancelled'}, agent:'Reading an email', att:0, work:5,
+      cap:'The restaurant emails: it has to cancel Friday’s booking.' },
+    { path:['agent','res','agent'], wire:['res'], app:{res:'Next door: 7:15 free'}, agent:'Finding a new table', att:0, work:30,
+      cap:'The agent finds a well-reviewed place next door with a table for four at 7:15.' },
+    { path:['agent','cal','agent'], wire:['cal'], app:{cal:'Fri 7:15 still free'}, agent:'Checking your calendar', att:0, work:40,
+      cap:'Friday at 7:15 still works on your calendar, so nothing else needs to move.' },
+    { path:['agent','ring'], wire:['ring'], ring:'tap', agent:'Waiting for your yes', wait:true, att:2, work:40, out:true,
+      say:['In your ear','“Friday’s table was cancelled. Next door has 7:15. Rebook and tell the group?”'],
+      cap:'Then it asks: a tap on your finger and one line in your headphones.' },
+    { path:['ring','agent'], wire:['ring'], ring:'press', agent:'Approved', att:3, work:45,
+      say:['You','Press once: yes.'],
+      cap:'One press to approve. You never saw the cancellation.' },
+    { path:['agent','res','agent','mail','agent'], wire:['res','mail'], app:{res:'Rebooked next door', mail:'Group told'}, agent:'Done', att:3, work:70,
+      say:['In your ear','“Rebooked next door, Friday at 7:15. Group told.”'], out:true,
+      cap:'It rebooks the table and tells the group. Three seconds of your attention, for a problem you didn’t know you had.' }
+  ];
+  let STEPS = ASK, N = ASK.length - 1;
   let cur = 0, timer = null, raf = null, flyId = 0;
 
   function center(el, side){
@@ -517,10 +542,10 @@
     let say = STEPS[0].say; const apps = {};
     for (let i = 0; i <= n; i++) { if (STEPS[i].say) say = STEPS[i].say; Object.assign(apps, STEPS[i].app || {}); }
     $('hoSayL').textContent = say[0]; $('hoSay').textContent = say[1];
-    fig.querySelector('.ho-strip').classList.toggle('out', n === N);
+    fig.querySelector('.ho-strip').classList.toggle('out', !!st.out);
     $('hoAgentS').textContent = st.agent;
-    node.agent.classList.toggle('busy', n >= 2 && n < N);
-    node.agent.classList.toggle('done', n === N);
+    node.agent.classList.toggle('busy', !['Idle', 'Done', 'Approved'].includes(st.agent) && !st.wait);
+    node.agent.classList.toggle('done', st.agent === 'Done' || st.agent === 'Approved');
     fig.querySelectorAll('.ho-app').forEach(a => {
       const v = apps[a.dataset.app]; a.querySelector('span').textContent = v || '';
       a.classList.toggle('done', !!v);
@@ -549,6 +574,14 @@
   };
   $('hoStep').onclick = () => { stop(); if (cur < N) { cur++; render(cur, true); } stop(); };
   $('hoReset').onclick = () => { stop(); cancelAnimationFrame(raf); cur = 0; render(0); stop(); };
+  const modes = [...fig.querySelectorAll('.ho-mode button')];
+  modes.forEach(b => b.onclick = () => {
+    stop(); cancelAnimationFrame(raf);
+    STEPS = b.dataset.m === 'offer' ? OFFER : ASK; N = STEPS.length - 1; cur = 0;
+    modes.forEach(x => { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on); });
+    fig.querySelectorAll('.ho-app span').forEach(sp => sp.textContent = '');
+    render(0); stop();
+  });
   drawWires(); render(0);
   // Hold a box at the height of its tallest state, so the buttons below it never move under the reader's pointer.
   function fitTo(el, states, fill){
@@ -562,13 +595,14 @@
   }
   onWidthChange(fig, () => {
     const strip = fig.querySelector('.ho-strip'), cap = $('hoCap');
-    fitTo(strip, STEPS.filter(x => x.say), x => { $('hoSayL').textContent = x.say[0]; $('hoSay').textContent = x.say[1]; });
-    fitTo(cap, STEPS, x => { cap.textContent = x.cap; });
+    const ALL = ASK.concat(OFFER);
+    fitTo(strip, ALL.filter(x => x.say), x => { $('hoSayL').textContent = x.say[0]; $('hoSay').textContent = x.say[1]; });
+    fitTo(cap, ALL, x => { cap.textContent = x.cap; });
     // The agent's status and each app's result also change length; reserve their final size up front.
     const fitText = (el, texts) => { el.style.minHeight = '0px'; let m = 0; texts.forEach(t => { el.textContent = t; m = Math.max(m, el.offsetHeight); }); el.style.minHeight = m + 'px'; };
     node.agent.classList.add('busy');
-    fitText($('hoAgentS'), STEPS.map(x => x.agent));
-    fig.querySelectorAll('.ho-app').forEach(a => fitText(a.querySelector('span'), STEPS.map(x => x.app && x.app[a.dataset.app]).filter(Boolean)));
+    fitText($('hoAgentS'), ALL.map(x => x.agent));
+    fig.querySelectorAll('.ho-app').forEach(a => fitText(a.querySelector('span'), ALL.map(x => x.app && x.app[a.dataset.app]).filter(Boolean)));
     drawWires(); render(cur, false);
   });
   new ResizeObserver(() => { drawWires(); render(cur, false); }).observe(stage);
@@ -596,7 +630,7 @@
             ['Held it back','Capture is only half the job. The value is in what happens to the context next.'],
             ['Lesson','A narrow job can earn a place in your pocket.']] },
     { name:'Wave 3', title:'Interfaces for agents', span:[2026.6, 2027], view:[2026.55, 2026.9], zl:'Zoomed in: the last three months',
-      ev:[['2026-08-11','SpaceX’s Grok Bot enters beta'],['2026-09-08','Meta launches Muse'],['2026-10-05','Ghost comes out of stealth with its Core computer'],['2026-10-08','Natura announces its ring'],['2026-10-22','Nirva raises $33 million for its pendant'],['2026-10-30','Subvocal opens preorders'],['2026-11-03','Cyclon announces its AI phone']],
+      ev:[['2026-08-11','SpaceX’s Grok Bot enters beta'],['2026-09-08','Meta launches Muse'],['2026-10-05','Ghost comes out of stealth with its Core computer'],['2026-10-08','Natura announces its ring'],['2026-10-22','Nirva raises $33 million for its pendant'],['2026-10-30','Subvocal opens preorders'],['2026-11-03','Cyclon announces its AI phone'],['2026-11-05','Aina unveils a ring for approving agents’ suggestions']],
       rows:[['The bet','The agent does the work. The device only captures what you want and confirms it’s done.'],
             ['Still open','Picking the wedge, covering the cost of the AI behind it, getting access to the phone, and earning trust. Part Five takes these on.'],
             ['Lesson','Too early to say. The rest of this post makes the case.']] }
@@ -704,6 +738,7 @@
   // [zone, name, kind, bet, price, status, maker, description]
   const D = [
     [0,'Natura Interface','up','remote','$99, then $9 a month after a free period','Announced Oct 8; preorders open in November','Natura, from the maker of HumanPods headphones','A ring with a press-to-talk button. Hold it, speak and let go, and the request goes to the agent you chose: Claude, ChatGPT, Grok Bot, Muse, Instinct and others. Answers come back in your headphones or as an iPhone Live Activity. It also tracks heart rate and sleep, and lasts six to twelve days on a charge.'],
+    [0,'Aina ring','up','remote','$399 early-bird preorder','Preorders opened November 5; ships January 2027','Aina ($5.5 million seed), founded by Ultrahuman’s former VP of hardware','A ring with a small screen that suggests the next thing you are likely to need, drawn from your phone, your Mac and your connected agents: an Uber before your 9 a.m. commute, say. Flick up to approve or down to reject, or hold the button to talk to your agents. It also works as a remote for music, meetings and the TV. iPhone and Mac only at launch, and much of the software is still being built, an early reviewer says.'],
     [0,'Sandbar Stream','up','capture','$249 to $299; Pro plan $10 a month','Announced November 2025','Sandbar ($36 million raised), founded by two CTRL-labs alumni','A ring pitched as a mouse for voice. Whisper a thought while pressing it and it becomes a structured note, and an assistant can reply in a voice that sounds like yours. It listens only while you press it.'],
     [0,'antimattr','up','remote','Not announced','Preorders: close to 1,000, the founders say','antimattr (YC Fall 2026)','A ring that records, summarizes and controls your agents, paired with earphones that the company says pick out only your voice, even in a noisy room. Its bet is that the hardware, not the model, is what breaks voice.'],
     [0,'Vexo Band','up','remote','$199','Taking orders','Vexo (YC Fall 2026), a three-person team','A woven, screenless bracelet that listens for context, remembers your day and, in the company’s words, “acts before you ask.” It tracks heart rate and skin temperature and taps your wrist when something needs attention. Vexo says it never keeps the audio.'],
@@ -722,7 +757,7 @@
     [1,'OpenAI phone','big','phone','Not announced','Reported, further out','OpenAI','OpenAI is reported to be working on a phone after its first device, a home speaker. Nothing is confirmed.'],
     [2,'Ghost Core','up','local','$3,499, no subscription','First batch scheduled to ship October 31','Ghost ($11 million seed led by Andreessen Horowitz)','A screenless desktop with an Nvidia graphics card carrying 24GB of memory that runs open models of around 30 billion parameters, and the agents that use them, around the clock. You talk to it from your phone. Ghost says your data is encrypted so that only you can read it, and that the box keeps working if the company disappears.'],
     [2,'Lucebox Zero 495','up','local','From €6,499','Preorders; ships January 2027','Lucebox','A plug-and-play AI workstation with 128GB of unified memory and an AMD graphics card with 32GB of its own, aimed at developers and small teams. The company says coding agents and tools can point at it without changes.'],
-    [2,'Aina Dune','up','remote',null,'Launched; a second device is in closed beta','Aina ($5.5 million seed), founded by Ultrahuman’s former VP of hardware','A three-key keypad for the Mac whose keys change meaning with the app in front of you, and can trigger agents and workflows. Aina’s argument is that the next device should act, not record.'],
+    [2,'Aina Dune','up','remote',null,'On sale since April 2026; Aina’s ring followed in November','Aina ($5.5 million seed), founded by Ultrahuman’s former VP of hardware','A three-key keypad for the Mac whose keys change meaning with the app in front of you, and can trigger agents and workflows. Aina’s argument is that the next device should act, not record.'],
     [3,'Alexa+ and new Echos','big',null,'Free with Prime, or $19.99 a month','Alexa+ for all US customers since February 2026; new Echo lineup October 28','Amazon','Amazon’s rebuilt assistant, based on large language models. Amazon says people talk to it two to three times as often as the old Alexa. The new lineup includes a 16-inch Echo Show, a new Dot and a speaker with a home camera.'],
     [3,'Google Home Speaker','big',null,'$99; the best features need Home Premium at $9.99 a month','On sale since June 25','Google','Google’s first new speaker in six years, with Gemini replacing Google Assistant and a neural processing unit on board.'],
     [3,'OpenAI speaker','big',null,'Reported at $200 to $400','Reported for early 2027','OpenAI, with Jony Ive’s team','OpenAI’s first device is reportedly a screenless speaker with a camera, designed with the team it bought in the roughly $6.5 billion io deal. OpenAI hasn’t confirmed it.']
@@ -785,12 +820,12 @@
         bad:'It records the people around you, who never agreed. Some US states require everyone in a conversation to consent to a recording.',
         good:'Nirva filters out every voice but the wearer’s and keeps no audio by default. Vexo says it never keeps the audio.' } ] },
     { k:'The agent', t:'What it can touch', steps:[
-      { t:'Reads your accounts', ask:'Your email, calendar, messages and files, so the agent has context to work with. Almost every agent in this post needs this.',
+      { t:'Knows your context', ask:'Your email, calendar, messages and files, and for an agent that offers help before you ask, where you are and what you are doing. Almost every agent in this post needs some of this.',
         bad:'Access can outlast what you meant to grant. Instinct testers said it kept summarizing stored email after they disconnected their accounts, and a columnist said Muse synced his Mac’s messages after he declined. Meta disputes his account.',
         good:'Ghost keeps your agent’s memory encrypted on a box in your home, though its privacy policy lists exceptions for online features. Revoking access should also delete what was copied.' },
       { t:'Acts in your name', ask:'Sending, booking and buying as you, often without checking each step. This is what makes handing over a whole task possible.',
         bad:'An action you never approved. An Instinct tester said it sent an email on her behalf without asking. Its first terms of service also claimed a perpetual, irrevocable license to users’ materials; Instinct rewrote them within days.',
-        good:'Meta says Muse asks for approval before sensitive actions, and Grok Bot works until it needs your sign-off. What matters is that you can see what it did and undo it.' } ] }
+        good:'Meta says Muse asks for approval before sensitive actions, and Grok Bot works until it needs your sign-off. Aina’s new ring puts that sign-off on your finger, with a flick up or down. What matters is that you can see what it did and undo it.' } ] }
   ];
   const S = []; L.forEach((l, li) => l.steps.forEach((st, si) => S.push({ li, si, l, st })));
   const box = $('trLadders'), panel = $('trPanel');
@@ -839,16 +874,16 @@
 <script>
 (function(){
   const fig = document.getElementById('fig-iface'); if (!fig) return;
-  const ROWS = ['How you give input', 'Who does the work', 'What comes back', 'Attention it asks for', 'Where context comes from'];
+  const ROWS = ['Who starts it', 'How you give input', 'Who does the work', 'What comes back', 'Attention it asks for', 'Where context comes from'];
   const I = [
-    { n:'Phone', v:['Taps on a grid of apps','You, app by app','A screen to read','All of it','Whatever app is open'], a:100 },
-    { n:'Voice assistant', v:['Spoken commands from a fixed list','The assistant, for a few dozen tasks','A short spoken reply','A sentence','Almost none'], a:22 },
-    { n:'Chatbot', v:['Typed or spoken prompts','The model, mostly in words','A long answer','A session','What you paste in'], a:65 }
+    { n:'Phone', v:['You','Taps on a grid of apps','You, app by app','A screen to read','All of it','Whatever app is open'], a:100 },
+    { n:'Voice assistant', v:['You','Spoken commands from a fixed list','The assistant, for a few dozen tasks','A short spoken reply','A sentence','Almost none'], a:22 },
+    { n:'Chatbot', v:['You','Typed or spoken prompts','The model, mostly in words','A long answer','A session','What you paste in'], a:65 }
   ];
-  const G = { n:'Wave 3', v:['A press, a whisper, a mouthed word, a thought','An agent, across your real accounts','A haptic tap, a glance, a done task','A second, then nothing','Sensors, memory, connected apps'], a:4 };
+  const G = { n:'Wave 3', v:['You, or increasingly the agent','A press, a whisper, a mouthed word, a thought','An agent, across your real accounts','A haptic tap, a glance, a done task','A second, then nothing','Sensors, memory, connected apps'], a:4 };
   const grid = document.getElementById('ifGrid');
   grid.innerHTML = `<div class="if-h"></div><div class="if-h if-a" id="ifName"></div><div class="if-h if-b">Wave 3</div>` +
-    ROWS.map((r, i) => `<div class="if-l">${r}</div><div class="if-c if-a" data-r="${i}"><span></span>${i === 3 ? '<i class="if-bar"><b></b></i>' : ''}</div><div class="if-c if-b"><span>${G.v[i]}</span>${i === 3 ? `<i class="if-bar"><b style="width:${G.a}%"></b></i>` : ''}</div>`).join('');
+    ROWS.map((r, i) => `<div class="if-l">${r}</div><div class="if-c if-a" data-r="${i}"><span></span>${i === 4 ? '<i class="if-bar"><b></b></i>' : ''}</div><div class="if-c if-b"><span>${G.v[i]}</span>${i === 4 ? `<i class="if-bar"><b style="width:${G.a}%"></b></i>` : ''}</div>`).join('');
   const btns = [...fig.querySelectorAll('.if-pick button')];
   function show(k){
     const it = I[k];

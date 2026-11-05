@@ -1409,3 +1409,6 @@ tr:last-child td { border-bottom: none; }
 .adv-map .mp-zh.sel span { color: var(--cobalt); }
 .adv-map .mp-k.zone { color: var(--ink-3); text-transform: none; letter-spacing: 0; }
 .adv-map .mp-card .mp-hint { margin: .7rem 0 0; font-family: 'IBM Plex Mono', monospace; font-size: .68rem; color: var(--ink-3); }
+.adv-ho .ho-mode { display: inline-flex; gap: 0; margin-bottom: .7rem; border: 1px solid var(--rule); border-radius: 999px; padding: 2px; background: var(--paper); }
+.adv-ho .ho-mode button { font-family: 'Bricolage Grotesque', sans-serif; font-size: .8rem; font-weight: 600; padding: .3rem .85rem; border: 0; border-radius: 999px; background: none; color: var(--ink-2); cursor: pointer; }
+.adv-ho .ho-mode button.on { background: var(--ink); color: var(--paper); }
